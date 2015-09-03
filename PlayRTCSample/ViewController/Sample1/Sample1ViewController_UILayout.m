@@ -235,38 +235,52 @@
     [logBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomAreaView addSubview:logBtn];
 
-    posX = posX + btnWidth + 10.0f;
-    ExButton* cmdBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-    [cmdBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    cmdBtn.tag = 22;
-    cmdBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    [cmdBtn setTitle:BTN_COMMAND forState:UIControlStateNormal];
-    [cmdBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [bottomAreaView addSubview:cmdBtn];
+    
     
     posX = posX + btnWidth + 10.0f;
     ExButton* chlBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [chlBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    chlBtn.tag = 23;
+    chlBtn.tag = 22;
     chlBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [chlBtn setTitle:BTN_CHANNEL forState:UIControlStateNormal];
     [chlBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomAreaView addSubview:chlBtn];
 
     posX = posX + btnWidth + 10.0f;
+    ExButton* soundBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
+    [soundBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    soundBtn.tag = 23;
+    soundBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [soundBtn setTitle:BTN_SPEAKER_ON forState:UIControlStateNormal];
+    [soundBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [bottomAreaView addSubview:soundBtn];
+
+    
+    posX = posX + btnWidth + 10.0f;
+    ExButton* cameraBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
+    [cameraBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    cameraBtn.tag = 24;
+    cameraBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [cameraBtn setTitle:BTN_CAMERA forState:UIControlStateNormal];
+    [cameraBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [bottomAreaView addSubview:cameraBtn];
+
+    
+    posX = posX + btnWidth + 10.0f;
     ExButton* disconnectBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [disconnectBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    disconnectBtn.tag = 24;
+    disconnectBtn.tag = 25;
     disconnectBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [disconnectBtn setTitle:BTN_DISCONNECT forState:UIControlStateNormal];
     [disconnectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomAreaView addSubview:disconnectBtn];
 
     
+    
     posX = bottomAreaView.bounds.size.width - btnWidth - 10.0f;
     ExButton* prevBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [prevBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    prevBtn.tag = 25;
+    prevBtn.tag = 26;
     prevBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [prevBtn setTitle:BTN_MAIN forState:UIControlStateNormal];
     [prevBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -279,7 +293,7 @@
 - (void)bottomBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     
     if(tag == 21) //Log
     {
@@ -295,19 +309,33 @@
             }];
         }
     }
-    else if(tag == 22) //command
-    {
-        [self.playRTC performSelector:@selector(userCommand:command:) withObject:self.playRTC.otherPeerId withObject:@"{\"command\":\"alert\", \"data\":\"usercommand입니다.\"}"];
-    }
-    else if(tag == 23) //Channel popup
+    else if(tag == 22) //Channel popup
     {
         [channelPopup show: 0.0f];
     }
-    else if(tag == 24) //Channel Close
+    else if(tag == 23) // Speaker
     {
-        [self.playRTC performSelector:@selector(disconnectChannel) withObject:nil afterDelay:0.1];
+        //Speaker On/Off
+        NSString* text = btn.currentTitle;
+        BOOL isOn = ([text isEqualToString:BTN_SPEAKER_ON])?TRUE:FALSE;
+        if([self.playRTC setLoudspeakerEnable:isOn]) {
+            if(isOn) {
+                [btn setTitle:BTN_SPEAKER_OFF forState:UIControlStateNormal];
+            }
+            else {
+                [btn setTitle:BTN_SPEAKER_ON forState:UIControlStateNormal];
+            }
+        }
     }
-    else if(tag == 25) //go back
+    else if(tag == 24) //Camera Change
+    {
+        [self.playRTC performSelector:@selector(switchCamera) withObject:nil afterDelay:0.1];
+    }
+    else if(tag == 25) //Channel Close
+    {
+        [self.playRTC performSelector:@selector(deleteChannel) withObject:nil afterDelay:0.1];
+    }
+    else if(tag == 26) //go back
     {
         [self performSelector:@selector(closeController) withObject:nil afterDelay:0.1];
     }
@@ -316,7 +344,7 @@
 - (void)muteBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     
     if(tag == 11) //Local Audio Mute
     {
@@ -355,7 +383,7 @@
         if(self.playRTC.remoteMedia) {
             NSString* text = btn.currentTitle;
             BOOL isMute = [text hasSuffix:@"ON"];
-            if([self.playRTC.remoteMedia setVideoMute:!isMute]) {
+            if([self.playRTC.remoteMedia setAudioMute:!isMute]) {
                 if(isMute) {
                     [btn setTitle:@"A_OFF" forState:UIControlStateNormal];
                 }
@@ -371,7 +399,7 @@
         if(self.playRTC.remoteMedia) {
             NSString* text = btn.currentTitle;
             BOOL isMute = [text hasSuffix:@"ON"];
-            if([self.playRTC.remoteMedia setAudioMute:!isMute]) {
+            if([self.playRTC.remoteMedia setVideoMute:!isMute]) {
                 if(isMute) {
                     [btn setTitle:@"V_OFF" forState:UIControlStateNormal];
                 }

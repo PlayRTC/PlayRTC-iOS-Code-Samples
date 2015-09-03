@@ -21,7 +21,6 @@
 
 @interface Sample3PlayRTC : NSObject<PlayRTCObserver>
 {
-    BOOL isClose;
     BOOL isConnect;
     PlayRTC* playRTC;
     NSString* channelId;
@@ -41,8 +40,10 @@
     __weak ExTextView* logView;
     __weak ExTextView* dataView;
     __weak id controller;
+    
+    NSFileHandle *myHandle;
+    NSString *recvFile;
 }
-@property (nonatomic, assign) BOOL isClose;
 @property (nonatomic, assign) BOOL isConnect;
 @property (nonatomic, copy) NSString* channelId;
 @property (nonatomic, copy) NSString* channelName;
@@ -60,15 +61,17 @@
 @property (nonatomic, weak) ExTextView* logView;
 @property (nonatomic, weak) ExTextView* dataView;
 @property (nonatomic, weak) id controller;
+@property (nonatomic, copy)NSString *recvFile;
 
 +(NSString*)getPlayRTCStatusString:(PlayRTCStatus)status;
 +(NSString*)getPlayRTCCodeString:(PlayRTCCode)code;
 
--(void)appendDataView:(NSString*)insertingString;
++(PlayRTCSettings*)createConfiguration;
+
+-(id)initWithSettings:(PlayRTCSettings*)settings;
+
 -(uint64_t)sendText:(NSString*)text;
 -(uint64_t)sendFileData:(NSString*)filePath;
-
--(void)setConfiguration;
 
 -(void)createChannel:(NSString*)chName userId:(NSString*)userId;
 -(void)connectChannel:(NSString*)chId userId:(NSString*)userId;
@@ -80,17 +83,30 @@
 -(void)appendDataView:(NSString*)insertingString;
 
 #pragma mark - PlayRTCDataObserver
+// PlayRTCObserver 인터페이스, PlayRTC의 주요 상태를 전달 받는다.
+// PlayRTC의 createChannel/connectChannel을 호출한 결과를 받는다.
 -(void)onConnectChannel:(PlayRTC*)obj channelId:(NSString*)channelId reason:(NSString*)reason;
+// 상대방의 연결 요청을 받는다.
 -(void)onRing:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid;
+// 상대방의 연결 요청에 대한 수락 시
 -(void)onAccept:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid;
+// 상대방의 연결 요청에 대한 거부 시
 -(void)onReject:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid;
+// 상대방이 User-Defined Command를 보냈을 때 데이터 가공없이 그대로 받는다.
 -(void)onUserCommand:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid data:(NSString*)data;
+// 단말기의 영상/음성 미디어 객체가 생성됐을 때
 -(void)onAddLocalStream:(PlayRTC*)obj media:(PlayRTCMedia*)media;
+// P2P 상대방의 영상/음성 미디어 객체가 생성됐을 때
 -(void)onAddRemoteStream:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid media:(PlayRTCMedia*)media;
+// 데이터 통신을 위한 Data Channel 객체가  생성됐을 때
 -(void)onAddDataStream:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid data:(PlayRTCData*)data;
+// 채널 서비스에서 퇴장을 알리는 이벤트를 받을 때. deleteChannel 또는 자신이 disconnectChannel를 호출한 경우
 -(void)onDisconnectChannel:(PlayRTC*)obj reason:(NSString*)reason;
+// 상대방이 채널에서 퇴장할 때. 상대방이 disconnectChannel를 호출한 경우
 -(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid;
+// PlayRTC에서 오류가 발생 시
 -(void)onError:(PlayRTC*)obj status:(PlayRTCStatus)status code:(PlayRTCCode)code desc:(NSString*)desc;
+// PlayRTC의 주요 상태 변경 이벤트
 -(void)onStateChange:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid status:(PlayRTCStatus)status desc:(NSString*)desc;
 @end
 

@@ -212,7 +212,7 @@
 - (void)bottomBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     if(tag == 22) //command
     {
         [self.playRTC performSelector:@selector(userCommand:command:) withObject:self.playRTC.otherPeerId withObject:@"{\"command\":\"alert\", \"data\":\"usercommand입니다.\"}"];
@@ -223,7 +223,7 @@
     }
     else if(tag == 24) //Channel Close
     {
-        [self.playRTC performSelector:@selector(disconnectChannel) withObject:nil afterDelay:0.1];
+        [self.playRTC performSelector:@selector(deleteChannel) withObject:nil afterDelay:0.1];
     }
     else if(tag == 25) //go back
     {
@@ -234,7 +234,7 @@
 - (void)dataSendBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     
     if(tag == 11) //Text Send
     {

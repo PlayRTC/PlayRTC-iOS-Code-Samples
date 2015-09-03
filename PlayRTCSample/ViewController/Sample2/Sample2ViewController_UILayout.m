@@ -185,10 +185,20 @@
     [chlBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomAreaView addSubview:chlBtn];
     
+    posX = posX + btnWidth + 40.0f;
+    ExButton* soundBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
+    [soundBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    soundBtn.tag = 24;
+    soundBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [soundBtn setTitle:BTN_SPEAKER_ON forState:UIControlStateNormal];
+    [soundBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [bottomAreaView addSubview:soundBtn];
+    
+    
     posX = bottomAreaView.bounds.size.width - btnWidth - 10.0f;
     ExButton* prevBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [prevBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    prevBtn.tag = 25;
+    prevBtn.tag = 26;
     prevBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [prevBtn setTitle:BTN_MAIN forState:UIControlStateNormal];
     [prevBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -197,7 +207,7 @@
     posX = posX - (btnWidth + 10.0f);
     ExButton* disconnectBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [disconnectBtn addTarget:self action:@selector(bottomBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    disconnectBtn.tag = 24;
+    disconnectBtn.tag = 25;
     disconnectBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [disconnectBtn setTitle:BTN_DISCONNECT forState:UIControlStateNormal];
     [disconnectBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -209,7 +219,7 @@
 - (void)bottomBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     
     if(tag == 22) //command
     {
@@ -219,11 +229,25 @@
     {
         [channelPopup show: 0.0f];
     }
-    else if(tag == 24) //Channel Close
+    else if(tag == 24) // Speaker
     {
-        [self.playRTC performSelector:@selector(disconnectChannel) withObject:nil afterDelay:0.1];
+        //Speaker On/Off
+        NSString* text = btn.currentTitle;
+        BOOL isOn = ([text isEqualToString:BTN_SPEAKER_ON])?TRUE:FALSE;
+        if([self.playRTC setLoudspeakerEnable:isOn]) {
+            if(isOn) {
+                [btn setTitle:BTN_SPEAKER_OFF forState:UIControlStateNormal];
+            }
+            else {
+                [btn setTitle:BTN_SPEAKER_ON forState:UIControlStateNormal];
+            }
+        }
     }
-    else if(tag == 25) //go back
+    else if(tag == 25) //Channel Close
+    {
+        [self.playRTC performSelector:@selector(deleteChannel) withObject:nil afterDelay:0.1];
+    }
+    else if(tag == 26) //go back
     {
         [self performSelector:@selector(closeController) withObject:nil afterDelay:0.1];
     }
@@ -232,7 +256,7 @@
 - (void)muteBtnClick:(id)sender event:(UIEvent *)event
 {
     UIButton* btn = (UIButton*)sender;
-    int tag = btn.tag;
+    int tag = (int)btn.tag;
     
     if(tag == 11) //Local Audio Mute
     {

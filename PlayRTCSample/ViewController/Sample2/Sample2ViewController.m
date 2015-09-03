@@ -21,10 +21,9 @@
     
     self = [super init]; 
     if (self) {
-        
-        self.playRTC = [[Sample2PlayRTC alloc] init];
+        PlayRTCSettings* settings = [Sample2PlayRTC createConfiguration];
+        self.playRTC = [[Sample2PlayRTC alloc] initWithSettings:settings];
         self.playRTC.controller = self;
-        [self.playRTC setConfiguration];
     }
     return self;
 }
@@ -33,6 +32,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)loadView
+{
+    
+    [super loadView];
+    NSLog(@"[%@] loadView", LOG_TAG);
+    
+    //PlayRTC의 enableAudioSession를 호출하여 AVAudioSession 관리를 내부적으로 할 경우
+    [self.playRTC enableAudioSession];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -88,9 +98,9 @@
 }
 -(void)closeController
 {
-    if(self.playRTC.isConnect == TRUE  &&  self.playRTC.isClose == FALSE)
+    if(self.playRTC.isConnect == TRUE )
     {
-        [self.playRTC disconnectChannel];
+        [self.playRTC deleteChannel];
         return;
     }
     UIViewController* viewController = [self.navigationController popViewControllerAnimated:TRUE];

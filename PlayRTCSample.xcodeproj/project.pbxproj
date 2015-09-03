@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		339250201A663F2400F17569 /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 3392501F1A663F2400F17569 /* icudtl.dat */; };
+		3382375E1B9803CE0097D38A /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3382375D1B9803CE0097D38A /* VideoToolbox.framework */; };
+		338237601B9803DA0097D38A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3382375F1B9803DA0097D38A /* CoreTelephony.framework */; };
+		338237721B980A7A0097D38A /* libsktplayrtc.universal.r9720.1.0.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 338237711B980A7A0097D38A /* libsktplayrtc.universal.r9720.1.0.2.a */; };
 		3392502A1A66458200F17569 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 339250291A66458200F17569 /* libstdc++.dylib */; };
 		3392502C1A6645AB00F17569 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3392502B1A6645AB00F17569 /* libsqlite3.dylib */; };
 		3392502E1A6645BB00F17569 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3392502D1A6645BB00F17569 /* libicucore.dylib */; };
@@ -41,7 +43,6 @@
 		33BDE0F51AF9CE9500683199 /* Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BDE0F21AF9CE9500683199 /* Channel.m */; };
 		33BDE0F61AF9CE9500683199 /* ChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BDE0F41AF9CE9500683199 /* ChannelView.m */; };
 		33BDE1081AF9EF1A00683199 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 33BDE1071AF9EF1A00683199 /* www */; };
-		33BDE1731AFB661B00683199 /* libsktplayrtc.1.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33BDE1721AFB661B00683199 /* libsktplayrtc.1.0.0.a */; };
 		33C8B71A1A663AA2008873E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8B7191A663AA2008873E4 /* main.m */; };
 		33C8B71D1A663AA2008873E4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8B71C1A663AA2008873E4 /* AppDelegate.m */; };
 		33C8B7251A663AA2008873E4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33C8B7241A663AA2008873E4 /* Images.xcassets */; };
@@ -56,7 +57,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3392501F1A663F2400F17569 /* icudtl.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = icudtl.dat; path = PlayRTC/libs/icudtl.dat; sourceTree = "<group>"; };
+		3382375D1B9803CE0097D38A /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		3382375F1B9803DA0097D38A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		338237641B980A590097D38A /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = PlayRTC/headers/PlayRTC.h; sourceTree = "<group>"; };
+		338237651B980A590097D38A /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = PlayRTC/headers/PlayRTCData.h; sourceTree = "<group>"; };
+		338237661B980A590097D38A /* PlayRTCDataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataHeader.h; path = PlayRTC/headers/PlayRTCDataHeader.h; sourceTree = "<group>"; };
+		338237671B980A590097D38A /* PlayRTCDataObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataObserver.h; path = PlayRTC/headers/PlayRTCDataObserver.h; sourceTree = "<group>"; };
+		338237681B980A590097D38A /* PlayRTCDataSendObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataSendObserver.h; path = PlayRTC/headers/PlayRTCDataSendObserver.h; sourceTree = "<group>"; };
+		338237691B980A590097D38A /* PlayRTCDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDefine.h; path = PlayRTC/headers/PlayRTCDefine.h; sourceTree = "<group>"; };
+		3382376A1B980A590097D38A /* PlayRTCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCFactory.h; path = PlayRTC/headers/PlayRTCFactory.h; sourceTree = "<group>"; };
+		3382376B1B980A590097D38A /* PlayRTCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCMedia.h; path = PlayRTC/headers/PlayRTCMedia.h; sourceTree = "<group>"; };
+		3382376C1B980A590097D38A /* PlayRTCObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCObserver.h; path = PlayRTC/headers/PlayRTCObserver.h; sourceTree = "<group>"; };
+		3382376D1B980A590097D38A /* PlayRTCServiceHelperListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCServiceHelperListener.h; path = PlayRTC/headers/PlayRTCServiceHelperListener.h; sourceTree = "<group>"; };
+		3382376E1B980A590097D38A /* PlayRTCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCSettings.h; path = PlayRTC/headers/PlayRTCSettings.h; sourceTree = "<group>"; };
+		3382376F1B980A590097D38A /* PlayRTCVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCVideoView.h; path = PlayRTC/headers/PlayRTCVideoView.h; sourceTree = "<group>"; };
+		338237701B980A590097D38A /* SDKEnvInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDKEnvInfo.h; path = PlayRTC/headers/SDKEnvInfo.h; sourceTree = "<group>"; };
+		338237711B980A7A0097D38A /* libsktplayrtc.universal.r9720.1.0.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.1.0.2.a; path = PlayRTC/libsktplayrtc.universal.r9720.1.0.2.a; sourceTree = "<group>"; };
 		339250291A66458200F17569 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		3392502B1A6645AB00F17569 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		3392502D1A6645BB00F17569 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -103,7 +119,6 @@
 		33BDE0F71AF9CEEE00683199 /* SampleDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleDefine.h; sourceTree = "<group>"; };
 		33BDE0FB1AF9CF9A00683199 /* CanvasUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasUtil.h; path = Widget/CanvasUtil.h; sourceTree = "<group>"; };
 		33BDE1071AF9EF1A00683199 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = PlayRTCSample/Resource/www; sourceTree = "<group>"; };
-		33BDE1721AFB661B00683199 /* libsktplayrtc.1.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.1.0.0.a; path = PlayRTC/libs/libsktplayrtc.1.0.0.a; sourceTree = "<group>"; };
 		33C8B7141A663AA2008873E4 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C8B7181A663AA2008873E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33C8B7191A663AA2008873E4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -125,18 +140,6 @@
 		33C8B7551A663E36008873E4 /* ExTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExTableView.m; path = widget/ExTableView.m; sourceTree = "<group>"; };
 		33C8B7561A663E36008873E4 /* ExTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExTextView.h; path = widget/ExTextView.h; sourceTree = "<group>"; };
 		33C8B7571A663E36008873E4 /* ExTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExTextView.m; path = widget/ExTextView.m; sourceTree = "<group>"; };
-		33C8B75F1A663E68008873E4 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = PlayRTC/public/PlayRTC.h; sourceTree = "<group>"; };
-		33C8B7621A663E68008873E4 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = PlayRTC/public/PlayRTCData.h; sourceTree = "<group>"; };
-		33C8B7631A663E68008873E4 /* PlayRTCDataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataHeader.h; path = PlayRTC/public/PlayRTCDataHeader.h; sourceTree = "<group>"; };
-		33C8B7641A663E68008873E4 /* PlayRTCDataObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataObserver.h; path = PlayRTC/public/PlayRTCDataObserver.h; sourceTree = "<group>"; };
-		33C8B7651A663E68008873E4 /* PlayRTCDataSendObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataSendObserver.h; path = PlayRTC/public/PlayRTCDataSendObserver.h; sourceTree = "<group>"; };
-		33C8B7661A663E68008873E4 /* PlayRTCDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDefine.h; path = PlayRTC/public/PlayRTCDefine.h; sourceTree = "<group>"; };
-		33C8B7671A663E68008873E4 /* PlayRTCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCFactory.h; path = PlayRTC/public/PlayRTCFactory.h; sourceTree = "<group>"; };
-		33C8B7681A663E68008873E4 /* PlayRTCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCMedia.h; path = PlayRTC/public/PlayRTCMedia.h; sourceTree = "<group>"; };
-		33C8B7691A663E68008873E4 /* PlayRTCObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCObserver.h; path = PlayRTC/public/PlayRTCObserver.h; sourceTree = "<group>"; };
-		33C8B76B1A663E68008873E4 /* PlayRTCServiceHelperListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCServiceHelperListener.h; path = PlayRTC/public/PlayRTCServiceHelperListener.h; sourceTree = "<group>"; };
-		33C8B76C1A663E68008873E4 /* PlayRTCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCSettings.h; path = PlayRTC/public/PlayRTCSettings.h; sourceTree = "<group>"; };
-		33C8B76F1A663E68008873E4 /* PlayRTCVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCVideoView.h; path = PlayRTC/public/PlayRTCVideoView.h; sourceTree = "<group>"; };
 		33E1593E1AF1C20400551301 /* ExTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExTextField.h; path = widget/ExTextField.h; sourceTree = "<group>"; };
 		33E1593F1AF1C20400551301 /* ExTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExTextField.m; path = widget/ExTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,10 +149,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				338237601B9803DA0097D38A /* CoreTelephony.framework in Frameworks */,
+				3382375E1B9803CE0097D38A /* VideoToolbox.framework in Frameworks */,
 				339250531A66484100F17569 /* UIKit.framework in Frameworks */,
 				339250511A66483100F17569 /* Foundation.framework in Frameworks */,
 				3392504E1A66469700F17569 /* OpenGLES.framework in Frameworks */,
-				33BDE1731AFB661B00683199 /* libsktplayrtc.1.0.0.a in Frameworks */,
 				3392504C1A66468700F17569 /* Security.framework in Frameworks */,
 				3392504A1A66467900F17569 /* AudioToolbox.framework in Frameworks */,
 				339250481A66467000F17569 /* CoreFoundation.framework in Frameworks */,
@@ -163,6 +167,7 @@
 				339250381A66462200F17569 /* MobileCoreServices.framework in Frameworks */,
 				339250361A66461800F17569 /* SystemConfiguration.framework in Frameworks */,
 				339250341A66460700F17569 /* CFNetwork.framework in Frameworks */,
+				338237721B980A7A0097D38A /* libsktplayrtc.universal.r9720.1.0.2.a in Frameworks */,
 				339250321A6645EB00F17569 /* libm.dylib in Frameworks */,
 				339250301A6645CA00F17569 /* libc++.dylib in Frameworks */,
 				3392502E1A6645BB00F17569 /* libicucore.dylib in Frameworks */,
@@ -177,6 +182,8 @@
 		3392504F1A6646EF00F17569 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				3382375F1B9803DA0097D38A /* CoreTelephony.framework */,
+				3382375D1B9803CE0097D38A /* VideoToolbox.framework */,
 				339250521A66484100F17569 /* UIKit.framework */,
 				339250501A66483100F17569 /* Foundation.framework */,
 				3392504D1A66469700F17569 /* OpenGLES.framework */,
@@ -302,20 +309,20 @@
 		33C8B75E1A663E54008873E4 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
-				33BDE1721AFB661B00683199 /* libsktplayrtc.1.0.0.a */,
-				3392501F1A663F2400F17569 /* icudtl.dat */,
-				33C8B75F1A663E68008873E4 /* PlayRTC.h */,
-				33C8B7621A663E68008873E4 /* PlayRTCData.h */,
-				33C8B7631A663E68008873E4 /* PlayRTCDataHeader.h */,
-				33C8B7641A663E68008873E4 /* PlayRTCDataObserver.h */,
-				33C8B7651A663E68008873E4 /* PlayRTCDataSendObserver.h */,
-				33C8B7661A663E68008873E4 /* PlayRTCDefine.h */,
-				33C8B7671A663E68008873E4 /* PlayRTCFactory.h */,
-				33C8B7681A663E68008873E4 /* PlayRTCMedia.h */,
-				33C8B7691A663E68008873E4 /* PlayRTCObserver.h */,
-				33C8B76B1A663E68008873E4 /* PlayRTCServiceHelperListener.h */,
-				33C8B76C1A663E68008873E4 /* PlayRTCSettings.h */,
-				33C8B76F1A663E68008873E4 /* PlayRTCVideoView.h */,
+				338237711B980A7A0097D38A /* libsktplayrtc.universal.r9720.1.0.2.a */,
+				338237641B980A590097D38A /* PlayRTC.h */,
+				338237651B980A590097D38A /* PlayRTCData.h */,
+				338237661B980A590097D38A /* PlayRTCDataHeader.h */,
+				338237671B980A590097D38A /* PlayRTCDataObserver.h */,
+				338237681B980A590097D38A /* PlayRTCDataSendObserver.h */,
+				338237691B980A590097D38A /* PlayRTCDefine.h */,
+				3382376A1B980A590097D38A /* PlayRTCFactory.h */,
+				3382376B1B980A590097D38A /* PlayRTCMedia.h */,
+				3382376C1B980A590097D38A /* PlayRTCObserver.h */,
+				3382376D1B980A590097D38A /* PlayRTCServiceHelperListener.h */,
+				3382376E1B980A590097D38A /* PlayRTCSettings.h */,
+				3382376F1B980A590097D38A /* PlayRTCVideoView.h */,
+				338237701B980A590097D38A /* SDKEnvInfo.h */,
 			);
 			name = PlayRTC;
 			sourceTree = "<group>";
@@ -385,7 +392,7 @@
 		33C8B70C1A663AA2008873E4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = playrtc;
 				TargetAttributes = {
 					33C8B7131A663AA2008873E4 = {
@@ -417,7 +424,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				33BDE1081AF9EF1A00683199 /* www in Resources */,
-				339250201A663F2400F17569 /* icudtl.dat in Resources */,
 				33C8B7251A663AA2008873E4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -548,10 +554,6 @@
 		33C8B7381A663AA2008873E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
-				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
@@ -563,22 +565,19 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PlayRTC/libs",
+					"$(PROJECT_DIR)/PlayRTC",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
 		33C8B7391A663AA2008873E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					"$(ARCHS_STANDARD_INCLUDING_64_BIT)",
-				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
@@ -590,11 +589,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PlayRTC/libs",
+					"$(PROJECT_DIR)/PlayRTC",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};

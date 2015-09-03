@@ -28,10 +28,11 @@
         self.token              = nil;
         self.userUid            = nil;
         
-        self.playRTC = [[Sample3PlayRTC alloc] init];
+        // PlayRTCSettings 생성 및 설정
+        PlayRTCSettings* settings = [Sample3PlayRTC createConfiguration];
+        self.playRTC = [[Sample3PlayRTC alloc] initWithSettings:settings];
         self.playRTC.controller = self;
         
-        [self.playRTC setConfiguration];
         
         
     }
@@ -110,9 +111,9 @@
 
 -(void)closeController
 {
-    if(self.playRTC.isConnect == TRUE  &&  self.playRTC.isClose == FALSE)
+    if(self.playRTC.isConnect == TRUE )
     {
-        [self.playRTC disconnectChannel];
+        [self.playRTC deleteChannel];
         return;
     }
 
