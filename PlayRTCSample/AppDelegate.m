@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  PlayRTCSample
+//  PlayRTCSDKSample
 //
-//  Created by ds3grk on 2015. 1. 14..
-//  Copyright (c) 2015년 playrtc. All rights reserved.
+//  Created by ds3grk on 2015. 8. 11..
+//  Copyright (c) 2015년 sktelecom. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -17,18 +17,20 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    
     NSLog(@"[AppDelegate] application didFinishLaunchingWithOptions...");
     
-
     MainViewController* viewController = [[MainViewController alloc] init];
     
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    //navigationController.navigationBar.hidden = YES;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
+
 
     return YES;
 }

@@ -1,9 +1,9 @@
 //
 //  ExTextView.m
-//  PlayRTCSample
+//  MainViewController.h
 //
-//  Created by ds3grk on 2015. 1. 15..
-//  Copyright (c) 2014년 playrtc. All rights reserved.
+//  Created by ds3grk on 2015. 8. 11..
+//  Copyright (c) 2015년 sktelecom. All rights reserved.
 //
 
 #import "CanvasUtil.h"
@@ -13,36 +13,46 @@
 #define ROUND_RADIUX 6.0f
 
 
+@interface ExTextView() {
+    NSString* realText;
+}
+@property (unsafe_unretained, nonatomic, readonly) NSString* realText;
+
+- (void) beginEditing:(NSNotification*) notification;
+- (void) endEditing:(NSNotification*) notification;
+@end
 
 @implementation ExTextView
 @synthesize realTextColor;
 @synthesize placeholder;
 @synthesize placeholderColor;
-@synthesize realText;
 
 - (id)initWithFrame:(CGRect)frame;
 {
     self = [super initWithFrame:frame];
     if(self != nil)
     {
-        self.opaque = FALSE;
+        self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
-        self.realText = nil;
-        self.realTextColor = self.textColor;
-        self.placeholderColor = [UIColor lightGrayColor];
+        [self awakeFromNib];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.placeholder = nil;
-    self.realText = nil;
+    realText = nil;
 }
 
-
+- (void)awakeFromNib {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(endEditing:) name:UITextViewTextDidEndEditingNotification object:self];
+    
+    self.realTextColor = self.textColor;
+    self.placeholderColor = [UIColor lightGrayColor];
+}
 
 - (void) setPlaceholder:(NSString *)aPlaceholder {
     if ([self.realText isEqualToString:placeholder] && ![self isFirstResponder]) {
@@ -52,7 +62,8 @@
         placeholder = aPlaceholder;
     }
     
-
+    
+    [self endEditing:nil];
 }
 
 - (void)setPlaceholderColor:(UIColor *)aPlaceholderColor {
@@ -87,6 +98,20 @@
 
 - (NSString *) realText {
     return [super text];
+}
+
+- (void) beginEditing:(NSNotification*) notification {
+    if ([self.realText isEqualToString:self.placeholder]) {
+        super.text = nil;
+        self.textColor = self.realTextColor;
+    }
+}
+
+- (void) endEditing:(NSNotification*) notification {
+    if ([self.realText isEqualToString:@""] || self.realText == nil) {
+        super.text = self.placeholder;
+        self.textColor = self.placeholderColor;
+    }
 }
 
 - (void) setTextColor:(UIColor *)textColor {
@@ -140,6 +165,7 @@
 {
     [self setNeedsDisplay];
 }
+
 
 @end
 

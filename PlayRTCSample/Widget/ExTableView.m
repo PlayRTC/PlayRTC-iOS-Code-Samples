@@ -1,9 +1,9 @@
 //
 //  ExTableView.m
-//  PlayRTCSample
+//  PlayRTCDemo
 //
-//  Created by ds3grk on 2015. 1. 15..
-//  Copyright (c) 2014년 playrtc. All rights reserved.
+//  Created by ds3grk on 2015. 8. 11..
+//  Copyright (c) 2015년 sktelecom. All rights reserved.
 //
 
 #import "ExTableView.h"
@@ -105,14 +105,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    //int index = (int)indexPath.row;
+    
+    
+    //if( self.combobutton != nil && [ self.combobutton conformsToProtocol:@protocol(UITableViewDelegate)])
+    //{
+    //    [self.combobutton tableView:tableView didSelectRowAtIndexPath:indexPath];
+    //}
     
 }
 
 - (void)btnClick:(id)sender event:(UIEvent *)event
 {
     ExButton* btn = (ExButton*)sender;
-    int tag = btn.tag;
+    int tag =(int)btn.tag;
     Channel* channelData = [dataList objectAtIndex:tag];
     if(self.listener != nil)
     {

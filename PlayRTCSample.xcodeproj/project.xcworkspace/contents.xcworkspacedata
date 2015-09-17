@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "self:PlayRTCSample.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "New Group">
+      <FileRef
+         location = "self:/Users/eungg.kim/Downloads/PlayRTCSDK-20150916/PlayRTCSDK-IOS_v1.1.0/PlayRTCSDKSample/PlayRTCSample.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

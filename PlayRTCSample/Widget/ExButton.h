@@ -1,9 +1,9 @@
 //
 //  ExButton.h
-//  PlayRTCSample
+//  PlayRTCDemo
 //
-//  Created by ds3grk on 2015. 1. 15..
-//  Copyright (c) 2014년 playrtc. All rights reserved.
+//  Created by ds3grk on 2015. 8. 11..
+//  Copyright (c) 2015년 sktelecom. All rights reserved.
 //
 #ifndef __ExButton_h__
 #define __ExButton_h__

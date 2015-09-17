@@ -1,10 +1,11 @@
 //
 //  ExTextView.h
-//  PlayRTCSample
+//  MainViewController.h
 //
-//  Created by ds3grk on 2015. 1. 15..
-//  Copyright (c) 2014년 playrtc. All rights reserved.
+//  Created by ds3grk on 2015. 8. 11..
+//  Copyright (c) 2015년 sktelecom. All rights reserved.
 //
+
 #ifndef __ExTextView_h__
 #define __ExTextView_h__
 
@@ -12,10 +13,8 @@
 
 @interface ExTextView : UITextView
 {
-    NSString* realText;
     NSString *placeholder;
 }
-@property (nonatomic, strong) NSString* realText;
 @property(nonatomic, strong) NSString *placeholder;
 @property (nonatomic, strong) UIColor *realTextColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
