@@ -132,17 +132,25 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 -(void)createPlayRTCHandler
 {
-    
-    // v1.0.2 이상
+    /*
+    // v1.1.0
     // PlayRTCSettings 생성 및 설정
-    PlayRTCSettings* settings = [self createConfiguration];
+    PlayRTCSettings* settings = [self createPlayRTCSettings];
     self.playRTC = [PlayRTCFactory newInstance:settings observer:(id<PlayRTCObserver>)self];
+    */
+    // v2.2.0
+    // PlayRTCConfig 생성 및 설정
+    PlayRTCConfig* config = [self createPlayRTCConfiguration];
+    self.playRTC = [PlayRTCFactory createPlayRTC:config observer:(id<PlayRTCObserver>)self];
+
+    
 }
 
 /*
  * PlayRTCSettings 인스턴스 생성
+ * sdk 1/1/0
  */
-- (PlayRTCSettings*)createConfiguration
+- (PlayRTCSettings*)createPlayRTCSettings
 {
     PlayRTCSettings* settings = [[PlayRTCSettings alloc] init];
     [settings setTDCProjectId:TDCProjectId];
@@ -198,6 +206,76 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     
 }
 
+/*
+ * PlayRTCSettings 인스턴스 생성
+ * sdk 1/1/0
+ */
+- (PlayRTCConfig*)createPlayRTCConfiguration
+{
+    PlayRTCConfig* config = [PlayRTCFactory createConfig];
+    [config setProjectId:TDCProjectId];
+    [config setRingEnable:FALSE];
+    
+    if(self.playrtcType == 1) {
+        [config.video setEnable:TRUE];
+        [config.video setCameraType:CameraTypeFront];
+        // sdk support only 640x480
+        [config.video setMaxFrameSize:640 height:640];
+        [config.video setMinFrameSize:640 height:480];
+        [config.video setMaxFrameRate:30];
+        [config.video setMinFrameRate:15];
+        [config.bandwidth setVideoBitrateKbps:2500];
+        
+        [config.audio setEnable:TRUE];
+        [config.bandwidth setAudioBitrateKbps:35];
+        [config.audio setEchoCancellationEnable:TRUE];
+        [config.audio setAutoGainControlEnable:TRUE];
+        [config.audio setNoiseSuppressionEnable:TRUE];
+        [config.audio setHighpassFilterEnable:TRUE];
+        
+        [config.data setEnable:TRUE];
+        
+    }
+    else if(self.playrtcType == 2) {
+        [config.video setEnable:TRUE];
+        [config.video setCameraType:CameraTypeFront];
+        // sdk support only 640x480
+        [config.video setMaxFrameSize:640 height:640];
+        [config.video setMinFrameSize:640 height:480];
+        [config.video setMaxFrameRate:30];
+        [config.video setMinFrameRate:15];
+        [config.bandwidth setVideoBitrateKbps:2500];
+        
+        [config.audio setEnable:TRUE];
+        [config.bandwidth setAudioBitrateKbps:35];
+        [config.audio setEchoCancellationEnable:TRUE];
+        [config.audio setAutoGainControlEnable:TRUE];
+        [config.audio setNoiseSuppressionEnable:TRUE];
+        [config.audio setHighpassFilterEnable:TRUE];
+        
+        [config.data setEnable:FALSE];
+    }
+    else if(self.playrtcType == 3) {
+        [config.video setEnable:FALSE];
+        
+        [config.audio setEnable:TRUE];
+        [config.bandwidth setAudioBitrateKbps:35];
+        [config.audio setEchoCancellationEnable:TRUE];
+        [config.audio setAutoGainControlEnable:TRUE];
+        [config.audio setNoiseSuppressionEnable:TRUE];
+        [config.audio setHighpassFilterEnable:TRUE];
+        
+        [config.data setEnable:FALSE];
+    }
+    else {
+        [config.video setEnable:TRUE];
+        [config.audio setEnable:TRUE];
+        [config.data setEnable:TRUE];
+    }
+    [config.log.console setLevel:LOG_TRACE];
+    
+    return config;
+}
 /*
  * PlayRTCData 사용 시 텍스트 데이터를 전송한다.
  */

@@ -103,9 +103,9 @@
     UILabel* lblt = [[UILabel alloc] initWithFrame:CGRectMake(posX + 100, posY, lblWidth, 28.0f)];
     lblt.backgroundColor = [UIColor clearColor];
     lblt.textAlignment = NSTextAlignmentLeft;
-    lblt.font =[UIFont systemFontOfSize:28.0f];
+    lblt.font =[UIFont systemFontOfSize:24.0f];
     lblt.textColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:1.0f];
-    lblt.text = @"SKT PlayRTC Sample For iOS v1.1.0";
+    lblt.text = @"SKT PlayRTC Sample For v2.2.0";
     [self.view addSubview:lblt];
 
     

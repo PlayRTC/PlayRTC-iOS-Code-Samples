@@ -15,7 +15,10 @@
 @interface PlayRTCViewController(PlayRTC)
 
 - (void)createPlayRTCHandler;
-- (PlayRTCSettings*)createConfiguration;
+// sdk 1.1.0
+- (PlayRTCSettings*)createPlayRTCSettings;
+// sdk 2.2.0
+- (PlayRTCConfig*)createPlayRTCConfiguration;
 - (void)createChannel:(NSString*)channelName userId:(NSString*)userId;
 - (void)connectChannel:(NSString*)channelId userId:(NSString*)userId;
 - (void)disconnectChannel:(NSString*)peerId;
