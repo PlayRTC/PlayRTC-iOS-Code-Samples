@@ -80,7 +80,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 /*
  * PlayRTCObserver와 PlayRTCDataObserver를 구현한 객체
  */
-@interface PlayRTCViewController(PlayRTC_internal)<PlayRTCObserver, PlayRTCDataObserver>
+@interface PlayRTCViewController(PlayRTC_internal)<PlayRTCObserver, PlayRTCDataObserver, PlayRTCStatsReportObserver>
 
 - (NSString*)getPlayRTCStatusString:(PlayRTCStatus)status;
 - (NSString*)getPlayRTCCodeString:(PlayRTCCode)code;
@@ -122,6 +122,10 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onError:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid dataId:(uint64_t)dataId code:(PlayRTCDataCode)code desc:(NSString*)desc;
 // PlayRTCData의 주요 상태를 전달 받는다.
 -(void)onStateChange:(PlayRTCData*)obj peerId:(NSString*)peerId  peerUid:(NSString*)peerUid state:(PlayRTCDataStatus)state;
+
+//PlayRTCStatsReportObserver
+-(void)onStatsReport:(PlayRTCStatReport*)report;
+-(id)formatFileSize:(int)value;
 
 @end
 
@@ -651,8 +655,71 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onStateChange:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid status:(PlayRTCStatus)status desc:(NSString*)desc
 {
     NSLog(@"[PlayRTCViewController] onStateChange peerId[%@] peerUid[%@] status[%@] desc[%@]", peerId, peerUid, [self getPlayRTCStatusString:status], desc);
+    if(status == PlayRTCStatusPeerSuccess) {
+        // 5 sec
+        [obj startStatsReport:5000 observer:(id<PlayRTCStatsReportObserver>)self];
+    }
 }
 
+-(void)onStatsReport:(PlayRTCStatReport*)report
+{
+    RatingValue* rttRating = [report getRttRating];
+    RatingValue* localVideoFl = [report getLocalVideoFractionLost];
+    RatingValue* localAudioFl = [report getLocalAudioFractionLost];
+    RatingValue* remoteVideoFl = [report getRemoteVideoFractionLost];
+    RatingValue* remoteAudioFl = [report getRemoteAudioFractionLost];
+    
+    NSString* localReport = [NSString stringWithFormat:@"\nLocal Report\n    ICE:[%@]\n    %dx%dx%d\n    %@ps\n    RTT:%d\n    RTT-Ratting:[%d/%.6f]\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]",
+                            [report getLocalCandidate],
+                            [report getLocalFrameWidth],
+                            [report getLocalFrameHeight],
+                            [report getLocalFrameRate],
+                            [self formatFileSize:[report getAvailableSendBandwidth]],
+                            [report getRtt],
+                            [rttRating getLevel],
+                            [rttRating getValue],
+                            [localVideoFl getLevel],
+                            [localVideoFl getValue],
+                            [localAudioFl getLevel],
+                            [localAudioFl getValue]];
+    
+    NSString* remoteReport = [NSString stringWithFormat:@"\nRemote Report\n    ICE:%@\n    %dx%dx%d\n    %@ps\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]\n",
+                            [report getRemoteCandidate],
+                            [report getRemoteFrameWidth],
+                            [report getRemoteFrameHeight],
+                            [report getRemoteFrameRate],
+                            [self formatFileSize:[report getAvailableReceiveBandwidth]],
+                            [remoteVideoFl getLevel],
+                            [remoteVideoFl getValue],
+                            [remoteAudioFl getLevel],
+                            [remoteAudioFl getValue]];
+
+    
+    
+    
+    NSLog(@"[PlayRTCViewController] \n%@%@%@%@",
+          @"Stat Report ================================",
+          localReport,
+          remoteReport,
+          @"Stat Report ================================");
+
+}
+
+- (id)formatFileSize:(int)value
+{
+    
+    double convertedValue = (double)(value * 1.0f);
+    int multiplyFactor = 0;
+    
+    NSArray *tokens = [NSArray arrayWithObjects:@"B",@"KB",@"MB",@"GB",@"TB",nil];
+    
+    while (convertedValue > 1024) {
+        convertedValue /= 1024;
+        multiplyFactor++;
+    }
+    
+    return [NSString stringWithFormat:@"%4.2f %@",convertedValue, [tokens objectAtIndex:multiplyFactor]];
+}
 /////////////////////////////////////////////////////////////////////////////
 #pragma mark - PlayRTCDataObserver
 /*

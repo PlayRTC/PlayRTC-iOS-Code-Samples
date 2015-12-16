@@ -44,13 +44,8 @@
 		217E53731BAAB01500F29265 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53721BAAB01500F29265 /* CFNetwork.framework */; };
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
-		217E53791BAAB07100F29265 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53781BAAB07100F29265 /* libc++.tbd */; };
-		217E537B1BAAB07800F29265 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E537A1BAAB07800F29265 /* libm.tbd */; };
-		217E537D1BAAB08400F29265 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E537C1BAAB08400F29265 /* libstdc++.tbd */; };
-		217E537F1BAAB09100F29265 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E537E1BAAB09100F29265 /* libicucore.tbd */; };
-		217E53811BAAB09F00F29265 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53801BAAB09F00F29265 /* libsqlite3.tbd */; };
-		21F865E01BF4847B008B9E06 /* libsktplayrtc.universal.r9720.2.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21F865DF1BF4847B008B9E06 /* libsktplayrtc.universal.r9720.2.2.0.a */; };
-		335328C81B8D4E6D001B6FDC /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 335328C61B8D4E5E001B6FDC /* icudtl.dat */; };
+		337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 337B0A711C1FFAB8009CD308 /* icudtl.dat */; };
+		337B0A741C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,21 +105,30 @@
 		217E537C1BAAB08400F29265 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		217E537E1BAAB09100F29265 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		217E53801BAAB09F00F29265 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		21F865DF1BF4847B008B9E06 /* libsktplayrtc.universal.r9720.2.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.2.2.0.a; path = PlayRTC/libsktplayrtc.universal.r9720.2.2.0.a; sourceTree = "<group>"; };
-		332C33EC1B79C27D00D67DA8 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = PlayRTC/public/PlayRTC.h; sourceTree = "<group>"; };
-		332C33ED1B79C27D00D67DA8 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = PlayRTC/public/PlayRTCData.h; sourceTree = "<group>"; };
-		332C33EE1B79C27D00D67DA8 /* PlayRTCDataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataHeader.h; path = PlayRTC/public/PlayRTCDataHeader.h; sourceTree = "<group>"; };
-		332C33EF1B79C27D00D67DA8 /* PlayRTCDataObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataObserver.h; path = PlayRTC/public/PlayRTCDataObserver.h; sourceTree = "<group>"; };
-		332C33F01B79C27D00D67DA8 /* PlayRTCDataSendObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataSendObserver.h; path = PlayRTC/public/PlayRTCDataSendObserver.h; sourceTree = "<group>"; };
-		332C33F11B79C27D00D67DA8 /* PlayRTCDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDefine.h; path = PlayRTC/public/PlayRTCDefine.h; sourceTree = "<group>"; };
-		332C33F21B79C27D00D67DA8 /* PlayRTCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCFactory.h; path = PlayRTC/public/PlayRTCFactory.h; sourceTree = "<group>"; };
-		332C33F31B79C27D00D67DA8 /* PlayRTCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCMedia.h; path = PlayRTC/public/PlayRTCMedia.h; sourceTree = "<group>"; };
-		332C33F41B79C27D00D67DA8 /* PlayRTCObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCObserver.h; path = PlayRTC/public/PlayRTCObserver.h; sourceTree = "<group>"; };
-		332C33F61B79C27D00D67DA8 /* PlayRTCServiceHelperListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCServiceHelperListener.h; path = PlayRTC/public/PlayRTCServiceHelperListener.h; sourceTree = "<group>"; };
-		332C33F71B79C27D00D67DA8 /* PlayRTCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCSettings.h; path = PlayRTC/public/PlayRTCSettings.h; sourceTree = "<group>"; };
-		332C33F81B79C27D00D67DA8 /* PlayRTCVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCVideoView.h; path = PlayRTC/public/PlayRTCVideoView.h; sourceTree = "<group>"; };
-		332C33F91B79C27D00D67DA8 /* SDKEnvInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDKEnvInfo.h; path = PlayRTC/public/SDKEnvInfo.h; sourceTree = "<group>"; };
-		335328C61B8D4E5E001B6FDC /* icudtl.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = icudtl.dat; path = PlayRTC/icudtl.dat; sourceTree = "<group>"; };
+		337B0A711C1FFAB8009CD308 /* icudtl.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = icudtl.dat; path = "../PlayRTC-IOS-SDK/icudtl.dat"; sourceTree = "<group>"; };
+		337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.2.2.1.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r9720.2.2.1.a"; sourceTree = "<group>"; };
+		337B0A751C1FFACD009CD308 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = "../PlayRTC-IOS-SDK/public/PlayRTC.h"; sourceTree = "<group>"; };
+		337B0A761C1FFACD009CD308 /* PlayRTCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCConfig.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCConfig.h"; sourceTree = "<group>"; };
+		337B0A771C1FFACD009CD308 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCData.h"; sourceTree = "<group>"; };
+		337B0A781C1FFACD009CD308 /* PlayRTCDataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataHeader.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCDataHeader.h"; sourceTree = "<group>"; };
+		337B0A791C1FFACD009CD308 /* PlayRTCDataObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataObserver.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCDataObserver.h"; sourceTree = "<group>"; };
+		337B0A7A1C1FFACD009CD308 /* PlayRTCDataSendObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDataSendObserver.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCDataSendObserver.h"; sourceTree = "<group>"; };
+		337B0A7B1C1FFACD009CD308 /* PlayRTCDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCDefine.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCDefine.h"; sourceTree = "<group>"; };
+		337B0A7C1C1FFACD009CD308 /* PlayRTCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCFactory.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCFactory.h"; sourceTree = "<group>"; };
+		337B0A7D1C1FFACD009CD308 /* PlayRTCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCMedia.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCMedia.h"; sourceTree = "<group>"; };
+		337B0A7E1C1FFACD009CD308 /* PlayRTCObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCObserver.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCObserver.h"; sourceTree = "<group>"; };
+		337B0A7F1C1FFACD009CD308 /* PlayRTCReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCReport.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCReport.h"; sourceTree = "<group>"; };
+		337B0A801C1FFACD009CD308 /* PlayRTCServiceHelperListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCServiceHelperListener.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCServiceHelperListener.h"; sourceTree = "<group>"; };
+		337B0A811C1FFACD009CD308 /* PlayRTCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCSettings.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCSettings.h"; sourceTree = "<group>"; };
+		337B0A821C1FFACD009CD308 /* PlayRTCStatReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCStatReport.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCStatReport.h"; sourceTree = "<group>"; };
+		337B0A831C1FFACD009CD308 /* PlayRTCStatsReportObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCStatsReportObserver.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCStatsReportObserver.h"; sourceTree = "<group>"; };
+		337B0A841C1FFACD009CD308 /* PlayRTCVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCVideoView.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCVideoView.h"; sourceTree = "<group>"; };
+		337B0A851C1FFACD009CD308 /* SDKEnvInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDKEnvInfo.h; path = "../PlayRTC-IOS-SDK/public/SDKEnvInfo.h"; sourceTree = "<group>"; };
+		337B0A861C1FFBB0009CD308 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = usr/lib/libm.dylib; sourceTree = SDKROOT; };
+		337B0A881C1FFBBF009CD308 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		337B0A8E1C1FFBE3009CD308 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		33FAEDD21B79B352004C5579 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -133,11 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				217E53811BAAB09F00F29265 /* libsqlite3.tbd in Frameworks */,
-				217E537F1BAAB09100F29265 /* libicucore.tbd in Frameworks */,
-				217E537D1BAAB08400F29265 /* libstdc++.tbd in Frameworks */,
-				217E537B1BAAB07800F29265 /* libm.tbd in Frameworks */,
-				217E53791BAAB07100F29265 /* libc++.tbd in Frameworks */,
+				337B0A741C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a in Frameworks */,
 				217E535D1BAAAF9D00F29265 /* VideoToolbox.framework in Frameworks */,
 				217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */,
 				217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */,
@@ -156,7 +156,6 @@
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
 				217E53571BAAAF6F00F29265 /* Foundation.framework in Frameworks */,
 				217E53501BAAAEED00F29265 /* UIKit.framework in Frameworks */,
-				21F865E01BF4847B008B9E06 /* libsktplayrtc.universal.r9720.2.2.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +253,13 @@
 		217E53551BAAAF5000F29265 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				337B0A8E1C1FFBE3009CD308 /* libc++.dylib */,
+				337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */,
+				337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */,
+				337B0A881C1FFBBF009CD308 /* libsqlite3.dylib */,
+				337B0A861C1FFBB0009CD308 /* libm.dylib */,
+				337B0A711C1FFAB8009CD308 /* icudtl.dat */,
+				337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */,
 				217E53801BAAB09F00F29265 /* libsqlite3.tbd */,
 				217E537E1BAAB09100F29265 /* libicucore.tbd */,
 				217E537C1BAAB08400F29265 /* libstdc++.tbd */,
@@ -284,8 +290,6 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
-				21F865DF1BF4847B008B9E06 /* libsktplayrtc.universal.r9720.2.2.0.a */,
-				335328C61B8D4E5E001B6FDC /* icudtl.dat */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;
@@ -294,19 +298,23 @@
 		332C33EB1B79C25E00D67DA8 /* public */ = {
 			isa = PBXGroup;
 			children = (
-				332C33EC1B79C27D00D67DA8 /* PlayRTC.h */,
-				332C33ED1B79C27D00D67DA8 /* PlayRTCData.h */,
-				332C33EE1B79C27D00D67DA8 /* PlayRTCDataHeader.h */,
-				332C33EF1B79C27D00D67DA8 /* PlayRTCDataObserver.h */,
-				332C33F01B79C27D00D67DA8 /* PlayRTCDataSendObserver.h */,
-				332C33F11B79C27D00D67DA8 /* PlayRTCDefine.h */,
-				332C33F21B79C27D00D67DA8 /* PlayRTCFactory.h */,
-				332C33F31B79C27D00D67DA8 /* PlayRTCMedia.h */,
-				332C33F41B79C27D00D67DA8 /* PlayRTCObserver.h */,
-				332C33F61B79C27D00D67DA8 /* PlayRTCServiceHelperListener.h */,
-				332C33F71B79C27D00D67DA8 /* PlayRTCSettings.h */,
-				332C33F81B79C27D00D67DA8 /* PlayRTCVideoView.h */,
-				332C33F91B79C27D00D67DA8 /* SDKEnvInfo.h */,
+				337B0A751C1FFACD009CD308 /* PlayRTC.h */,
+				337B0A761C1FFACD009CD308 /* PlayRTCConfig.h */,
+				337B0A771C1FFACD009CD308 /* PlayRTCData.h */,
+				337B0A781C1FFACD009CD308 /* PlayRTCDataHeader.h */,
+				337B0A791C1FFACD009CD308 /* PlayRTCDataObserver.h */,
+				337B0A7A1C1FFACD009CD308 /* PlayRTCDataSendObserver.h */,
+				337B0A7B1C1FFACD009CD308 /* PlayRTCDefine.h */,
+				337B0A7C1C1FFACD009CD308 /* PlayRTCFactory.h */,
+				337B0A7D1C1FFACD009CD308 /* PlayRTCMedia.h */,
+				337B0A7E1C1FFACD009CD308 /* PlayRTCObserver.h */,
+				337B0A7F1C1FFACD009CD308 /* PlayRTCReport.h */,
+				337B0A801C1FFACD009CD308 /* PlayRTCServiceHelperListener.h */,
+				337B0A811C1FFACD009CD308 /* PlayRTCSettings.h */,
+				337B0A821C1FFACD009CD308 /* PlayRTCStatReport.h */,
+				337B0A831C1FFACD009CD308 /* PlayRTCStatsReportObserver.h */,
+				337B0A841C1FFACD009CD308 /* PlayRTCVideoView.h */,
+				337B0A851C1FFACD009CD308 /* SDKEnvInfo.h */,
 			);
 			name = public;
 			sourceTree = "<group>";
@@ -386,11 +394,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */,
 				217E533D1BAAAE7A00F29265 /* Main.storyboard in Resources */,
 				217E53401BAAAE7A00F29265 /* Images.xcassets in Resources */,
 				217E53431BAAAE7A00F29265 /* playrtc_icon_128.png in Resources */,
 				217E533C1BAAAE7A00F29265 /* LaunchScreen.xib in Resources */,
-				335328C81B8D4E6D001B6FDC /* icudtl.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,14 +561,23 @@
 					"$(PROJECT_DIR)/PlayRTC/public",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PlayRTCSample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PlayRTC",
+					"/Users/ds3grk/workspace/ios/PlayRTC-SDK/webrtc-libs/r9720",
+					"/Users/ds3grk/workspace/PlayRTC-Sample-Github/PlayRTC-IOS-SDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lsqlite3",
+					"-lm",
+					"-lstdc++",
+					"-licucore",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sktelecom.playrtc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = PlayRTCSample;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -595,13 +612,22 @@
 					"$(PROJECT_DIR)/PlayRTC/public",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PlayRTCSample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PlayRTC",
+					"/Users/ds3grk/workspace/ios/PlayRTC-SDK/webrtc-libs/r9720",
+					"/Users/ds3grk/workspace/PlayRTC-Sample-Github/PlayRTC-IOS-SDK",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lsqlite3",
+					"-lm",
+					"-lstdc++",
+					"-licucore",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sktelecom.playrtc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = PlayRTCSample;
 				TARGETED_DEVICE_FAMILY = 1;
