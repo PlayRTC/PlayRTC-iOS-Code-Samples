@@ -45,7 +45,7 @@
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
 		337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 337B0A711C1FFAB8009CD308 /* icudtl.dat */; };
-		337B0A741C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */; };
+		33808F3B1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,13 +100,7 @@
 		217E53721BAAB01500F29265 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		217E53741BAAB01D00F29265 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		217E53761BAAB02400F29265 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		217E53781BAAB07100F29265 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		217E537A1BAAB07800F29265 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
-		217E537C1BAAB08400F29265 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		217E537E1BAAB09100F29265 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
-		217E53801BAAB09F00F29265 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		337B0A711C1FFAB8009CD308 /* icudtl.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = icudtl.dat; path = "../PlayRTC-IOS-SDK/icudtl.dat"; sourceTree = "<group>"; };
-		337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.2.2.1.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r9720.2.2.1.a"; sourceTree = "<group>"; };
 		337B0A751C1FFACD009CD308 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = "../PlayRTC-IOS-SDK/public/PlayRTC.h"; sourceTree = "<group>"; };
 		337B0A761C1FFACD009CD308 /* PlayRTCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCConfig.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCConfig.h"; sourceTree = "<group>"; };
 		337B0A771C1FFACD009CD308 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCData.h"; sourceTree = "<group>"; };
@@ -129,6 +123,7 @@
 		337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		337B0A8E1C1FFBE3009CD308 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.2.2.2.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r9720.2.2.2.a"; sourceTree = "<group>"; };
 		33FAEDD21B79B352004C5579 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -137,7 +132,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337B0A741C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a in Frameworks */,
 				217E535D1BAAAF9D00F29265 /* VideoToolbox.framework in Frameworks */,
 				217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */,
 				217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */,
@@ -152,6 +146,7 @@
 				217E53651BAAAFC700F29265 /* AVFoundation.framework in Frameworks */,
 				217E53631BAAAFB700F29265 /* CoreFoundation.framework in Frameworks */,
 				217E535F1BAAAFA500F29265 /* AudioToolbox.framework in Frameworks */,
+				33808F3B1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a in Frameworks */,
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
 				217E53571BAAAF6F00F29265 /* Foundation.framework in Frameworks */,
@@ -258,13 +253,6 @@
 				337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */,
 				337B0A881C1FFBBF009CD308 /* libsqlite3.dylib */,
 				337B0A861C1FFBB0009CD308 /* libm.dylib */,
-				337B0A711C1FFAB8009CD308 /* icudtl.dat */,
-				337B0A721C1FFAB8009CD308 /* libsktplayrtc.universal.r9720.2.2.1.a */,
-				217E53801BAAB09F00F29265 /* libsqlite3.tbd */,
-				217E537E1BAAB09100F29265 /* libicucore.tbd */,
-				217E537C1BAAB08400F29265 /* libstdc++.tbd */,
-				217E537A1BAAB07800F29265 /* libm.tbd */,
-				217E53781BAAB07100F29265 /* libc++.tbd */,
 				217E53761BAAB02400F29265 /* QuartzCore.framework */,
 				217E53741BAAB01D00F29265 /* CoreGraphics.framework */,
 				217E53721BAAB01500F29265 /* CFNetwork.framework */,
@@ -290,6 +278,8 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
+				337B0A711C1FFAB8009CD308 /* icudtl.dat */,
+				33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;
@@ -466,6 +456,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -512,6 +503,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -543,7 +535,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;
@@ -594,7 +586,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;
