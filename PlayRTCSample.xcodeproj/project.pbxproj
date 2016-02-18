@@ -45,7 +45,7 @@
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
 		337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 337B0A711C1FFAB8009CD308 /* icudtl.dat */; };
-		33808F3B1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */; };
+		33BD650E1C75A47200CE7A7F /* libsktplayrtc.universal.r11145.2.2.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33BD650D1C75A47200CE7A7F /* libsktplayrtc.universal.r11145.2.2.3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,7 +123,7 @@
 		337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		337B0A8E1C1FFBE3009CD308 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r9720.2.2.2.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r9720.2.2.2.a"; sourceTree = "<group>"; };
+		33BD650D1C75A47200CE7A7F /* libsktplayrtc.universal.r11145.2.2.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r11145.2.2.3.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r11145.2.2.3.a"; sourceTree = "<group>"; };
 		33FAEDD21B79B352004C5579 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -140,13 +140,13 @@
 				217E536F1BAAB00300F29265 /* MobileCoreServices.framework in Frameworks */,
 				217E53611BAAAFAE00F29265 /* CoreTelephony.framework in Frameworks */,
 				217E536D1BAAAFED00F29265 /* CoreMedia.framework in Frameworks */,
+				33BD650E1C75A47200CE7A7F /* libsktplayrtc.universal.r11145.2.2.3.a in Frameworks */,
 				217E536B1BAAAFE100F29265 /* CoreAudio.framework in Frameworks */,
 				217E53691BAAAFD800F29265 /* GLKit.framework in Frameworks */,
 				217E53671BAAAFCF00F29265 /* CoreVideo.framework in Frameworks */,
 				217E53651BAAAFC700F29265 /* AVFoundation.framework in Frameworks */,
 				217E53631BAAAFB700F29265 /* CoreFoundation.framework in Frameworks */,
 				217E535F1BAAAFA500F29265 /* AudioToolbox.framework in Frameworks */,
-				33808F3B1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a in Frameworks */,
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
 				217E53571BAAAF6F00F29265 /* Foundation.framework in Frameworks */,
@@ -278,8 +278,8 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
+				33BD650D1C75A47200CE7A7F /* libsktplayrtc.universal.r11145.2.2.3.a */,
 				337B0A711C1FFAB8009CD308 /* icudtl.dat */,
-				33808F3A1C59A92500BEED55 /* libsktplayrtc.universal.r9720.2.2.2.a */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;

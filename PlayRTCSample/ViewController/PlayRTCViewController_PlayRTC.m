@@ -224,8 +224,8 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.video setEnable:TRUE];
         [config.video setCameraType:CameraTypeFront];
         // sdk support only 640x480
-        [config.video setMaxFrameSize:640 height:640];
-        [config.video setMinFrameSize:640 height:480];
+        [config.video setMaxFrameSize:640 height:480];
+        [config.video setMinFrameSize:352 height:288];
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
         [config.bandwidth setVideoBitrateKbps:2500];
@@ -244,8 +244,8 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.video setEnable:TRUE];
         [config.video setCameraType:CameraTypeFront];
         // sdk support only 640x480
-        [config.video setMaxFrameSize:640 height:640];
-        [config.video setMinFrameSize:640 height:480];
+        [config.video setMaxFrameSize:640 height:480];
+        [config.video setMinFrameSize:352 height:288];
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
         [config.bandwidth setVideoBitrateKbps:2500];
