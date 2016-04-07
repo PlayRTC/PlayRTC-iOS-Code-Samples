@@ -14,14 +14,14 @@
 
 @interface PlayRTCViewController(PlayRTC)
 
+/**
+ * SDK 설정 객체인 PlayRTCConfig를 생성한 후 PlayRTC 인스턴스를 생성.
+ */
 - (void)createPlayRTCHandler;
-// sdk 1.1.0
-- (PlayRTCSettings*)createPlayRTCSettings;
-// sdk 2.2.0
 - (PlayRTCConfig*)createPlayRTCConfiguration;
 - (void)createChannel:(NSString*)channelName userId:(NSString*)userId;
 - (void)connectChannel:(NSString*)channelId userId:(NSString*)userId;
-- (void)disconnectChannel:(NSString*)peerId;
+- (void)disconnectChannel;
 - (void)deleteChannel;
 - (void)sendDataChannelText;
 - (void)sendDataChannelBinary;

@@ -63,6 +63,7 @@
         self.prevText = nil;
         hasPrevText = FALSE;
         
+        isChannelConnected = FALSE;
         [self createPlayRTCHandler];
         
         
@@ -194,17 +195,14 @@
     self.token = nil;
     self.userUid = nil;
     channelPopup = nil;
-    NSLog(@"remoteVideoView removeFromSuperview");
+
     [self.remoteVideoView removeFromSuperview];
-    NSLog(@"remoteVideoView relaese");
     self.remoteVideoView = nil;
-    NSLog(@"localVideoView removeFromSuperview");
+    
     [self.localVideoView removeFromSuperview];
-    NSLog(@"localVideoView relaese");
     self.localVideoView = nil;
     
     self.playRTC = nil;
-    
     self.prevText = nil;
 }
 
@@ -238,9 +236,18 @@
 
 - (void) onLeftTitleBarButton:(id)sender
 {
-    
-
     NSLog(@"[%@] onLeftTitleBarButton Click !!!", LOG_TAG);
+    
+    if(isChannelConnected == TRUE) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"PlayRTC 채널에 입장해 있습니다.\n먼저 채널연결을 해제하세요."
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"확인", nil];
+        [alert show];
+        return;
+    }
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                     message:@"종료할까요?종료를 누르면 이전화면으로 이동합니다."
                                                    delegate:self
@@ -253,8 +260,6 @@
 
 - (void) onRightTitleBarButton:(id)sender
 {
-    
-    //release the popover content
     
     NSLog(@"[%@] onRightTitleBarButton Click !!!", LOG_TAG);
     [self showControlButtons];

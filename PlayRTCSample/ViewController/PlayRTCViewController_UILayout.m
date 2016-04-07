@@ -39,7 +39,9 @@
      */
     CGRect videoFrame = mainFrame;
     videoFrame.size.height = mainFrame.size.height;
-    videoFrame.size.width = videoFrame.size.height / 0.75f;
+    // 사이즈 조정, 높이 기준으로 4(폭):3(높이)으로 재 조정
+    // 4:3 = width:height ,  width = ( 4 * height) / 3
+    videoFrame.size.width = (4.0f * videoFrame.size.height) / 3.0f;
     videoFrame.origin.y=0;
     
     // PlayRTCVideoView의 부모 뷰 생성
@@ -226,7 +228,7 @@
     }
     
     // 영상 + 음성 + Data , 영상 + 음성 : 화면 중앙에 영상뷰가 있으므로 로그뷰는 화면 좌측 Hidden 처리
-    // 영상을 사용하지 않으면 로그뷰는 화면 중앙에 위치 하게 되브로 버튼 사용 않함
+    // 영상을 사용하지 않으면 로그뷰는 화면 중앙에 위치 하게 되므로 버튼 사용 않함
     if(playrtcType == 1 || playrtcType == 2)
     {
         ExButton* dcLogBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
@@ -248,15 +250,27 @@
     [chlPopupBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [mainAreaView addSubview:chlPopupBtn];
     
+    
     posY = posY + btnHeight + lbtnTm;
     posY += 20.0f;
+    
+    // PlayRTC 채널 퇴장 버튼
+    ExButton* chPeerCloseBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
+    [chPeerCloseBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    chPeerCloseBtn.tag = 6;
+    chPeerCloseBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [chPeerCloseBtn setTitle:@"채널퇴장" forState:UIControlStateNormal];
+    [chPeerCloseBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [mainAreaView addSubview:chPeerCloseBtn];
+    
+    posY = posY + btnHeight + lbtnTm;
 
-    // PlayRTC 종료 버튼
+    // PlayRTC 채널 종료 버튼
     ExButton* chCloseBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
     [chCloseBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    chCloseBtn.tag = 6;
+    chCloseBtn.tag = 7;
     chCloseBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
-    [chCloseBtn setTitle:@"Close" forState:UIControlStateNormal];
+    [chCloseBtn setTitle:@"채널종료" forState:UIControlStateNormal];
     [chCloseBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [mainAreaView addSubview:chCloseBtn];
     
@@ -375,7 +389,11 @@
     {
         [channelPopup show: 0.0f];
     }
-    else if(tag == 6) //Channel Close
+    else if(tag == 6) //Channel 퇴장
+    {
+        [self performSelector:@selector(disconnectChannel) withObject:nil afterDelay:0.1];
+    }
+    else if(tag == 7) //Channel Close
     {
         [self performSelector:@selector(deleteChannel) withObject:nil afterDelay:0.1];
     }
@@ -488,7 +506,13 @@
     
     
     self.remoteVideoView =  [[PlayRTCVideoView alloc] initWithFrame:bounds];
-    
+    /*
+     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
+     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
+     * v2.2.4 추가
+     */
+    [self.remoteVideoView bgClearColorWithRed:0.5f green:0.5f blue:0.5f alpha:1.0f];
+    [self.remoteVideoView bgClearColor];
     
     CGRect localVideoFrame = videoFrame;
     localVideoFrame.size.width = localVideoFrame.size.width * 0.35;
@@ -498,6 +522,14 @@
     
     
     self.localVideoView =  [[PlayRTCVideoView alloc] initWithFrame:localVideoFrame];
+    /*
+     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
+     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
+     * v2.2.4 추가
+     */
+    [self.localVideoView bgClearColorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+    [self.localVideoView bgClearColor];
+
     
     [parent addSubview:self.remoteVideoView];
     [parent addSubview:self.localVideoView];
@@ -507,13 +539,13 @@
 
 - (void)appendLogView:(NSString*)insertingString
 {
-    if(hasPrevText == TRUE)
-    {
-        hasPrevText = FALSE;
-        self.prevText = @"";
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        leftTopView.text = [[leftTopView.text stringByAppendingString:@"\n"] stringByAppendingString:insertingString];
+        if(hasPrevText == TRUE)
+        {
+            hasPrevText = FALSE;
+            self.prevText = @"";
+        }
+        leftTopView.text = [NSString stringWithFormat:@"%@%@\n",leftTopView.text, insertingString];
         NSRange range = NSMakeRange(leftTopView.text.length - 1, 1);
         [leftTopView scrollRangeToVisible:range];
     });
@@ -521,13 +553,15 @@
 }
 - (void)progressLogView:(NSString*)insertingString
 {
-    if(hasPrevText == FALSE)
-    {
-        hasPrevText = TRUE;
-        self.prevText = leftTopView.text;
-    }
-    NSString* msg = [NSString stringWithFormat:@"\n%@\n%@", self.prevText, insertingString];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        if(hasPrevText == FALSE)
+        {
+            hasPrevText = TRUE;
+            self.prevText = leftTopView.text;
+        }
+        NSString* msg = [NSString stringWithFormat:@"%@%@\n", self.prevText, insertingString];
+        
         leftTopView.text = msg;
         NSRange range = NSMakeRange(leftTopView.text.length - 1, 1);
         [leftTopView scrollRangeToVisible:range];

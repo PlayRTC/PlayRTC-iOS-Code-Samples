@@ -105,7 +105,7 @@
     lblt.textAlignment = NSTextAlignmentLeft;
     lblt.font =[UIFont systemFontOfSize:24.0f];
     lblt.textColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:1.0f];
-    lblt.text = @"SKT PlayRTC Sample For v2.2.2";
+    lblt.text = @"SKT PlayRTC Sample For v2.2.4";
     [self.view addSubview:lblt];
 
     

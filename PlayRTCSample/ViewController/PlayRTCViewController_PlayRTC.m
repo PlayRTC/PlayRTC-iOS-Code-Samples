@@ -133,86 +133,34 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 #pragma mark - PlayRTCViewController(PlayRTC)
 
-
+/*
+ * SDK 설정 객체인 PlayRTCConfig를 생성한 후 PlayRTC 인스턴스를 생성.
+ */
 -(void)createPlayRTCHandler
 {
-    /*
-    // v1.1.0
-    // PlayRTCSettings 생성 및 설정
-    PlayRTCSettings* settings = [self createPlayRTCSettings];
-    self.playRTC = [PlayRTCFactory newInstance:settings observer:(id<PlayRTCObserver>)self];
-    */
-    // v2.2.0
     // PlayRTCConfig 생성 및 설정
     PlayRTCConfig* config = [self createPlayRTCConfiguration];
-    self.playRTC = [PlayRTCFactory createPlayRTC:config observer:(id<PlayRTCObserver>)self];
-
     
-}
-
-/*
- * PlayRTCSettings 인스턴스 생성
- * sdk 1/1/0
- */
-- (PlayRTCSettings*)createPlayRTCSettings
-{
-    PlayRTCSettings* settings = [[PlayRTCSettings alloc] init];
-    [settings setTDCProjectId:TDCProjectId];
-    [settings setTDCLicense:TDCLicense];
-    [settings.channel setRing:FALSE];
-    
-    // PlayRTC 서비스의 TURN 서버 이외의 외부 TURN을 사용할 경우 아래와 같이 지정
-    //[settings.iceServers resetIceServer:@"turn:IP:PORT" username:@"USER-ID" credential:@"PASSWORD"];
-    
-    
-    /**
-     * playrtcType : int Sample App 유형
-     *      1: 영상 + 음성 + Data
-     *      2: 영상 + 음성
-     *      3: 음성 Only
-     *      4: Data Only
+    /*
+     * PlayRTC 인터페이스를 구현한 객체 인스턴스를 생성하고 PlayRTC를 반환한다. static
+     *
+     * @param config PlayRTCConfig, PlayRTC 서비스 설정 정보 객체
+     * @param observer PlayRTCObserver, PlayRTC Event 리스너
+     * @return PlayRTC
      */
-    if(self.playrtcType == 1) {
-        //영상 + 음성 + Data
-        [settings setVideoEnable:TRUE];
-        [settings setAudioEnable:TRUE];
-        [settings setDataEnable:TRUE];
-        [settings.video setFrontCameraEnable:TRUE]; // 전면 카메라 사용, Default
-        [settings.video setBackCameraEnable:FALSE]; // 후면 카메라 시용
-    }
-    else if(self.playrtcType == 2) {
-        // 영상 + 음성
-        [settings setVideoEnable:TRUE];
-        [settings setAudioEnable:TRUE];
-        [settings setDataEnable:FALSE];
-        [settings.video setFrontCameraEnable:TRUE];
-        [settings.video setBackCameraEnable:FALSE];
-    }
-    else if(self.playrtcType == 3) {
-        // 음성 Only
-        [settings setVideoEnable:FALSE];
-        [settings setAudioEnable:TRUE];
-        [settings setDataEnable:FALSE];
-        [settings.video setFrontCameraEnable:FALSE];
-        [settings.video setBackCameraEnable:FALSE];
-    }
-    else {
-        // Data Only
-        [settings setVideoEnable:FALSE];
-        [settings setAudioEnable:FALSE];
-        [settings setDataEnable:TRUE];
-        [settings.video setFrontCameraEnable:FALSE];
-        [settings.video setBackCameraEnable:FALSE];
-    }
-    [settings.log.console setLevel:LOG_TRACE];
-    
-    return settings;
+    self.playRTC = [PlayRTCFactory createPlayRTC:config
+                                        observer:(id<PlayRTCObserver>)self];
+
     
 }
 
 /*
- * PlayRTCSettings 인스턴스 생성
- * sdk 1/1/0
+ * PlayRTCConfig 인스턴스 생성
+ * playrtcType
+ * 1. 영상, 음성, p2p data
+ * 2. 영상, 음성
+ * 3. 음성, only
+ * 4. p2p data only
  */
 - (PlayRTCConfig*)createPlayRTCConfiguration
 {
@@ -220,16 +168,31 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     [config setProjectId:TDCProjectId];
     [config setRingEnable:FALSE];
     
+    // 영상, 음성, p2p data
     if(self.playrtcType == 1) {
+        
+        /*
+         * 영상 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         */
         [config.video setEnable:TRUE];
+        
+        //카메라 유형 or CameraTypeBack
         [config.video setCameraType:CameraTypeFront];
+        
         // sdk support only 640x480
         [config.video setMaxFrameSize:640 height:480];
-        [config.video setMinFrameSize:352 height:288];
+        [config.video setMinFrameSize:640 height:480];
+        
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
-        [config.bandwidth setVideoBitrateKbps:2500];
         
+        [config.bandwidth setVideoBitrateKbps:1500];
+        
+        /*
+         * 음성 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         */
         [config.audio setEnable:TRUE];
         [config.bandwidth setAudioBitrateKbps:35];
         [config.audio setEchoCancellationEnable:TRUE];
@@ -237,19 +200,35 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setNoiseSuppressionEnable:TRUE];
         [config.audio setHighpassFilterEnable:TRUE];
         
+        // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:TRUE];
         
     }
+    // 영상, 음성
     else if(self.playrtcType == 2) {
+        
+        /*
+         * 영상 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         */
         [config.video setEnable:TRUE];
+        
+        //카메라 유형 or CameraTypeBack
         [config.video setCameraType:CameraTypeFront];
+        
         // sdk support only 640x480
         [config.video setMaxFrameSize:640 height:480];
-        [config.video setMinFrameSize:352 height:288];
+        [config.video setMinFrameSize:640 height:480];
+        
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
-        [config.bandwidth setVideoBitrateKbps:2500];
         
+        [config.bandwidth setVideoBitrateKbps:1500];
+        
+        /*
+         * 음성 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         */
         [config.audio setEnable:TRUE];
         [config.bandwidth setAudioBitrateKbps:35];
         [config.audio setEchoCancellationEnable:TRUE];
@@ -257,11 +236,22 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setNoiseSuppressionEnable:TRUE];
         [config.audio setHighpassFilterEnable:TRUE];
         
+        // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:FALSE];
     }
+    // 음성, only
     else if(self.playrtcType == 3) {
+        
+        /*
+         * 영상 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         */
         [config.video setEnable:FALSE];
         
+        /*
+         * 음성 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         */
         [config.audio setEnable:TRUE];
         [config.bandwidth setAudioBitrateKbps:35];
         [config.audio setEchoCancellationEnable:TRUE];
@@ -269,11 +259,23 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setNoiseSuppressionEnable:TRUE];
         [config.audio setHighpassFilterEnable:TRUE];
         
+        // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:FALSE];
     }
+    // p2p data only
     else {
-        [config.video setEnable:TRUE];
-        [config.audio setEnable:TRUE];
+        
+        /*
+         * 영상 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         */
+        [config.video setEnable:FALSE];
+        
+        /*
+         * 음성 스트림 전송 사용.
+         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         */
+        [config.audio setEnable:FALSE];
         [config.data setEnable:TRUE];
     }
     [config.log.console setLevel:LOG_TRACE];
@@ -393,24 +395,28 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     [self.playRTC connectChannel:self.channelId parameters:parameters];
 }
 /**
- * 특정 사용자를 채널에서 퇴장시킨다.
+ * 입장해 있는 채널에서 퇴장시킨다.
  * 채널에서 퇴장하는 사용자는 onDisconnectChannel
  * 채널에 있는 다른 시용자는 onOtherDisconnectChannel 이벤트를 받는다.
- * peerId : NSString, PlayRTC 서비스에서 발급한 사용자 아이디
+ * onOtherDisconnectChannel이 호출 되는 상대방 사용자는 채널 서비스에 입장해 있는 상태이므로,
+ * 새로운 사용자가 채널에 입장하면 P2P연결을 할 수 있다.
  */
-- (void)disconnectChannel:(NSString*)peerId
+- (void)disconnectChannel
 {
     if(self.playRTC == nil) {
         PlayRTCViewController* viewcontroller = (PlayRTCViewController*)[self.navigationController popViewControllerAnimated:TRUE];
         viewcontroller = nil;
         return;
     }
-    [self.playRTC disconnectChannel:peerId];
+    // 입장해 있는 채널에서 특정 사용자(자신 아이디를 사용함) 퇴장시킨다.
+    [self.playRTC disconnectChannel:[self.playRTC getPeerId]];
 }
 
 /**
  * 입장해 있는 채널을 닫는다.
- * 채널에 있는 모든 시용자는 onDisconnectChannel 이벤트를 받는다.
+ * 채널 종료를 호출하면 채널에 있는 모든 사용자는 onDisconnectChannel이 호출된다.
+ * onDisconnectChannel이 호출되면 PlayRTC 인스턴스는 더이상 사용할 수 없다.
+ * P2P를 새로 연결하려면 PlayRTC 인스턴스를 다시 생성하여 채널 서비스에 입장해야 한다.
  */
 - (void)deleteChannel
 {
@@ -425,6 +431,10 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     [self.playRTC deleteChannel];
 }
 
+/**
+ * 전/후방 카메라 전환
+ * P2P 연결이 되어 있어야 동작한다.
+ */
 - (void)switchCamera
 {
     if(self.playRTC == nil) {
@@ -453,10 +463,13 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     // 채널 팝업에 생성된 채널 아이디를 넘겨 표시하고, 창을 숨긴다.
     [channelPopup setChannelId:self.channelId];
     [channelPopup hide];
+    
+    isChannelConnected = TRUE;
 }
 
 /*
- * 상대방의 연결 요청을 빋는 경우 호출 됨
+ * PlayRTCConfig Channel의 ring = true 설정 시 나중에 채널에 입장한 사용자 측에서
+ * 연결 수락 의사를 물어옴. ring 설정은 상호간에 동일해야한다.
  * obj : PlayRTC 인스턴스
  * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달항 사용자 아이디
@@ -503,6 +516,8 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 /*
  * 상대방의 사용자 정의 문자열을 수신한 경우 호출됨
+ * Application에서 정의한 JSON String 또는 Command 문자열을 주고 받아 원하는 용도로 사용할 수 있다.
+ * 예를 들어 상대방 단말제어.
  * obj : PlayRTC 인스턴스
  * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달항 사용자 아이디
@@ -573,13 +588,17 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 }
 
 /*
- * 채널 서비스에서 퇴장을 알리는 이벤트를 받을 때.
+ * 채널이 종료 되거나, 내가 채널에서 퇴장할 때 호출
  * deleteChannel 또는 자신이 disconnectChannel를 호출한 경우
+ * PlayRTC 인스턴스는 재사용 할수 없다.(내부 P2P 객체 해제됨)
  * obj : PlayRTC 인스턴스
  * reason : NSString, 이벤트 종류. 자신의 채널 퇴장 시 "disconnect". 채날 종료 시 "delete"
  */
 -(void)onDisconnectChannel:(PlayRTC*)obj reason:(NSString*)reason
 {
+    //P2P 상태 리포트 구동 중지
+    [obj stopStatsReport];
+    
     NSLog(@"[PlayRTCViewController] onDisconnectChannel reason[%@]", reason);
     [self appendLogView:[NSString stringWithFormat:@"[PlayRTC] onDisconnectChannel reason[%@]", reason]];
     
@@ -592,6 +611,9 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     {
         msg = @"PlayRTC 채널이 종료되었습니다.\n확인 버튼을 누르면 이전화면으로 이동합니다.";
     }
+    
+    isChannelConnected = FALSE;
+    
     // 확인 버튼을 부르면 이전 화면으로 이동하도록 처리
     // PlayRTCViewController.m 파일  alertView:didDismissWithButtonIndex: 에서 처리
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"채널 퇴장"
@@ -604,20 +626,31 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 }
 
 /*
- * 상대방이 채널에서 퇴장할 때.
- * 상대방이 disconnectChannel를 호출한 경우
+ * 상대가 disconnectChannel을 호출하여 채널에서 퇴장할 때 호출된다.
+ * 자신은 아직 채널 서비스에 입장해 있는 상태이므로, 채널 서비스에 추가로 입장한 사용자와 P2P연결을 수립 할 수 있다.
  * obj : PlayRTC 인스턴스
  * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달한 사용자 아이디
  */
 -(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid
 {
+    //P2P 상태 리포트 구동 중지
+    [obj stopStatsReport];
+    
     // 상대방의 채널 퇴장을 알린다.
     // PlayRTC를 종료하려면 자신도 채널 퇴장)disconnectChannel)하거나 채널 종료(deleteChannel)를시켜야한다.
     NSLog(@"[PlayRTCViewController] onOtherDisconnectChannel peerId[%@] peerUid[%@]", peerId, peerUid);
     [self appendLogView:[NSString stringWithFormat:@"[PlayRTC] onOtherDisconnectChannel peerId[%@]", peerId]];
+    
+    // 상대방 스트림이 멈추면 View에 마지막 화면 잔상이 남는다.
+    // 뷰 생성 시 지정한 배경 색으로 화면을 초기화 한다.
+    // new 2.2.4
+    if(self.remoteVideoView != nil)
+    {
+        [self.remoteVideoView bgClearColor];
+    }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:[NSString stringWithFormat:@"[%@]가 채널에서 퇴장하였습니다....\n기능버튼 Close을 눌러 PlayRTC를 종료세요.", peerUid]
+                                                    message:[NSString stringWithFormat:@"[%@]가 채널에서 퇴장하였습니다....", peerUid]
                                                    delegate:nil
                                           cancelButtonTitle:nil
                                           otherButtonTitles:@"확인", nil];
@@ -638,6 +671,10 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
           [self getPlayRTCStatusString:status], // to string
           [self getPlayRTCCodeString:code], // to string
           desc);
+    
+    //P2P 상태 리포트 구동 중지
+    [obj stopStatsReport];
+    
     [self appendLogView:[NSString stringWithFormat:@"[PlayRTC] onError status[%@] code[%@] desc[%@]",
                          [self getPlayRTCStatusString:status],
                          [self getPlayRTCCodeString:code],
@@ -654,7 +691,12 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  */
 -(void)onStateChange:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid status:(PlayRTCStatus)status desc:(NSString*)desc
 {
-    NSLog(@"[PlayRTCViewController] onStateChange peerId[%@] peerUid[%@] status[%@] desc[%@]", peerId, peerUid, [self getPlayRTCStatusString:status], desc);
+    NSString* sStatus = [self getPlayRTCStatusString:status];
+    NSLog(@"[PlayRTCViewController] onStateChange peerId[%@] peerUid[%@] status[%@] desc[%@]", peerId, peerUid, sStatus, desc);
+    [self appendLogView:[NSString stringWithFormat:@"onStateChange[%@]", sStatus]];
+    
+    // 최초 P2P연결 수립된 상태. 1번 호출
+    // 연결 수립 이후 네트워크 상태에 따라 연결 상태가 PeerDisconnected <-> PeerConnected 상태를 반복할 수 있다.
     if(status == PlayRTCStatusPeerSuccess) {
         // 5 sec
         [obj startStatsReport:5000 observer:(id<PlayRTCStatsReportObserver>)self];
@@ -663,6 +705,46 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 -(void)onStatsReport:(PlayRTCStatReport*)report
 {
+    /*
+     * PlayRTCStatReport 인터페이스 
+     *
+     * - (NSString*) getLocalCandidate;
+     *   자신의 ICE 서버 연결상태를 반환한다.
+     * - (NSString*) getRemoteCandidate;
+     *   상대방의 ICE 서버 연결상태를 반환한다.
+     * - (int) getLocalFrameWidth;
+     *   상대방에게 전송하는 영상의 해상도 가로 크기를 반환한다.
+     * - (int) getLocalFrameWidth;
+     *   상대방에게 전송하는 영상의 해상도 가로 크기를 반환한다.
+     * - (int) getLocalFrameHeight;
+     *   상대방에게 전송하는 영상의 해상도 세로 크기를 반환한다.
+     * - (int) getRemoteFrameWidth;
+     *   상대방 수신  영상의 해상도 가로 크기를 반환한다.
+     * - (int) getRemoteFrameHeight;
+     *   상대방 수신  영상의 해상도 세로 크기를 반환한다.
+     * - (int) getLocalFrameRate;
+     *   상대방에게 전송하는 영상의 Bit-Rate를 반환한다.
+     * - (int) getRemoteFrameRate;
+     *   상대방 수신  영상의 Bit-Rate를 반환한다.
+     * - (int) getAvailableSendBandWidth;
+     *   상대방에게 전송할 수 있는 네트워크 대역폭을 반환한다.
+     * - (int) getAvailableReceiveBandWidth;
+     *   상대방으로부터 수신할 수 있는 네트워크 대역폭을 반환한다.
+     * - (int) getRtt;
+     *   자신의 Rount Trip Time을 반환한다
+     * - (RatingValue*) getRttRating;
+     *   RTT값을기반으로 네트워크 상태를 5등급으로 분류하여 RttRating 를 반환한다.
+     * - (RatingValue*) getFractionRating;
+     *   Packet Loss 값을 기반으로 상대방의 영상 전송 상태를 5등급으로 분류하여 RatingValue 를 반환한다.
+     * - (RatingValue*) getLocalAudioFractionLost;
+     *   Packet Loss 값을 기반으로 자신의 음성 전송 상태를 5등급으로 분류하여RatingValue 를 반환한다.
+     * - (RatingValue*) getLocalVideoFractionLost;
+     *   Packet Loss 값을 기반으로 자신의 영상 전송 상태를 5등급으로 분류하여RatingValue 를 반환한다.
+     * - (RatingValue*) getRemoteAudioFractionLost;
+     *   Packet Loss 값을 기반으로 상대방의 음성 전송 상태를 5등급으로 분류하여RatingValue 를 반환한다.
+     * - (RatingValue*) getRemoteVideoFractionLost;
+     *   Packet Loss 값을 기반으로 상대방의 영상 전송 상태를 5등급으로 분류하여RatingValue 를 반환한다.
+     */
     RatingValue* rttRating = [report getRttRating];
     RatingValue* localVideoFl = [report getLocalVideoFractionLost];
     RatingValue* localAudioFl = [report getLocalAudioFractionLost];
@@ -1158,7 +1240,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     int64_t endElapsed = [[NSDate date] timeIntervalSince1970] *1000 - startElapsed;
     startElapsed = 0;
     NSLog(@"[PlayRTCViewController] DataChannel Send onSuccess peerId[%@] dataId[%lld][%lld - %lld]", peerId, dataId, size, endElapsed);
-    [self.viewcontroller appendLogView:[NSString stringWithFormat:@"[DataChannel] Send onSuccess dataId[%lld@]", dataId]];
+    [self.viewcontroller appendLogView:[NSString stringWithFormat:@"[DataChannel] Send onSuccess dataId[%lld]", dataId]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         dataChannelDelegate = nil;

@@ -28,12 +28,21 @@
     PlayRTCVideoView* remoteVideoView;
     CGSize _localVideoSize;
     CGSize _remoteVideoSize;
+    
+    // PlayRTC 인스턴스
     PlayRTC* playRTC;
+    
+    // 로컬 PlayRTCMedia 인스턴스
     __weak PlayRTCMedia* localMedia;
+    
+    // 상대방 PlayRTCMedia 인스턴스
     __weak PlayRTCMedia* remoteMedia;
+    
+    // P2P 데이터 통신 인스턴스
     __weak PlayRTCData* dataChannel;
 
-    UIImageView* imagView;
+    
+    // 화면 Layout , PlayRTCViewController(Layout)
     UIView* mainAreaView;
     UITextView* leftTopView;
     UIView* rightTopView;
@@ -57,6 +66,9 @@
     // 로깅 관련
     NSString* prevText;
     BOOL hasPrevText;
+    
+    // 채널 서비스 연결 여부 
+    BOOL isChannelConnected;
     
 }
 
