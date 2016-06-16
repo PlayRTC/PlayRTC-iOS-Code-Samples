@@ -13,8 +13,18 @@
 
 @protocol ChannelViewListener <NSObject>
 
+/**
+ * 채널 팝업에서 채널 생성 요청 버튼을 클릭 한 경우
+ * channelName : NSString, 채널의 별칭
+ * userId : NSString, 사용자의 Application에서 사용하는 User-ID
+ */
 - (void)onClickCreateChannel:(NSString*)channelName userId:(NSString*)userId;
-- (void)onClickConnectChannel:(NSString*)channelId userId:(NSString*)userId;
+/**
+ * 채널 팝업에서 채널 입장 요청 버튼을 클릭 한 경우
+ * chId : NSString, 채널의 아이디
+ * userId : NSString, 사용자의 Application에서 사용하는 User-ID
+ */
+- (void)onClickConnectChannel:(NSString*)chId userId:(NSString*)userId;
 
 @end
 

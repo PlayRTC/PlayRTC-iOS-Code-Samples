@@ -12,24 +12,29 @@
 #import "PlayRTCViewController.h"
 #import "PlayRTCViewController_PLayRTC.h"
 
-@interface PlayRTCViewController(Layout)
-{
-    
-    
-}
+@interface PlayRTCViewController(Layout)<SnapshotLayerObserver>
 
-- (void)initScreenLayoutView:(CGRect)frame;
-- (void)initVideoLayoutView:(UIView*)parent videoFrame:(CGRect)videoFrame;
-- (void)initLeftButtonLayout;
-- (void)initRightButtonLayout:(CGRect)frame;
-- (void)initRightTopButtonLayout;
-- (void)rightBtnClick:(id)sender event:(UIEvent *)event;
-- (void)leftBtnClick:(id)sender event:(UIEvent *)event;
-- (void)rightTopBtnClick:(id)sender event:(UIEvent *)event;
+// 화면 설정 시작
+- (void)createViewControllerLayout:(CGRect)frame;
+- (void)createTitleBarView:(CGRect)frame;
+- (void)createMainView:(CGRect)videoFrame;
+
+- (void)createMainLeftButtonLayout;
+- (void)createMainVideoLayout:(UIView*)parent videoFrame:(CGRect)videoFrame;
+- (void)createMainRightButtonLayout;
+- (void)createRightTopLayout;
+
+- (void)leftTitleBarBtnClick:(id)sender;
+- (void)rightTitleBarBtnClick:(id)sender;
+- (void)rightBtnClick:(id)sender;
+- (void)leftBtnClick:(id)sender;
+- (void)rightTopBtnClick:(id)sender;
 - (void)appendLogView:(NSString*)insertingString;
 - (void)progressLogView:(NSString*)insertingString;
-- (void)showControlButtons;
+- (void)showTopLeftControlButtons;
 
+/* SnapshotLayerObserver */
+- (void)onClickSnapshotButton:(BOOL)localView;
 @end
 
 #endif

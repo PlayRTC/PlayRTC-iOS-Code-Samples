@@ -44,8 +44,8 @@
 		217E53731BAAB01500F29265 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53721BAAB01500F29265 /* CFNetwork.framework */; };
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
-		337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */ = {isa = PBXBuildFile; fileRef = 337B0A711C1FFAB8009CD308 /* icudtl.dat */; };
-		3399B3911CB60E5E00D1E3F5 /* libsktplayrtc.universal.r11145.2.2.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3399B3901CB60E5E00D1E3F5 /* libsktplayrtc.universal.r11145.2.2.4.a */; };
+		3348E88A1CFBECF100A7FED8 /* SnapshotLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */; };
+		33D5C3C61CFBC4CD00AD5ABC /* libPlayRTC.universal.r12763.2.2.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D5C3C51CFBC4CD00AD5ABC /* libPlayRTC.universal.r12763.2.2.5.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,7 +100,8 @@
 		217E53721BAAB01500F29265 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		217E53741BAAB01D00F29265 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		217E53761BAAB02400F29265 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		337B0A711C1FFAB8009CD308 /* icudtl.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = icudtl.dat; path = "../PlayRTC-IOS-SDK/icudtl.dat"; sourceTree = "<group>"; };
+		3348E8881CFBECF100A7FED8 /* SnapshotLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnapshotLayerView.h; path = PlayRTCSample/View/SnapshotLayerView.h; sourceTree = SOURCE_ROOT; };
+		3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnapshotLayerView.m; path = PlayRTCSample/View/SnapshotLayerView.m; sourceTree = SOURCE_ROOT; };
 		337B0A751C1FFACD009CD308 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = "../PlayRTC-IOS-SDK/public/PlayRTC.h"; sourceTree = "<group>"; };
 		337B0A761C1FFACD009CD308 /* PlayRTCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCConfig.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCConfig.h"; sourceTree = "<group>"; };
 		337B0A771C1FFACD009CD308 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTCData.h; path = "../PlayRTC-IOS-SDK/public/PlayRTCData.h"; sourceTree = "<group>"; };
@@ -123,7 +124,7 @@
 		337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		337B0A8E1C1FFBE3009CD308 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		3399B3901CB60E5E00D1E3F5 /* libsktplayrtc.universal.r11145.2.2.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsktplayrtc.universal.r11145.2.2.4.a; path = "../PlayRTC-IOS-SDK/libsktplayrtc.universal.r11145.2.2.4.a"; sourceTree = "<group>"; };
+		33D5C3C51CFBC4CD00AD5ABC /* libPlayRTC.universal.r12763.2.2.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPlayRTC.universal.r12763.2.2.5.a; path = "../../PlayRTC-Sample-Github/PlayRTC-IOS-SDK/libPlayRTC.universal.r12763.2.2.5.a"; sourceTree = "<group>"; };
 		33FAEDD21B79B352004C5579 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -145,12 +146,12 @@
 				217E53671BAAAFCF00F29265 /* CoreVideo.framework in Frameworks */,
 				217E53651BAAAFC700F29265 /* AVFoundation.framework in Frameworks */,
 				217E53631BAAAFB700F29265 /* CoreFoundation.framework in Frameworks */,
-				3399B3911CB60E5E00D1E3F5 /* libsktplayrtc.universal.r11145.2.2.4.a in Frameworks */,
 				217E535F1BAAAFA500F29265 /* AudioToolbox.framework in Frameworks */,
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
 				217E53571BAAAF6F00F29265 /* Foundation.framework in Frameworks */,
 				217E53501BAAAEED00F29265 /* UIKit.framework in Frameworks */,
+				33D5C3C61CFBC4CD00AD5ABC /* libPlayRTC.universal.r12763.2.2.5.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +223,8 @@
 		217E532D1BAAAE7A00F29265 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3348E8881CFBECF100A7FED8 /* SnapshotLayerView.h */,
+				3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,8 +281,7 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
-				3399B3901CB60E5E00D1E3F5 /* libsktplayrtc.universal.r11145.2.2.4.a */,
-				337B0A711C1FFAB8009CD308 /* icudtl.dat */,
+				33D5C3C51CFBC4CD00AD5ABC /* libPlayRTC.universal.r12763.2.2.5.a */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;
@@ -358,6 +360,7 @@
 				TargetAttributes = {
 					33FAEDD11B79B352004C5579 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = JEEXRMT46Y;
 					};
 				};
 			};
@@ -384,7 +387,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337B0A731C1FFAB8009CD308 /* icudtl.dat in Resources */,
 				217E533D1BAAAE7A00F29265 /* Main.storyboard in Resources */,
 				217E53401BAAAE7A00F29265 /* Images.xcassets in Resources */,
 				217E53431BAAAE7A00F29265 /* playrtc_icon_128.png in Resources */,
@@ -405,6 +407,7 @@
 				217E53451BAAAE7A00F29265 /* MainViewController.m in Sources */,
 				217E534B1BAAAE7A00F29265 /* ExTabButton.m in Sources */,
 				217E533B1BAAAE7A00F29265 /* AppDelegate.m in Sources */,
+				3348E88A1CFBECF100A7FED8 /* SnapshotLayerView.m in Sources */,
 				217E534C1BAAAE7A00F29265 /* ExTableCell.m in Sources */,
 				217E533F1BAAAE7A00F29265 /* ChannelView.m in Sources */,
 				217E534D1BAAAE7A00F29265 /* ExTableView.m in Sources */,
@@ -535,7 +538,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;
@@ -553,7 +556,7 @@
 					"$(PROJECT_DIR)/PlayRTC/public",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PlayRTCSample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -586,7 +589,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Doo-wook Im (Z48Z99LCPG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;
@@ -604,7 +607,7 @@
 					"$(PROJECT_DIR)/PlayRTC/public",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PlayRTCSample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

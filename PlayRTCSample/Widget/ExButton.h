@@ -15,6 +15,7 @@
     int touch_stat;
 
 }
+- (id)initWithCoder:(NSCoder *)aDecoder;
 - (id)initWithFrame:(CGRect)frame;
 - (void)dealloc;
 

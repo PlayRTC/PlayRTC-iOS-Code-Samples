@@ -21,7 +21,11 @@
     
     NSLog(@"[AppDelegate] application didFinishLaunchingWithOptions...");
     
-    MainViewController* viewController = [[MainViewController alloc] init];
+    //MainViewController* viewController = [[MainViewController alloc] init];
+    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MainViewController* viewController  = [sb instantiateViewControllerWithIdentifier:@"MainViewController"];
+
     
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     

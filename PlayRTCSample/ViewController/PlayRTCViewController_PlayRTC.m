@@ -17,42 +17,6 @@
 
 uint64_t startElapsed;
 
-// 상대방으로부터 Ring 요청을 받았을 때 사용자의 허락 여부를 붇기 위한 다이얼로그 관련 Delegate
-@class RingAlertViewDelegate;
-RingAlertViewDelegate* alertDelegate;
-
-@interface RingAlertViewDelegate : NSObject<UIAlertViewDelegate>
-{
-    __weak PlayRTC* playRTC;
-    NSString* tagetId;
-}
-@property (weak, nonatomic) PlayRTC* playRTC;
-@property (strong, nonatomic) NSString* tagetId;
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
-@end
-
-// 상대방으로부터 Ring 요청을 받았을 때 사용자의 허락 여부를 묻기 위한 다이얼로그 관련 Delegate 구현
-@implementation RingAlertViewDelegate
-@synthesize playRTC;
-@synthesize tagetId;
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    // accept
-    if (buttonIndex == 0) {
-        [self.playRTC accept:self.tagetId];
-    }
-    // reject
-    if (buttonIndex == 1) {
-        [self.playRTC reject:self.tagetId];
-    }
-    alertDelegate = nil;
-}
-
-- (void) dealloc {
-    self.playRTC = nil;
-    self.tagetId = nil;
-}
-@end
 
 /*
  * DataChannel의 Send dlqpsxm (PlayRTCDataSendObserver)를 받기 위한 객체 정의
@@ -80,7 +44,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 /*
  * PlayRTCObserver와 PlayRTCDataObserver를 구현한 객체
  */
-@interface PlayRTCViewController(PlayRTC_internal)<PlayRTCObserver, PlayRTCDataObserver, PlayRTCStatsReportObserver>
+@interface PlayRTCViewController(PlayRTC_internal)<PlayRTCObserver, PlayRTCDataObserver, PlayRTCStatsReportObserver, PlayRTCVideoViewSnapshotObserver>
 
 - (NSString*)getPlayRTCStatusString:(PlayRTCStatus)status;
 - (NSString*)getPlayRTCCodeString:(PlayRTCCode)code;
@@ -127,12 +91,29 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onStatsReport:(PlayRTCStatReport*)report;
 -(id)formatFileSize:(int)value;
 
+/* PlayRTCVideoViewSnapshotObserver v2.2.5*/
+-(void)onSnapshotImage:(UIImage*)image;
 @end
 
 @implementation PlayRTCViewController(PlayRTC)
 
 #pragma mark - PlayRTCViewController(PlayRTC)
 
+/* 
+ PlayRTC 관련 인스턴스 해제
+ */
+- (void)closePlayRtc
+{
+    if(self.playRTC) {
+        [self.playRTC close];
+        self.dataChannel = nil;
+        self.playRTC = nil;
+        self.localMedia = nil;
+        self.remoteMedia = nil;
+        self.channelId = nil;
+        self.token = nil;
+    }
+}
 /*
  * SDK 설정 객체인 PlayRTCConfig를 생성한 후 PlayRTC 인스턴스를 생성.
  */
@@ -177,16 +158,44 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          */
         [config.video setEnable:TRUE];
         
-        //카메라 유형 or CameraTypeBack
+        /**
+         * PlayRTC Video영상을 위한 카메라를 지정한다.
+         * @param camera CameraType
+         * @see PlayRTCDefine.h
+         *   CameraTypeFront : 전방 카메라
+         *   CameraTypeBack : 후방 카메라
+         */
         [config.video setCameraType:CameraTypeFront];
         
+        /*
+         * Video 영상의 선호 코덱을 지정, default VP8
+         * 상대방 SDK와의 협상과정에서 지정한 코덱이 반듯이 사용되는 것은 아니다.
+         * v2.2.5
+         * @param codec PlayRTCVideoCodec, PlayRTCDefine.h
+         *  - PlayRTCVP8
+         *  - PlayRTCVP9
+         *  - PlayRTCH264, Open H.264
+         */
+        PlayRTCVideoCodec videoCodec = PlayRTCVP8;
+        [config.video setPreferCodec:videoCodec];
+        
+        
         // sdk support only 640x480
+        /**
+         * ios sdk는 640x480 해상도만 지원하며, 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
+         * 현재 다른 해상도는 미지원
+         */
         [config.video setMaxFrameSize:640 height:480];
         [config.video setMinFrameSize:640 height:480];
         
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
         
+        /**
+         * PlayRTC Video-Stream BandWidth를 지정한다.
+         * 600 ~ 2500
+         * default 1500
+         */
         [config.bandwidth setVideoBitrateKbps:1500];
         
         /*
@@ -194,11 +203,24 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:TRUE];
-        [config.bandwidth setAudioBitrateKbps:35];
-        [config.audio setEchoCancellationEnable:TRUE];
-        [config.audio setAutoGainControlEnable:TRUE];
-        [config.audio setNoiseSuppressionEnable:TRUE];
-        [config.audio setHighpassFilterEnable:TRUE];
+        
+        /*
+         * Audio의 선호 코덱을 지정, default ISAC
+         * 상대방 SDK와의 협상과정에서 지정한 코덱이 반듯이 사용되는 것은 아니다.
+         * v2.2.5
+         * @param codec PlayRTCAudioCodec, PlayRTCDefine.h
+         *  - PlayRTCISAC,
+         *  - PlayRTCOPUS
+         */
+        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
+        [config.audio setPreferCodec:audioCodec];
+        
+        /**
+         * PlayRTC Audio-Stream BandWidth를 지정한다.
+         * default 32
+         * @param bitrateKbps int
+         */
+        [config.bandwidth setAudioBitrateKbps:32];
         
         // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:TRUE];
@@ -213,16 +235,44 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          */
         [config.video setEnable:TRUE];
         
-        //카메라 유형 or CameraTypeBack
+        /**
+         * PlayRTC Video영상을 위한 카메라를 지정한다.
+         * @param camera CameraType
+         * @see PlayRTCDefine.h
+         *   CameraTypeFront : 전방 카메라
+         *   CameraTypeBack : 후방 카메라
+         */
         [config.video setCameraType:CameraTypeFront];
         
+        /*
+         * Video 영상의 선호 코덱을 지정, default VP8
+         * 상대방 SDK와의 협상과정에서 지정한 코덱이 반듯이 사용되는 것은 아니다.
+         * v2.2.5
+         * @param codec PlayRTCVideoCodec, PlayRTCDefine.h
+         *  - PlayRTCVP8
+         *  - PlayRTCVP9
+         *  - PlayRTCH264, Open H.264
+         */
+        PlayRTCVideoCodec videoCodec = PlayRTCVP8;
+        [config.video setPreferCodec:videoCodec];
+
+        
         // sdk support only 640x480
+        /**
+         * ios sdk는 640x480 해상도만 지원하며, 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
+         * 현재 다른 해상도는 미지원
+         */
         [config.video setMaxFrameSize:640 height:480];
         [config.video setMinFrameSize:640 height:480];
         
         [config.video setMaxFrameRate:30];
         [config.video setMinFrameRate:15];
         
+        /**
+         * PlayRTC Video-Stream BandWidth를 지정한다.
+         * 600 ~ 2500
+         * default 1500
+         */
         [config.bandwidth setVideoBitrateKbps:1500];
         
         /*
@@ -230,11 +280,24 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:TRUE];
-        [config.bandwidth setAudioBitrateKbps:35];
-        [config.audio setEchoCancellationEnable:TRUE];
-        [config.audio setAutoGainControlEnable:TRUE];
-        [config.audio setNoiseSuppressionEnable:TRUE];
-        [config.audio setHighpassFilterEnable:TRUE];
+        
+        /*
+         * Audio의 선호 코덱을 지정, default ISAC
+         * 상대방 SDK와의 협상과정에서 지정한 코덱이 반듯이 사용되는 것은 아니다.
+         * v2.2.5
+         * @param codec PlayRTCAudioCodec, PlayRTCDefine.h
+         *  - PlayRTCISAC,
+         *  - PlayRTCOPUS
+         */
+        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
+        [config.audio setPreferCodec:audioCodec];
+
+        /**
+         * PlayRTC Audio-Stream BandWidth를 지정한다.
+         * default 32
+         * @param bitrateKbps int
+         */
+        [config.bandwidth setAudioBitrateKbps:32];
         
         // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:FALSE];
@@ -253,11 +316,24 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:TRUE];
-        [config.bandwidth setAudioBitrateKbps:35];
-        [config.audio setEchoCancellationEnable:TRUE];
-        [config.audio setAutoGainControlEnable:TRUE];
-        [config.audio setNoiseSuppressionEnable:TRUE];
-        [config.audio setHighpassFilterEnable:TRUE];
+        /*
+         * Audio의 선호 코덱을 지정, default ISAC
+         * 상대방 SDK와의 협상과정에서 지정한 코덱이 반듯이 사용되는 것은 아니다.
+         * v2.2.5
+         * @param codec PlayRTCAudioCodec, PlayRTCDefine.h
+         *  - PlayRTCISAC,
+         *  - PlayRTCOPUS
+         */
+        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
+        [config.audio setPreferCodec:audioCodec];
+        
+        /**
+         * PlayRTC Audio-Stream BandWidth를 지정한다.
+         * default 32
+         * @param bitrateKbps int
+         */
+        [config.bandwidth setAudioBitrateKbps:32];
+
         
         // P2P 데이터 교환을 위한 DataChannel 사용 여부
         [config.data setEnable:FALSE];
@@ -295,7 +371,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         dataChannelDelegate.viewcontroller = self;
         
         // 전송 할 데이터
-        NSString* sendData = @"DataChannel 한글 Text...";
+        NSString* sendData = @"DataChannel Hello 안녕하세요 こんにちは 你好...";
         [self.dataChannel sendText:sendData observer:dataChannelDelegate];
     }
 }
@@ -313,7 +389,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         dataChannelDelegate.viewcontroller = self;
         
         // 전송 할 데이터
-        NSString* sendText = @"DataChannel Text";
+        NSString* sendText = @"DataChannel Hello 안녕하세요 こんにちは 你好...";
         NSData* sendData = [sendText dataUsingEncoding:NSUTF8StringEncoding];
         [self.dataChannel sendByte:sendData mimeType:nil observer:dataChannelDelegate];
     }
@@ -340,7 +416,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 }
 #pragma mark - PlayRTC Methods
 /**
- * 채널 서비스에 채널 생성 요청
+ * 채널 서비스에 채널 생성 요청, 채널이 생성되면 채널에 입장 
  * channelName : NSString, 채널의 별칭
  * userId : NSString, 사용자의 Application에서 사용하는 User-ID
  */
@@ -369,7 +445,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 }
 
 /**
- * 채채널 입장 요청
+ * 채널 입장 요청
  * chId : NSString, 채널의 아이디
  * userId : NSString, 사용자의 Application에서 사용하는 User-ID
  */
@@ -433,7 +509,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 /**
  * 전/후방 카메라 전환
- * P2P 연결이 되어 있어야 동작한다.
+ * 채널에 연결이 되어 있어야 동작한다.
  */
 - (void)switchCamera
 {
@@ -444,6 +520,74 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     
     [self.playRTC switchCamera];
 }
+
+/**
+ * 후방 카메라 플래쉬 On/Off 전환
+ * 후방 카메라 사용중에만 동작한다.
+ */
+- (void)switchFlash
+{
+    if(self.playRTC == nil) {
+        
+        return;
+    }
+    if([self.playRTC isUsedBackCamera] == FALSE) {
+        
+        return;
+    }
+    BOOL flashOn = ![self.playRTC isBackCameraFlashOn];
+    [self.playRTC switchBackCameraFlashOn:flashOn];
+}
+/**
+ * 음성 Speaker 출력 시 Loud-Speaker <-> Ear-Speaker 전환
+ * enableAudioSession를 호출하여 AudioSession Manager를 활성화 시켜야 한다.
+ */
+- (BOOL)switchLoudSpeaker
+{
+    //음성 Speaker 출력 시 Loud-Speaker를 사용하도록 지정했는지 여부를 반환하는 인터페이스
+    BOOL isOn = ![playRTC getLoudspeakerStatus];
+    
+    //음성 Speaker 출력 시 Loud-Speaker를 지정하는 인터페이스
+    [playRTC setLoudspeakerEnable:isOn];
+    
+    
+    return [playRTC getLoudspeakerStatus];
+}
+
+/**
+ * Local PlayRTCVideoView Snapshot 이미지 생성
+ * 이미지 크기는 View Size와 동일
+ */
+- (void)localViewSnapshot
+{
+    /**
+     * Video View의 snapshot image를 생성한다.
+     * snapshot image를 전달 하기 위해 PlayRTCVideoViewSnapshotObserver 구현 객체를 전달 받는다.
+     * v2.2.5
+     */
+    [localVideoView snapshot:self];
+}
+
+/**
+ * Remote PlayRTCVideoView Snapshot 이미지 생성
+ * 이미지 크기는 View Size와 동일
+ */
+- (void)remoteViewSnapshot
+{
+    /**
+     * Video View의 snapshot image를 생성한다.
+     * snapshot image를 전달 하기 위해 PlayRTCVideoViewSnapshotObserver 구현 객체를 전달 받는다.
+     * v2.2.5
+     */
+    [remoteVideoView snapshot:self];
+}
+
+/* PlayRTCVideoViewSnapshotObserver v2.2.5*/
+-(void)onSnapshotImage:(UIImage*)image
+{
+    [snapshotView setSnapshotImage:image];
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
@@ -477,16 +621,26 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onRing:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid
 {
     self.ringPid = peerId;
-    alertDelegate = [[RingAlertViewDelegate alloc] init];
-    alertDelegate.playRTC = self.playRTC;
-    alertDelegate.tagetId = peerId;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:[NSString stringWithFormat:@"%@님이 연결을 요청하였습니다.", peerUid]
-                                                   delegate:alertDelegate
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:@"연결",@"거절", nil];
-    [alert show];
     
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"PlayRTC 연결 요청"
+                                                                   message:[NSString stringWithFormat:@"%@님이 연결을 요청하였습니다.", peerUid]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"연결"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action)
+                      {
+                          [self.playRTC accept:self.ringPid];
+                      }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"거절"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * action)
+                      {
+                          [self.playRTC reject:self.ringPid];
+                      }]];
+
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*
@@ -613,16 +767,21 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     }
     
     isChannelConnected = FALSE;
+
+    // 확인 버튼을 누르면 이전 화면으로 이동하도록 처리
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"채널 퇴장"
+                                                                   message:msg
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"확인"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action)
+                      {
+                          [self closeViewController];
+                      }]];
     
-    // 확인 버튼을 부르면 이전 화면으로 이동하도록 처리
-    // PlayRTCViewController.m 파일  alertView:didDismissWithButtonIndex: 에서 처리
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"채널 퇴장"
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:@"확인", nil];
-    alert.tag = 100;
-    [alert show];
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
 }
 
 /*
@@ -649,13 +808,15 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     {
         [self.remoteVideoView bgClearColor];
     }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:[NSString stringWithFormat:@"[%@]가 채널에서 퇴장하였습니다....", peerUid]
-                                                   delegate:nil
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:@"확인", nil];
-    [alert show];
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:[NSString stringWithFormat:@"[%@]가 채널에서 퇴장하였습니다....", peerUid]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"확인"
+                                              style:UIAlertActionStyleDefault
+                                            handler:nil]];
     
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*
@@ -706,12 +867,20 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onStatsReport:(PlayRTCStatReport*)report
 {
     /*
-     * PlayRTCStatReport 인터페이스 
+     * PlayRTCStatReport 인터페이스
      *
      * - (NSString*) getLocalCandidate;
      *   자신의 ICE 서버 연결상태를 반환한다.
      * - (NSString*) getRemoteCandidate;
      *   상대방의 ICE 서버 연결상태를 반환한다.
+     * - (NSString*) getLocalVideoCodec;
+     *   자신의 VideoCodec을 반환한다.
+     * - (NSString*) getLocalAudioCodec;
+     *   자신의 AudioCodec을 반환한다.
+     * - (NSString*) getRemoteVideoCodec;
+     *   상대방의 VideoCodec을 반환한다.
+     * - (NSString*) getRemoteAudioCodec;
+     *   상대방의 AudioCodec을 반환한다.
      * - (int) getLocalFrameWidth;
      *   상대방에게 전송하는 영상의 해상도 가로 크기를 반환한다.
      * - (int) getLocalFrameWidth;
@@ -723,9 +892,9 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
      * - (int) getRemoteFrameHeight;
      *   상대방 수신  영상의 해상도 세로 크기를 반환한다.
      * - (int) getLocalFrameRate;
-     *   상대방에게 전송하는 영상의 Bit-Rate를 반환한다.
+     *   상대방에게 전송하는 영상의 Frame-Rate(초당 이미지 전송 수)를 반환한다.
      * - (int) getRemoteFrameRate;
-     *   상대방 수신  영상의 Bit-Rate를 반환한다.
+     *   상대방 수신  영상의 Frame-Rate(초당 이미지 전송 수)를 반환한다.
      * - (int) getAvailableSendBandWidth;
      *   상대방에게 전송할 수 있는 네트워크 대역폭을 반환한다.
      * - (int) getAvailableReceiveBandWidth;
@@ -745,39 +914,41 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
      * - (RatingValue*) getRemoteVideoFractionLost;
      *   Packet Loss 값을 기반으로 상대방의 영상 전송 상태를 5등급으로 분류하여RatingValue 를 반환한다.
      */
+
     RatingValue* rttRating = [report getRttRating];
     RatingValue* localVideoFl = [report getLocalVideoFractionLost];
     RatingValue* localAudioFl = [report getLocalAudioFractionLost];
     RatingValue* remoteVideoFl = [report getRemoteVideoFractionLost];
     RatingValue* remoteAudioFl = [report getRemoteAudioFractionLost];
     
-    NSString* localReport = [NSString stringWithFormat:@"\nLocal Report\n    ICE:[%@]\n    %dx%dx%d\n    %@ps\n    RTT:%d\n    RTT-Ratting:[%d/%.6f]\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]",
-                            [report getLocalCandidate],
-                            [report getLocalFrameWidth],
-                            [report getLocalFrameHeight],
-                            [report getLocalFrameRate],
-                            [self formatFileSize:[report getAvailableSendBandwidth]],
-                            [report getRtt],
-                            [rttRating getLevel],
-                            [rttRating getValue],
-                            [localVideoFl getLevel],
-                            [localVideoFl getValue],
-                            [localAudioFl getLevel],
-                            [localAudioFl getValue]];
+    NSString* localReport = [NSString stringWithFormat:@"\nLocal Report\n    ICE:[%@]\n    %dx%dx%d\n    %@,%@\n    %@ps\n    RTT:%d\n    RTT-Ratting:[%d/%.6f]\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]",
+                             [report getLocalCandidate],
+                             [report getLocalFrameWidth],
+                             [report getLocalFrameHeight],
+                             [report getLocalFrameRate],
+                             [report getLocalVideoCodec],
+                             [report getLocalAudioCodec],
+                             [self formatFileSize:[report getAvailableSendBandwidth]],
+                             [report getRtt],
+                             [rttRating getLevel],
+                             [rttRating getValue],
+                             [localVideoFl getLevel],
+                             [localVideoFl getValue],
+                             [localAudioFl getLevel],
+                             [localAudioFl getValue]];
     
-    NSString* remoteReport = [NSString stringWithFormat:@"\nRemote Report\n    ICE:%@\n    %dx%dx%d\n    %@ps\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]\n",
-                            [report getRemoteCandidate],
-                            [report getRemoteFrameWidth],
-                            [report getRemoteFrameHeight],
-                            [report getRemoteFrameRate],
-                            [self formatFileSize:[report getAvailableReceiveBandwidth]],
-                            [remoteVideoFl getLevel],
-                            [remoteVideoFl getValue],
-                            [remoteAudioFl getLevel],
-                            [remoteAudioFl getValue]];
-
-    
-    
+    NSString* remoteReport = [NSString stringWithFormat:@"\nRemote Report\n    ICE:%@\n    %dx%dx%d\n    %@,%@\n    %@ps\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]\n",
+                              [report getRemoteCandidate],
+                              [report getRemoteFrameWidth],
+                              [report getRemoteFrameHeight],
+                              [report getRemoteFrameRate],
+                              [report getRemoteVideoCodec],
+                              [report getRemoteAudioCodec],
+                              [self formatFileSize:[report getAvailableReceiveBandwidth]],
+                              [remoteVideoFl getLevel],
+                              [remoteVideoFl getValue],
+                              [remoteAudioFl getLevel],
+                              [remoteAudioFl getValue]];
     
     NSLog(@"[PlayRTCViewController] \n%@%@%@%@",
           @"Stat Report ================================",
@@ -878,8 +1049,8 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     // 수신 데이터가 텍스트 구문이라면 단순 출력
     if([header getType] == DC_DATA_TYPE_TEXT)
     {
-        NSString* dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"[PlayRTCViewController] DataChannel onProgress Text[%@]", dataStr);
+       self.recvText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"[PlayRTCViewController] DataChannel onProgress Text[%@]", recvText);
         [self progressLogView:sMsg];
     }
     // 바이너리 인 경우
@@ -917,7 +1088,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     if([header getType] == DC_DATA_TYPE_TEXT)
     {
         NSLog(@"[PlayRTCViewController] DataChannel onFinishLoading Text...");
-        [self appendLogView:[NSString stringWithFormat:@"[DataChannel] onFinishLoading[Text]"]];
+        [self appendLogView:[NSString stringWithFormat:@"[DataChannel] onFinishLoading[Text] %@", recvText]];
     }
     else {
         NSString* fileName = [header getFileName];

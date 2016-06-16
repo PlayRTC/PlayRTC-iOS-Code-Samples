@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ChannelView.h"
+#import "SnapshotLayerView.h"
 
 #import "PlayRTCFactory.h"
 #import "PlayRTCVideoView.h"
@@ -51,10 +52,12 @@
     
     // 채널 생성 및 채널 입장 팝업
     ChannelView* channelPopup;
-
+    // snapshot view
+    SnapshotLayerView* snapshotView;
     
     NSFileHandle *myHandle;
     NSString *recvFile;
+    NSString *recvText;
 
     // PlayRTC
     // 1 : 영상 + 음성 + Data Type
@@ -71,7 +74,7 @@
     BOOL isChannelConnected;
     
 }
-
+@property (assign) int playrtcType;
 @property (nonatomic, copy) NSString* channelId;
 @property (nonatomic, copy) NSString* token;
 @property (nonatomic, copy) NSString* userUid;
@@ -82,16 +85,29 @@
 @property (nonatomic, weak) PlayRTCMedia* remoteMedia;
 @property (nonatomic, weak) PlayRTCData* dataChannel;
 @property (nonatomic, copy) NSString* ringPid;
-@property (assign, nonatomic)int playrtcType;
 @property (nonatomic, copy)NSString* prevText;
 @property (nonatomic, copy)NSString *recvFile;
+@property (nonatomic, copy)NSString *recvText;
 
 - (id)initWithType:(int)type;
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
+- (void)closeViewController;
 
-/* ChannelViewListener */
+#pragma mark - ChannelViewListener
+/**
+ * 채널 팝업에서 채널 생성 요청 버튼을 클릭 한 경우
+ * channelName : NSString, 채널의 별칭
+ * userId : NSString, 사용자의 Application에서 사용하는 User-ID
+ */
 - (void)onClickCreateChannel:(NSString*)channelName userId:(NSString*)userId;
-- (void)onClickConnectChannel:(NSString*)channelId userId:(NSString*)userId;
+/**
+ * 채널 팝업에서 채널 입장 요청 버튼을 클릭 한 경우
+ * chId : NSString, 채널의 아이디
+ * userId : NSString, 사용자의 Application에서 사용하는 User-ID
+ */
+- (void)onClickConnectChannel:(NSString*)chId userId:(NSString*)userId;
+
+
+// // PlayRTC의 enableAudioSession를 사용하지 않고 직접 하려면 아래 소스를 사용하세요.
 - (void)didSessionRouteChange:(NSNotification *)notification;
 @end
 

@@ -22,102 +22,27 @@
 /*
  * 화면 UI 구성
  */
-- (void) initScreenLayoutView:(CGRect)frame
+- (void) createViewControllerLayout:(CGRect)frame
 {
     NSLog(@"[%@] initScreenLayoutView...", LOG_TAG);
-    CGRect bounds = frame;
-    CGRect mainFrame = bounds;
-    mainFrame.origin.y = 0;
-    mainFrame.size.height = bounds.size.height;
-    
-    
-    mainAreaView = [[UIView alloc] initWithFrame:mainFrame];
-    mainAreaView.backgroundColor = [UIColor whiteColor];
-    
-    /* video 스트림 출력을 위한 PlayRTCVideoView
-     * 가로-세로 비율 1(가로):0.75(세로), 높이 기준으로 폭 재 지정
-     */
-    CGRect videoFrame = mainFrame;
-    videoFrame.size.height = mainFrame.size.height;
-    // 사이즈 조정, 높이 기준으로 4(폭):3(높이)으로 재 조정
-    // 4:3 = width:height ,  width = ( 4 * height) / 3
-    videoFrame.size.width = (4.0f * videoFrame.size.height) / 3.0f;
-    videoFrame.origin.y=0;
-    
-    // PlayRTCVideoView의 부모 뷰 생성
-    videoAreaView = [[UIView alloc] initWithFrame:videoFrame];
-    videoAreaView.center = mainAreaView.center;
-    videoAreaView.backgroundColor = [UIColor brownColor];
-    
-    // 부모 뷰에 PlayRTCVideoView 생성 추가
-    if(playrtcType == 1 || playrtcType == 2)
-    {
-        [self initVideoLayoutView:videoAreaView videoFrame:videoAreaView.bounds];
-    }
-    [mainAreaView addSubview:videoAreaView];
-    
-    // PlayRTCVideoView 기준 왼쪽에 버튼 영역 생성
-    // 소리 출력 버튼
-    [self initLeftButtonLayout];
-    
-    // 로그 뷰 생성. 영상 뷰가 있을 경우 와 없는 경우를 다르게 구성
-    // 1 : 영상 + 음성 + Data, 2: 영상 + 음성
-    if(playrtcType == 1 || playrtcType == 2)
-    {
-        CGRect leftopFrame = mainFrame;
-        leftopFrame.size.width = LOGVIEW_WIDTH;
-    
-        // 로그뷰를 hedden 뷰로 처리
-        leftTopView = [[UITextView alloc] initWithFrame:leftopFrame];
-        leftTopView.backgroundColor = [UIColor whiteColor];
-        leftTopView.font = [UIFont systemFontOfSize:12.0f];
-        leftTopView.hidden = TRUE;
-        leftTopView.editable = FALSE;
-        leftTopView.scrollEnabled = YES;
-        [mainAreaView addSubview:leftTopView];
-    }
-    else
-    {
-        // 로그뷰를 화면 중에 위치 시킴
-        CGRect leftopFrame = videoAreaView.bounds;
-        leftTopView = [[UITextView alloc] initWithFrame:leftopFrame];
-        leftTopView.backgroundColor = [UIColor whiteColor];
-        leftTopView.font = [UIFont systemFontOfSize:12.0f];
-        leftTopView.hidden = FALSE;
-        leftTopView.editable = FALSE;
-        leftTopView.scrollEnabled = YES;
-        [videoAreaView addSubview:leftTopView];
-    }
-    
-    // 화면 우측 버튼영역 구성
-    [self initRightButtonLayout:mainFrame];
-    
-    // 우측 hidden 버튼 영역 생성 . 타이븥바의 기능버튼을 누르면 출력 처리
-    CGRect rightTopFrame = mainFrame;
-    rightTopFrame.size.width = RBTNAREA_WIDTH;
-    rightTopFrame.origin.x = mainFrame.size.width - RBTNAREA_WIDTH;
-    
-    rightTopView = [[UIView alloc] initWithFrame:rightTopFrame];
-    rightTopView.backgroundColor = [UIColor yellowColor];
-    rightTopView.hidden = TRUE;
-    [mainAreaView addSubview:rightTopView];
-    
-   
-    [self.view addSubview:mainAreaView];
-    
-    [self initRightTopButtonLayout];
 
+    [self createTitleBarView:CGRectMake(0, 0, frame.size.width, 32)];
+    
+    [self createMainView:CGRectMake(0, 32.0f, frame.size.width, frame.size.height - 32)];
+    
+    [self createRightTopLayout];
+
+    
+    snapshotView = [[SnapshotLayerView alloc] initWithFrame:CGRectMake(0, 32.0f, frame.size.width, frame.size.height - 32)];
+    snapshotView.hidden = TRUE;
+    [snapshotView initializePannel:self];
+    [self.view addSubview:snapshotView];
+
+    
     // 채널 생성 또는 입장 할수 있는 팝업 UI 구성
-    CGRect popFrame = mainFrame;
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        popFrame.size.height = popFrame.size.height * 0.80f;
-        popFrame.size.width = popFrame.size.height / 0.75f;
-    }
-    
-
+    CGRect popFrame = CGRectMake(0, 0, mainAreaView.bounds.size.width, mainAreaView.bounds.size.height);
+    popFrame.origin.y = 0;
     channelPopup = [[ChannelView alloc] initWithFrame:popFrame];
-    channelPopup.center = mainAreaView.center;
     channelPopup.playRTC = self.playRTC;
     channelPopup.deletgate = (id<ChannelViewListener>)self;
     [mainAreaView addSubview:channelPopup];
@@ -126,19 +51,120 @@
     [channelPopup show:0.8f];
 }
 
+- (void)createTitleBarView:(CGRect)frame;
+{
+    UIView* titleBar = [[UIView alloc] initWithFrame:frame];
+    titleBar.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:titleBar];
+    
+    UIButton* btnPrev = [[UIButton alloc] initWithFrame:CGRectMake(12, 0, 100, 30)];
+    btnPrev.backgroundColor = [UIColor clearColor];
+    [btnPrev.titleLabel setFont:[UIFont systemFontOfSize:18.0f]];
+    [btnPrev setTitle:@"이전화면" forState:UIControlStateNormal];
+    [btnPrev addTarget:self action:@selector(leftTitleBarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [titleBar addSubview:btnPrev];
+    
+    UILabel* lbPrev = [[UILabel alloc] initWithFrame:CGRectMake(200, 5, 238, 20)];
+    lbPrev.backgroundColor = [UIColor clearColor];
+    lbPrev.textAlignment = NSTextAlignmentCenter;
+    lbPrev.font =[UIFont systemFontOfSize:18.0f];
+    [lbPrev setTextColor:[UIColor whiteColor]];
+    [lbPrev setText:@"PlayRTC Sample"];
+    [titleBar addSubview:lbPrev];
+    
+    UIButton* btnFunc = [[UIButton alloc] initWithFrame:CGRectMake(560, 0, 100, 30)];
+    btnFunc.backgroundColor = [UIColor clearColor];
+    [btnFunc.titleLabel setFont:[UIFont systemFontOfSize:18.0f]];
+    [btnFunc setTitle:@"미디어버튼" forState:UIControlStateNormal];
+    [btnFunc addTarget:self action:@selector(rightTitleBarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [titleBar addSubview:btnFunc];
+
+}
+
+- (void)createMainView:(CGRect)frame
+{
+    mainAreaView = [[UIView alloc] initWithFrame:frame];
+    mainAreaView.backgroundColor = [UIColor lightGrayColor];
+
+    /* video 스트림 출력을 위한 PlayRTCVideoView
+     * 가로-세로 비율 1(가로):0.75(세로), 높이 기준으로 폭 재 지정
+     */
+    CGRect videoFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    
+    // 사이즈 조정, 높이 기준으로 4(폭):3(높이)으로 재 조정
+    // 4:3 = width:height ,  width = ( 4 * height) / 3
+    videoFrame.size.width = (4.0f * videoFrame.size.height) / 3.0f;
+    videoFrame.origin.y=0;
+    
+    CGPoint videoFrameCenter = mainAreaView.center;
+    videoFrameCenter.y -= 32;
+    
+    // PlayRTCVideoView의 부모 뷰 생성
+    videoAreaView = [[UIView alloc] initWithFrame:videoFrame];
+    videoAreaView.center = videoFrameCenter;
+    videoAreaView.backgroundColor = [UIColor brownColor];
+    
+    // 부모 뷰에 PlayRTCVideoView 생성 추가
+    if(playrtcType == 1 || playrtcType == 2)
+    {
+        [self createMainVideoLayout:videoAreaView videoFrame:videoAreaView.bounds];
+    }
+    [mainAreaView addSubview:videoAreaView];
+    
+    // PlayRTCVideoView 기준 왼쪽에 버튼 영역 생성
+    // 소리 출력 버튼
+    [self createMainLeftButtonLayout];
+    
+    // 로그 뷰 생성. 영상 뷰가 있을 경우 와 없는 경우를 다르게 구성
+    // 1 : 영상 + 음성 + Data, 2: 영상 + 음성
+    if(playrtcType == 1 || playrtcType == 2)
+    {
+        // 로그뷰를 hedden 뷰로 처리
+        leftTopView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, LOGVIEW_WIDTH, frame.size.height)];
+        leftTopView.backgroundColor = [UIColor whiteColor];
+        leftTopView.font = [UIFont systemFontOfSize:12.0f];
+        leftTopView.layer.cornerRadius = 3.0f;
+        leftTopView.layer.borderWidth = 1.0f;
+        leftTopView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        leftTopView.hidden = TRUE;
+        leftTopView.editable = FALSE;
+        leftTopView.scrollEnabled = YES;
+        [mainAreaView addSubview:leftTopView];
+    }
+    else
+    {
+        // 로그뷰를 화면 중에 위치 시킴
+        leftTopView = [[UITextView alloc] initWithFrame:videoFrame];
+        leftTopView.backgroundColor = [UIColor whiteColor];
+        leftTopView.font = [UIFont systemFontOfSize:12.0f];
+        leftTopView.center = videoFrameCenter;
+        leftTopView.layer.cornerRadius = 3.0f;
+        leftTopView.layer.borderWidth = 1.0f;
+        leftTopView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        leftTopView.hidden = FALSE;
+        leftTopView.editable = FALSE;
+        leftTopView.scrollEnabled = YES;
+        [mainAreaView addSubview:leftTopView];
+    }
+    // 화면 우측 버튼영역 구성
+    [self createMainRightButtonLayout];
+    
+    [self.view addSubview:mainAreaView];
+
+}
 /*
  * 우측 hidden 버튼 영역 보이기. 타이븥바의 기능버튼을 누르면 출력 처리
  */
-- (void)showControlButtons
+- (void)showTopLeftControlButtons
 {
     if(rightTopView.hidden == FALSE) {
-        [UIView animateWithDuration:1.0 animations:^{ rightTopView.alpha = 0; }
+        [UIView animateWithDuration:0.8f animations:^{ rightTopView.alpha = 0; }
                          completion: ^(BOOL finished) {  rightTopView.hidden = finished; } ];
     }
     else {
         rightTopView.alpha = 0;
         rightTopView.hidden = FALSE;
-        [UIView animateWithDuration:1.0 animations:^{
+        [UIView animateWithDuration:0.8f animations:^{
             rightTopView.alpha = 1;
         }];
         
@@ -152,31 +178,98 @@
  * 이 기능을 사용하려면 PlayRTC의 enableAudioSession을 호출하여 활성화 시켜야함.
  * Sample에서는 PlayRTCViewController의 loadView에서 호출
  */
-- (void)initLeftButtonLayout
+- (void)createMainLeftButtonLayout
 {
-    CGFloat width = 80.0f; // BTN_WIDTH
+    CGFloat width = 95.0f; // BTN_WIDTH
+    CGFloat height = BTN_HEIGHT * 1.2f;
     CGFloat posX = 5.0f;
-    CGFloat posY = 6.0f;
- 
-    posY = posY + BTN_HEIGHT+ 10.0f;
-    ExButton* speakBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, BTN_HEIGHT*2)];
-    [speakBtn addTarget:self action:@selector(leftBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    speakBtn.tag = 0; // 1 on, 0: off
-    speakBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [speakBtn setTitle:@"스피커 On" forState:UIControlStateNormal];
-    [speakBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [mainAreaView addSubview:speakBtn];
+    CGFloat posY = 0.0f;
+    /**
+     * type : int Sample App 유형
+     *      1: 영상 + 음성 + Data
+     *      2: 영상 + 음성
+     *      3: 음성 Only
+     *      4: Data Only
+     */
+    if(self.playrtcType < 4) {
+        posY = posY + height+ 5.0f;
+        ExButton* speakBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
+        [speakBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        speakBtn.tag = 1;
+        speakBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        [speakBtn setTitle:@"Loud Speaker" forState:UIControlStateNormal];
+        [speakBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [mainAreaView addSubview:speakBtn];
+    }
+    if(self.playrtcType < 3) {
+        posY = posY + height + 15.0f;
+        ExButton* cameraBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
+        [cameraBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        cameraBtn.tag = 2;
+        cameraBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        [cameraBtn setTitle:@"카메라 전환" forState:UIControlStateNormal];
+        [cameraBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [mainAreaView addSubview:cameraBtn];
+        
+        
+        posY = posY + height + 15.0f;
+        ExButton* flashBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
+        [flashBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        flashBtn.tag = 3;
+        flashBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        [flashBtn setTitle:@"Flash 전환" forState:UIControlStateNormal];
+        [flashBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [mainAreaView addSubview:flashBtn];
+
+        posY = posY + height + 15.0f;
+        ExButton* sanpshotBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
+        [sanpshotBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        sanpshotBtn.tag = 4;
+        sanpshotBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        [sanpshotBtn setTitle:@"Snapshot" forState:UIControlStateNormal];
+        [sanpshotBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [mainAreaView addSubview:sanpshotBtn];
+    }
+
+}
+
+- (void) createMainVideoLayout:(UIView*)parent videoFrame:(CGRect)videoFrame
+{
+    NSLog(@"[%@] initVideoLayoutView...", LOG_TAG);
     
-    posY = posY + BTN_HEIGHT * 2 + 20.0f;
-    ExButton* cameraBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, BTN_HEIGHT*2)];
-    [cameraBtn addTarget:self action:@selector(leftBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    cameraBtn.tag = 10;
-    cameraBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [cameraBtn setTitle:@"카메라 전환" forState:UIControlStateNormal];
-    [cameraBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [mainAreaView addSubview:cameraBtn];
-
-
+    CGRect bounds = videoFrame;
+    
+    
+    self.remoteVideoView =  [[PlayRTCVideoView alloc] initWithFrame:bounds];
+    /*
+     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
+     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
+     * v2.2.4 추가
+     */
+    [self.remoteVideoView bgClearColorWithRed:0.5f green:0.5f blue:0.5f alpha:1.0f];
+    [self.remoteVideoView bgClearColor];
+    
+    CGRect localVideoFrame = videoFrame;
+    localVideoFrame.size.width = localVideoFrame.size.width * 0.35;
+    localVideoFrame.size.height = localVideoFrame.size.height * 0.35;
+    localVideoFrame.origin.x = bounds.size.width - localVideoFrame.size.width - 10.0f;
+    localVideoFrame.origin.y = 10.0f;
+    
+    
+    self.localVideoView =  [[PlayRTCVideoView alloc] initWithFrame:localVideoFrame];
+    /*
+     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
+     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
+     * v2.2.4 추가
+     */
+    [self.localVideoView bgClearColorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+    [self.localVideoView bgClearColor];
+    
+    
+    [parent addSubview:self.remoteVideoView];
+    [parent addSubview:self.localVideoView];
+    
+    
 }
 
 /*
@@ -186,11 +279,11 @@
  * 채널팝업 버튼
  * 종료 버튼
  */
-- (void)initRightButtonLayout:(CGRect)frame
+- (void)createMainRightButtonLayout
 {
     CGFloat btnHeight = BTN_HEIGHT - 2;
     CGFloat btnWidth = 80.0f; // BTN_WIDTH
-    CGFloat posX = frame.size.width - (btnWidth + 5.0f);
+    CGFloat posX = mainAreaView.frame.size.width - (btnWidth + 5.0f);
     CGFloat posY = 5.0f;
     CGFloat fontSize = 15.0f;
     CGFloat lbtnTm = 6.0f;
@@ -199,7 +292,7 @@
     if(playrtcType == 1 || playrtcType == 4)
     {
         ExButton* dcTextBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-        [dcTextBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+        [dcTextBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         dcTextBtn.tag = 1;
         dcTextBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
         [dcTextBtn setTitle:@"텍스트전송" forState:UIControlStateNormal];
@@ -208,7 +301,7 @@
     
         posY = posY + btnHeight + lbtnTm;
         ExButton* dcByteBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-        [dcByteBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+        [dcByteBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         dcByteBtn.tag = 2;
         dcByteBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
         [dcByteBtn setTitle:@"Byte전송" forState:UIControlStateNormal];
@@ -217,7 +310,7 @@
     
         posY = posY + btnHeight + lbtnTm;
         ExButton* dcFileBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-        [dcFileBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+        [dcFileBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         dcFileBtn.tag = 3;
         dcFileBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
         [dcFileBtn setTitle:@"파일전송" forState:UIControlStateNormal];
@@ -232,7 +325,7 @@
     if(playrtcType == 1 || playrtcType == 2)
     {
         ExButton* dcLogBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-        [dcLogBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+        [dcLogBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         dcLogBtn.tag = 4;
         dcLogBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
         [dcLogBtn setTitle:@"로그보기" forState:UIControlStateNormal];
@@ -243,7 +336,7 @@
     // 채널 팝업 보기 버튼
     posY = posY + btnHeight + lbtnTm;
     ExButton* chlPopupBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-    [chlPopupBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    [chlPopupBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     chlPopupBtn.tag = 5;
     chlPopupBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [chlPopupBtn setTitle:@"채널팝업" forState:UIControlStateNormal];
@@ -256,7 +349,7 @@
     
     // PlayRTC 채널 퇴장 버튼
     ExButton* chPeerCloseBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-    [chPeerCloseBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    [chPeerCloseBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     chPeerCloseBtn.tag = 6;
     chPeerCloseBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [chPeerCloseBtn setTitle:@"채널퇴장" forState:UIControlStateNormal];
@@ -267,7 +360,7 @@
 
     // PlayRTC 채널 종료 버튼
     ExButton* chCloseBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, btnWidth, btnHeight)];
-    [chCloseBtn addTarget:self action:@selector(rightBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
+    [chCloseBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     chCloseBtn.tag = 7;
     chCloseBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [chCloseBtn setTitle:@"채널종료" forState:UIControlStateNormal];
@@ -281,8 +374,19 @@
  * 로컬 미디어 Mute 버튼
  * 상대방 미디어 Mute 버튼
  */
-- (void)initRightTopButtonLayout
+- (void)createRightTopLayout
 {
+    
+    CGRect rightTopFrame = CGRectMake(mainAreaView.frame.size.width - RBTNAREA_WIDTH, 0, RBTNAREA_WIDTH, mainAreaView.frame.size.height);
+
+    rightTopView = [[UIView alloc] initWithFrame:rightTopFrame];
+    rightTopView.backgroundColor = [UIColor lightGrayColor];
+    rightTopView.hidden = TRUE;
+    rightTopView.layer.cornerRadius = 3.0f;
+    [mainAreaView addSubview:rightTopView];
+
+    
+    
     CGFloat labelHeight = 20.0f;
     CGFloat btnHeight = BTN_HEIGHT - 2;
     CGFloat lbtnTm = 6.0f;
@@ -308,8 +412,8 @@
     
     posY = posY + labelHeight + lbtnTm;
     ExButton* lVMuteBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, BTN_WIDTH, btnHeight)];
-    [lVMuteBtn addTarget:self action:@selector(rightTopBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    lVMuteBtn.tag = 11;
+    [lVMuteBtn addTarget:self action:@selector(rightTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    lVMuteBtn.tag = 1;
     lVMuteBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [lVMuteBtn setTitle:@"VIDEO_OFF" forState:UIControlStateNormal];
     [lVMuteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -317,8 +421,8 @@
     
     posY = posY + btnHeight + lbtnTm;
     ExButton* lAMuteBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, BTN_WIDTH, btnHeight)];
-    [lAMuteBtn addTarget:self action:@selector(rightTopBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    lAMuteBtn.tag = 12;
+    [lAMuteBtn addTarget:self action:@selector(rightTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    lAMuteBtn.tag = 2;
     lAMuteBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [lAMuteBtn setTitle:@"AUDIO_OFF" forState:UIControlStateNormal];
     [lAMuteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -335,8 +439,8 @@
     
     posY = posY + labelHeight + 10.0f;
     ExButton* rVMuteBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, BTN_WIDTH, btnHeight)];
-    [rVMuteBtn addTarget:self action:@selector(rightTopBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    rVMuteBtn.tag = 13;
+    [rVMuteBtn addTarget:self action:@selector(rightTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    rVMuteBtn.tag = 3;
     rVMuteBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [rVMuteBtn setTitle:@"VIDEO_OFF" forState:UIControlStateNormal];
     [rVMuteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -344,8 +448,8 @@
     
     posY = posY + btnHeight + 10.0f;
     ExButton* rAMuteBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, BTN_WIDTH, btnHeight)];
-    [rAMuteBtn addTarget:self action:@selector(rightTopBtnClick:event:) forControlEvents:UIControlEventTouchUpInside];
-    rAMuteBtn.tag = 14;
+    [rAMuteBtn addTarget:self action:@selector(rightTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    rAMuteBtn.tag = 4;
     rAMuteBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
     [rAMuteBtn setTitle:@"AUDIO_OFF" forState:UIControlStateNormal];
     [rAMuteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -353,8 +457,56 @@
     
 }
 
+
+- (void) leftTitleBarBtnClick:(id)sender
+{
+    NSLog(@"[%@] onLeftTitleBarButton Click !!!", LOG_TAG);
+    
+    if(isChannelConnected == TRUE) {
+
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"PlayRTC 종료"
+                                                                       message:@"PlayRTC 채널에 입장해 있습니다.\n먼저 채널연결을 해제하세요."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"종료"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:nil]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        return;
+    }
+    
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"PlayRTC 종료"
+                                                                   message:@"종료할까요?종료를 누르면 이전화면으로 이동합니다."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"종료"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action)
+                      {
+                          [self closeViewController];
+                      }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"아니오"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
+}
+
+- (void)rightTitleBarBtnClick:(id)sender
+{
+    
+    NSLog(@"[%@] onRightTitleBarButton Click !!!", LOG_TAG);
+    [self showTopLeftControlButtons];
+}
+
 // 화면 우축 버튼그룹의 이벤트 처리
-- (void)rightBtnClick:(id)sender event:(UIEvent *)event
+- (void)rightBtnClick:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
     int tag = (int)btn.tag;
@@ -402,38 +554,46 @@
 // 소리 출력 버튼 이벤트
 // EAR-SPEAKER와 SPEARKER 전환
 // 기본 상태는 EAR-SPEAKER
-- (void)leftBtnClick:(id)sender event:(UIEvent *)event
+- (void)leftBtnClick:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
     int tag = (int)btn.tag;
-    // p2p 연결 후 카메라 전환
-    if(tag == 10)
+    // SPEAKER 출력 출력 시 출력 스피커 전환 버튼 이벤트
+    // EAR-SPEAKER와 LOUD-SPEARKER 전환
+    // 기본 상태는 EAR-SPEAKER
+    if(tag == 1)
     {
-        [self performSelector:@selector(switchCamera) withObject:nil afterDelay:0.1];
-    }
-    else
-    {
-        //Speaker On/Off
-        BOOL isOn = tag == 0?TRUE:FALSE;
-        if([playRTC setLoudspeakerEnable:isOn]) {
-            if(isOn) {
-                btn.tag = 1;
-                [btn setTitle:@"스피커 Off" forState:UIControlStateNormal];
-            }
-            else {
-                btn.tag = 0;
-                [btn setTitle:@"스피커 On" forState:UIControlStateNormal];
-            }
+        BOOL isOn = [self switchLoudSpeaker];
+        if(isOn) {
+            [btn setTitle:@"Ear Speaker" forState:UIControlStateNormal];
         }
+        else {
+            [btn setTitle:@"Loud Speaker" forState:UIControlStateNormal];
+        }
+        
     }
-}
+    // channel 연결 후 카메라 전환
+    else if(tag == 2)
+    {
+        [self switchCamera];
+    }
+    // channel 연결 후 후방 카메라 Flash 전환
+    else if(tag == 3)
+    {
+        [self switchFlash];
+    }
+    // snapshot view
+    else if(tag == 4) {
+        snapshotView.hidden = FALSE;
+    }}
 
-- (void)rightTopBtnClick:(id)sender event:(UIEvent *)event
+
+- (void)rightTopBtnClick:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
     int tag = (int)btn.tag;
     
-    if(tag == 11) //Local Video Mute
+    if(tag == 1) //Local Video Mute
     {
         if(self.localMedia) {
             NSString* text = btn.currentTitle;
@@ -448,7 +608,7 @@
             }
         }
     }
-    else if(tag == 12) //Local Audio Mute
+    else if(tag == 2) //Local Audio Mute
     {
         if(self.localMedia) {
             NSString* text = btn.currentTitle;
@@ -464,7 +624,7 @@
         }
         
     }
-    else if(tag == 13) //Remote Video Mute
+    else if(tag == 3) //Remote Video Mute
     {
         if(self.remoteMedia) {
             NSString* text = btn.currentTitle;
@@ -480,7 +640,7 @@
         }
         
     }
-    else if(tag == 14) //Remote Audio Mute
+    else if(tag == 4) //Remote Audio Mute
     {
         if(self.remoteMedia) {
             NSString* text = btn.currentTitle;
@@ -498,42 +658,19 @@
     }
 
 }
-- (void) initVideoLayoutView:(UIView*)parent videoFrame:(CGRect)videoFrame
-{
-    NSLog(@"[%@] initVideoLayoutView...", LOG_TAG);
-    
-    CGRect bounds = videoFrame;
-    
-    
-    self.remoteVideoView =  [[PlayRTCVideoView alloc] initWithFrame:bounds];
-    /*
-     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
-     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
-     * v2.2.4 추가
-     */
-    [self.remoteVideoView bgClearColorWithRed:0.5f green:0.5f blue:0.5f alpha:1.0f];
-    [self.remoteVideoView bgClearColor];
-    
-    CGRect localVideoFrame = videoFrame;
-    localVideoFrame.size.width = localVideoFrame.size.width * 0.35;
-    localVideoFrame.size.height = localVideoFrame.size.height * 0.35;
-    localVideoFrame.origin.x = bounds.size.width - localVideoFrame.size.width - 10.0f;
-    localVideoFrame.origin.y = 10.0f;
-    
-    
-    self.localVideoView =  [[PlayRTCVideoView alloc] initWithFrame:localVideoFrame];
-    /*
-     * 화면 배경색을 지정한다. R,G,B,A 0.0 ~ 1.0
-     * 영상 스트림이 출력 되기 전, bgClearColor 호출 시 지정한 색으로 배경을 칠한다.
-     * v2.2.4 추가
-     */
-    [self.localVideoView bgClearColorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
-    [self.localVideoView bgClearColor];
 
-    
-    [parent addSubview:self.remoteVideoView];
-    [parent addSubview:self.localVideoView];
-    
+-(void)onClickSnapshotButton:(BOOL)localView
+{
+    if(localView == TRUE)
+    {
+        
+        [self localViewSnapshot];
+        
+    }
+    else {
+        
+        [self remoteViewSnapshot];
+    }
     
 }
 

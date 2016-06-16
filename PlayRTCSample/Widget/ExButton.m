@@ -27,6 +27,16 @@
 
 @implementation ExButton
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self){
+        touch_stat = STAT_UP;
+        self.opaque = NO;
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
