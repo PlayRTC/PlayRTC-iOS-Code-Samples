@@ -147,7 +147,15 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 {
     PlayRTCConfig* config = [PlayRTCFactory createConfig];
     [config setProjectId:TDCProjectId];
+    
+    //Ring : FALSE 연결 수립 여부를 상대방에게 묻지 않음
     [config setRingEnable:FALSE];
+    
+    // UserMedia 인스턴스 생성 시점을 지정. default true
+    // true : 채널 입장 후 바로 생성, 화면에 나의 영상을 바로 출력할 수 있다.
+    // false : 채널 입장 후 상대방과의 연결 과정을 시작할 때 생성. blank 화면이 표시됨
+    [config setPrevUserMediaEnable:TRUE];
+    
     
     // 영상, 음성, p2p data
     if(self.playrtcType == 1) {
