@@ -148,12 +148,12 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     PlayRTCConfig* config = [PlayRTCFactory createConfig];
     [config setProjectId:TDCProjectId];
     
-    //Ring : FALSE 연결 수립 여부를 상대방에게 묻지 않음
-    [config setRingEnable:FALSE];
+    //Ring : TRUE 시 채널 입장 후 연결 수립 여부를 먼저 입장한 사용자에게 묻는다.
+    [config setRingEnable:self.ringEnable];
     
-    // UserMedia 인스턴스 생성 시점을 지정. default true
-    // true : 채널 입장 후 바로 생성, 화면에 나의 영상을 바로 출력할 수 있다.
-    // false : 채널 입장 후 상대방과의 연결 과정을 시작할 때 생성. blank 화면이 표시됨
+    // UserMedia 인스턴스 생성 시점을 지정. default TRUE
+    // TRUE : 채널 입장 후 바로 생성, 화면에 나의 영상을 바로 출력할 수 있다.
+    // FALSE : 채널 입장 후 상대방과의 연결 과정을 시작할 때 생성. blank 화면이 표시됨
     [config setPrevUserMediaEnable:TRUE];
     
     
@@ -162,7 +162,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         
         /*
          * 영상 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
          */
         [config.video setEnable:TRUE];
         
@@ -184,8 +184,14 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          *  - PlayRTCVP9
          *  - PlayRTCH264, Open H.264
          */
-        PlayRTCVideoCodec videoCodec = PlayRTCVP8;
-        [config.video setPreferCodec:videoCodec];
+        PlayRTCVideoCodec rtcVideoCodec = PlayRTCVP8;
+        if([self.videoCodec isEqualToString:@"VP9"]) {
+            rtcVideoCodec = PlayRTCVP9;
+        }
+        else if([self.videoCodec isEqualToString:@"H264"]){
+            rtcVideoCodec = PlayRTCH264;
+        }
+        [config.video setPreferCodec:rtcVideoCodec];
         
         
         // sdk support only 640x480
@@ -208,7 +214,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         
         /*
          * 음성 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:TRUE];
         
@@ -220,8 +226,11 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          *  - PlayRTCISAC,
          *  - PlayRTCOPUS
          */
-        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
-        [config.audio setPreferCodec:audioCodec];
+        PlayRTCAudioCodec rtcAudioCodec = PlayRTCISAC;
+        if([self.audioCodec isEqualToString:@"OPUS"]) {
+            rtcAudioCodec = PlayRTCOPUS;
+        }
+        [config.audio setPreferCodec:rtcAudioCodec];
         
         /**
          * PlayRTC Audio-Stream BandWidth를 지정한다.
@@ -239,7 +248,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         
         /*
          * 영상 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
          */
         [config.video setEnable:TRUE];
         
@@ -261,8 +270,14 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          *  - PlayRTCVP9
          *  - PlayRTCH264, Open H.264
          */
-        PlayRTCVideoCodec videoCodec = PlayRTCVP8;
-        [config.video setPreferCodec:videoCodec];
+        PlayRTCVideoCodec rtcVideoCodec = PlayRTCVP8;
+        if([self.videoCodec isEqualToString:@"VP9"]) {
+            rtcVideoCodec = PlayRTCVP9;
+        }
+        else if([self.videoCodec isEqualToString:@"H264"]){
+            rtcVideoCodec = PlayRTCH264;
+        }
+        [config.video setPreferCodec:rtcVideoCodec];
 
         
         // sdk support only 640x480
@@ -297,8 +312,11 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          *  - PlayRTCISAC,
          *  - PlayRTCOPUS
          */
-        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
-        [config.audio setPreferCodec:audioCodec];
+        PlayRTCAudioCodec rtcAudioCodec = PlayRTCISAC;
+        if([self.audioCodec isEqualToString:@"OPUS"]) {
+            rtcAudioCodec = PlayRTCOPUS;
+        }
+        [config.audio setPreferCodec:rtcAudioCodec];
 
         /**
          * PlayRTC Audio-Stream BandWidth를 지정한다.
@@ -315,13 +333,13 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         
         /*
          * 영상 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
          */
         [config.video setEnable:FALSE];
         
         /*
          * 음성 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:TRUE];
         /*
@@ -332,8 +350,11 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
          *  - PlayRTCISAC,
          *  - PlayRTCOPUS
          */
-        PlayRTCAudioCodec audioCodec = PlayRTCISAC;
-        [config.audio setPreferCodec:audioCodec];
+        PlayRTCAudioCodec rtcAudioCodec = PlayRTCISAC;
+        if([self.audioCodec isEqualToString:@"OPUS"]) {
+            rtcAudioCodec = PlayRTCOPUS;
+        }
+        [config.audio setPreferCodec:rtcAudioCodec];
         
         /**
          * PlayRTC Audio-Stream BandWidth를 지정한다.
@@ -351,13 +372,13 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         
         /*
          * 영상 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 영상 스트림을 전송하면 수신이 된다.
          */
         [config.video setEnable:FALSE];
         
         /*
          * 음성 스트림 전송 사용.
-         * false 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
+         * FALSE 설정 시 SDK는 read-only 모드로 동작하며, 상대방이 음성 스트림을 전송하면 수신이 된다.
          */
         [config.audio setEnable:FALSE];
         [config.data setEnable:TRUE];

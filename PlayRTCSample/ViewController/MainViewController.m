@@ -15,11 +15,26 @@
 #define LOG_TAG @"MainViewController"
 
 @interface MainViewController ()
-- (void)initScreenLayoutView;
+{
+    BOOL ringEnable;
+    NSString* videoCodec;
+    NSString* audioCodec;
+}
+@property (nonatomic, copy) NSString* videoCodec;
+@property (nonatomic, copy) NSString* audioCodec;
+
+-(void)goRtcViewController:(int)playrtcType;
+
 @end
 
 @implementation MainViewController
-
+@synthesize videoCodec;
+@synthesize audioCodec;
+@synthesize btnVP8;
+@synthesize btnVP9;
+@synthesize btnH264;
+@synthesize btnISAC;
+@synthesize btnOPUS;
 
 - (void)viewDidLoad {
     NSLog(@"[%@] viewDidLoad...", LOG_TAG);
@@ -27,8 +42,9 @@
 
      self.navigationController.navigationBarHidden = TRUE;
     
-    [self initScreenLayoutView ];
-    
+    ringEnable = FALSE;
+    self.videoCodec = @"VP8";
+    self.audioCodec = @"ISAC";
 
 }
 
@@ -37,55 +53,30 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)initScreenLayoutView
+
+-(IBAction)switchToggled:(id)sender
 {
-    
-    for (UIView *v in self.view.subviews){
-        
-        if([v isKindOfClass:[ExButton class]]){
-            
-            ExButton* btn = (ExButton*)v;
-            
-            if(btn.tag == 0)
-            {
-                btnExit = btn;
-            }
-            else if(btn.tag == 1) {
-                btnRunType1 = btn;
-            }
-            else if(btn.tag == 2) {
-                btnRunType2 = btn;
-            }
-            else if(btn.tag == 3) {
-                btnRunType3 = btn;
-            }
-            else if(btn.tag == 4) {
-                btnRunType4 = btn;
-            }
-        }
+    UISwitch* switchRing = (UISwitch *)sender;
+    if ([switchRing isOn]) {
+        NSLog(@"switchRing on!");
+        ringEnable = TRUE;
+    } else {
+        NSLog(@"switchRing off!");
+        ringEnable = FALSE;
     }
 
-    [btnExit addTarget:self action:@selector(btnExitClick:) forControlEvents:UIControlEventTouchUpInside];
-    [btnRunType1 addTarget:self action:@selector(btnRunTypeClick:) forControlEvents:UIControlEventTouchUpInside];
-    [btnRunType2 addTarget:self action:@selector(btnRunTypeClick:) forControlEvents:UIControlEventTouchUpInside];
-    [btnRunType3 addTarget:self action:@selector(btnRunTypeClick:) forControlEvents:UIControlEventTouchUpInside];
-    [btnRunType4 addTarget:self action:@selector(btnRunTypeClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-
--(void)btnRunTypeClick:(id)sender
+-(IBAction)btnRunTypeClick:(id)sender
 {
     ExButton* btn = (ExButton*)sender;
     int type = (int)btn.tag;
-    //PlayRTCViewController* rtcController = [[PlayRTCViewController alloc] initWithType:type];
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    PlayRTCViewController* rtcController  = [sb instantiateViewControllerWithIdentifier:@"PlayRTCViewController"];
-    rtcController.playrtcType = type;
-    
-    [self.navigationController pushViewController:rtcController animated:YES];
+    [self goRtcViewController:type];
 
 }
--(void)btnExitClick:(id)sender
+
+
+-(IBAction)btnExitClick:(id)sender
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"App 종료"
                                                                    message:@"종료할까요?"
@@ -106,6 +97,64 @@
     [self presentViewController:alert animated:YES completion:nil];
 
 
+}
+
+-(IBAction)btnVideoCodecClick:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    int type = (int)btn.tag;
+    if(type == 1) {
+        // VP8
+        self.videoCodec = @"VP8";
+        [self.btnVP8 setImage:[UIImage imageNamed:@"btn_radio_on.png"] forState:UIControlStateNormal];
+        [self.btnVP9 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+        [self.btnH264 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+    }
+    else if(type == 2) {
+        //VP9
+        self.videoCodec = @"VP9";
+        [self.btnVP8 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+        [self.btnVP9 setImage:[UIImage imageNamed:@"btn_radio_on.png"] forState:UIControlStateNormal];
+        [self.btnH264 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+    }
+    else {
+        //Open H.264
+        self.videoCodec = @"H264";
+        [self.btnVP8 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+        [self.btnVP9 setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+        [self.btnH264 setImage:[UIImage imageNamed:@"btn_radio_on.png"] forState:UIControlStateNormal];
+    }
+}
+-(IBAction)btnAudioCodecClick:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    int type = (int)btn.tag;
+    if(type == 1) {
+        // ISAC
+        self.audioCodec = @"ISAC";
+        [self.btnISAC setImage:[UIImage imageNamed:@"btn_radio_on.png"] forState:UIControlStateNormal];
+        [self.btnOPUS setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+    }
+    else {
+        //OPUS
+        self.audioCodec = @"OPUS";
+        [self.btnOPUS setImage:[UIImage imageNamed:@"btn_radio_on.png"] forState:UIControlStateNormal];
+        [self.btnISAC setImage:[UIImage imageNamed:@"btn_radio_off.png"] forState:UIControlStateNormal];
+    }
+    
+}
+
+-(void)goRtcViewController:(int)playrtcType
+{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    PlayRTCViewController* rtcController  = [sb instantiateViewControllerWithIdentifier:@"PlayRTCViewController"];
+    rtcController.playrtcType = playrtcType;
+    rtcController.ringEnable = ringEnable;
+    rtcController.videoCodec = self.videoCodec;
+    rtcController.audioCodec = self.audioCodec;
+    
+    [self.navigationController pushViewController:rtcController animated:YES];
+    
 }
 
 @end

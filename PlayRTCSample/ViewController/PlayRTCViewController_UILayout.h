@@ -16,12 +16,35 @@
 
 // 화면 설정 시작
 - (void)createViewControllerLayout:(CGRect)frame;
+// 화면 상단 타이틀바 영역 구성
 - (void)createTitleBarView:(CGRect)frame;
-- (void)createMainView:(CGRect)videoFrame;
+// 화면 Contents 구성
+- (void)createMainView:(CGRect)frame;
 
+/*
+ * 화면 좌측 컨트롤 버튼 영역
+ * - 스피커 출력 선택
+ * - 카메라 전환
+ * - 후방 플래쉬 전환
+ * - 영상뷰Snapshot
+ */
 - (void)createMainLeftButtonLayout;
+
+// 화면 중앙에 영상 출력부를 구성한다.
 - (void)createMainVideoLayout:(UIView*)parent videoFrame:(CGRect)videoFrame;
+/*
+ * 화면 우축영역에 버튼 생성
+ * 데이터 전송 버튼 : Text, Binary, FIle
+ * 로그보기 버튼
+ * 채널팝업 버튼
+ * 종료 버튼
+ */
 - (void)createMainRightButtonLayout;
+/*
+ * 타이틀바의 기능버튼을 누르면 나오는 기능버튼 그룹 구성
+ * 로컬 미디어 Mute 버튼
+ * 상대방 미디어 Mute 버튼
+ */
 - (void)createRightTopLayout;
 
 - (void)leftTitleBarBtnClick:(id)sender;

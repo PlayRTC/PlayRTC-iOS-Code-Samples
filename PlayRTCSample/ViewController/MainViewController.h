@@ -11,16 +11,30 @@
 
 @interface MainViewController : UIViewController
 {
-    __weak ExButton* btnRunType1;
-    __weak ExButton* btnRunType2;
-    __weak ExButton* btnRunType3;
-    __weak ExButton* btnRunType4;
-    __weak ExButton* btnExit;
+    
+    
+    __weak IBOutlet UIButton* btnVP8;
+    __weak IBOutlet UIButton* btnVP9;
+    __weak IBOutlet UIButton* btnH264;
+    
+    __weak IBOutlet UIButton* btnISAC;
+    __weak IBOutlet UIButton* btnOPUS;
 
 }
+@property (nonatomic, weak) IBOutlet UIButton* btnVP8;
+@property (nonatomic, weak) IBOutlet UIButton* btnVP9;
+@property (nonatomic, weak) IBOutlet UIButton* btnH264;
 
--(void)btnRunTypeClick:(id)sender;
--(void)btnExitClick:(id)sender;
+@property (nonatomic, weak) IBOutlet UIButton* btnISAC;
+@property (nonatomic, weak) IBOutlet UIButton* btnOPUS;
+
+-(IBAction)switchToggled:(id)sender;
+
+-(IBAction)btnRunTypeClick:(id)sender;
+-(IBAction)btnExitClick:(id)sender;
+
+-(IBAction)btnVideoCodecClick:(id)sender;
+-(IBAction)btnAudioCodecClick:(id)sender;
 
 @end
 

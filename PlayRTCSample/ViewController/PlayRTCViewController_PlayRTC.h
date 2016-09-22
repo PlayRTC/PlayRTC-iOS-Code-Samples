@@ -31,41 +31,41 @@
  *
  *
  * 4. 채널 서비스에 채널 생성/입장 요청 -> ChannelView 팝업에서 채널 생성 또는 입장 버튼 리스너 ChannelViewListener 구현
- *  - 채널 생성 후 입장하는 USER-A
+ *  - 채널 생성 후 입장하는 USER-A : 채널 팝업 뷰의 [채널 생성 탭]
  *     - ChannelViewListener#onClickCreateChannel
  *       PlayRTCViewController.m
  *     - (void)createChannel:(NSString*)channelName userId:(NSString*)userId;
  *       PlayRTCViewController_PlayRTC.m
- *  - 생성 된 채널에 입장하는 USER-B
+ *  - 생성 된 채널에 입장하는 USER-B : 채널 팝업 뷰의 [채널 입장 탭]
  *     - ChannelViewListener#onClickConnectChannel
  *       PlayRTCViewController.m
  *     - (void)connectChannel:(NSString*)chId userId:(NSString*)userId
  *       PlayRTCViewController_PlayRTC.m
  *
- * 6. 채널 서비스에 채널 생성/입장 성공 이벤트 확인 : Channel-ID 확인
+ * 5. 채널 서비스에 채널 생성/입장 성공 이벤트 확인 : Channel-ID 확인
  *   - (void)onConnectChannel:(PlayRTC*)obj channelId:(NSString*)chId reason:(NSString*)reason;
  *      PlayRTCViewController_PlayRTC.m
  *      채널을 생성한 경우에 신규 발급된 channelId로 다른 사용자가 채널에 입장해야한다.
  *
- * 7. 로컬 미디어 처리를 위한 PlayRTCMedia 수신 이벤트 처리
+ * 6. 로컬 미디어 처리를 위한 PlayRTCMedia 수신 이벤트 처리
  *   -(void)onAddLocalStream:(PlayRTC*)obj media:(PlayRTCMedia*)media
  *     PlayRTCViewController_PlayRTC.m
  *     PlayRTCMedia 수신 시 영상 출력을 위해 PlayRTCVideoView의 renderer 인터페이스 등록
  *     PlayRTCMedia#setVideoRenderer(PlayRTCVideoView의#getVideoRenderer());
  *
- * 8. P2P 연결 시 상대방 미디어 처리를 위한 PlayRTCMedia 수신 이벤트 처리
+ * 7. P2P 연결 시 상대방 미디어 처리를 위한 PlayRTCMedia 수신 이벤트 처리
  *   -(void)onAddRemoteStream:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid media:(PlayRTCMedia*)media;
  *     PlayRTCViewController_PlayRTC.m
  *     PlayRTCMedia 수신 시 영상 출력을 이해 PlayRTCVideoView의 renderer 인터페이스 등록
  *     PlayRTCMedia#setVideoRenderer(PlayRTCVideoView의#getVideoRenderer());
  *
- * 9. Data 송수신을 위한  PlayRTCData 수신 이벤트 처리 -> 데이터 채널 사용 설정 시
+ * 8. Data 송수신을 위한  PlayRTCData 수신 이벤트 처리 -> 데이터 채널 사용 설정 시
  *   -(void)onAddDataStream:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid data:(PlayRTCData*)data;
  *     PlayRTCViewController_PlayRTC.m
  *   PlayRTCData 수신 시 수신 이벤트 처리를 이해 PlayRTCDataObserver를 구현한 PlayRTCDataChannelHandler 등록
  *     PlayRTCDataChannelHandler#setDataChannel(data);
  *
- * 10. 채널(P2P) 연결 종료
+ * 9. 채널(P2P) 연결 종료
  *   채널연결을 종료하면 P2P연결 시 P2P연결도 간이 종료된다.
  *   - USER-A 채널 퇴장
  *     USER-A가  PlayRTC#disconnectChannel을 호출하면 PlayRTCObserver#onDisconnectChannel 콜백 함수가 호출(P2P 내부 객체 해제)된다.

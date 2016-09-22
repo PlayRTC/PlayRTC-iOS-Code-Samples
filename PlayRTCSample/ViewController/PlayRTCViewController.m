@@ -18,6 +18,9 @@
 
 @implementation PlayRTCViewController
 @synthesize playrtcType;
+@synthesize ringEnable;
+@synthesize videoCodec;
+@synthesize audioCodec;
 @synthesize channelId;
 @synthesize token;
 @synthesize userUid;
@@ -33,15 +36,6 @@
 
 #pragma mark - instance
 
-- (id)initWithType:(int)type
-{
-    self = [super init];
-    if(self) {
-        self.playrtcType = type;
-    }
-    
-    return self;
-}
 
 /*
  // PlayRTC의 enableAudioSession를 사용하지 않고 직접 하려면 아래 소스를 사용하세요.

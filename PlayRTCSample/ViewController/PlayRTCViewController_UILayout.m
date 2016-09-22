@@ -51,6 +51,9 @@
     [channelPopup show:0.8f];
 }
 
+/*
+ * 화면 상단 타이틀바 영역 구성
+ */
 - (void)createTitleBarView:(CGRect)frame;
 {
     UIView* titleBar = [[UIView alloc] initWithFrame:frame];
@@ -81,6 +84,13 @@
 
 }
 
+/*
+ * 화면 Contents 구성 
+ * - 영상 출력 뷰
+ * - 로그 뷰
+ * - 화면 좌축 버튼 그룹 
+ * - 화면 우측 버튼 그룹
+ */
 - (void)createMainView:(CGRect)frame
 {
     mainAreaView = [[UIView alloc] initWithFrame:frame];
@@ -172,8 +182,12 @@
 }
 
 /*
- * 스피커 출력 선택 버튼
- * 이어폰을 연결한 상태가 아이라면 기본 출력은 EAR-SPEAKER.
+ * 화면 좌측 컨트롤 버튼 영역
+ * - 스피커 출력 선택
+ * - 카메라 전환
+ * - 후방 플래쉬 전환 
+ * - 영상뷰Snapshot
+ * 스피커 출력 선택 버튼 : 이어폰을 연결한 상태가 아이라면 기본 출력은 EAR-SPEAKER.
  * 버튼을 눌렀을때 EAR-SPEAKER 와 SPEAKER 전환 처리
  * 이 기능을 사용하려면 PlayRTC의 enableAudioSession을 호출하여 활성화 시켜야함.
  * Sample에서는 PlayRTCViewController의 loadView에서 호출
@@ -233,6 +247,7 @@
 
 }
 
+// 화면 중앙에 영상 출력부를 구성한다.
 - (void) createMainVideoLayout:(UIView*)parent videoFrame:(CGRect)videoFrame
 {
     NSLog(@"[%@] initVideoLayoutView...", LOG_TAG);
@@ -250,8 +265,8 @@
     [self.remoteVideoView bgClearColor];
     
     CGRect localVideoFrame = videoFrame;
-    localVideoFrame.size.width = localVideoFrame.size.width * 0.35;
-    localVideoFrame.size.height = localVideoFrame.size.height * 0.35;
+    localVideoFrame.size.width = localVideoFrame.size.width * 0.30f;
+    localVideoFrame.size.height = localVideoFrame.size.height * 0.30f;
     localVideoFrame.origin.x = bounds.size.width - localVideoFrame.size.width - 10.0f;
     localVideoFrame.origin.y = 10.0f;
     

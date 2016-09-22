@@ -65,6 +65,9 @@
     // 3 : 음성
     // 4 : Data
     int playrtcType;
+    BOOL ringEnable;
+    NSString* videoCodec;
+    NSString* audioCodec;
     
     // 로깅 관련
     NSString* prevText;
@@ -75,6 +78,9 @@
     
 }
 @property (assign) int playrtcType;
+@property (assign) BOOL ringEnable;
+@property (nonatomic, copy) NSString* videoCodec;
+@property (nonatomic, copy) NSString* audioCodec;
 @property (nonatomic, copy) NSString* channelId;
 @property (nonatomic, copy) NSString* token;
 @property (nonatomic, copy) NSString* userUid;
@@ -89,7 +95,6 @@
 @property (nonatomic, copy)NSString *recvFile;
 @property (nonatomic, copy)NSString *recvText;
 
-- (id)initWithType:(int)type;
 - (void)closeViewController;
 
 #pragma mark - ChannelViewListener

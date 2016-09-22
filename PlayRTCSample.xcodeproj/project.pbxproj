@@ -45,7 +45,9 @@
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
 		3348E88A1CFBECF100A7FED8 /* SnapshotLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */; };
-		33CFD63D1D47329100DF89DB /* libPlayRTC.universal.r12763.2.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33CFD63C1D47329100DF89DB /* libPlayRTC.universal.r12763.2.2.6.a */; };
+		33E2D8551D9383420092F3C6 /* btn_radio_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E2D8531D9383420092F3C6 /* btn_radio_off.png */; };
+		33E2D8561D9383420092F3C6 /* btn_radio_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E2D8541D9383420092F3C6 /* btn_radio_on.png */; };
+		33E2D8581D9383930092F3C6 /* libPlayRTC.universal.r13790.2.2.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E2D8571D9383930092F3C6 /* libPlayRTC.universal.r13790.2.2.7.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,7 +126,9 @@
 		337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		337B0A8E1C1FFBE3009CD308 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		33CFD63C1D47329100DF89DB /* libPlayRTC.universal.r12763.2.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPlayRTC.universal.r12763.2.2.6.a; path = "../PlayRTC-IOS-SDK/libPlayRTC.universal.r12763.2.2.6.a"; sourceTree = "<group>"; };
+		33E2D8531D9383420092F3C6 /* btn_radio_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_radio_off.png; sourceTree = "<group>"; };
+		33E2D8541D9383420092F3C6 /* btn_radio_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_radio_on.png; sourceTree = "<group>"; };
+		33E2D8571D9383930092F3C6 /* libPlayRTC.universal.r13790.2.2.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPlayRTC.universal.r13790.2.2.7.a; path = "../PlayRTC-IOS-SDK/libPlayRTC.universal.r13790.2.2.7.a"; sourceTree = "<group>"; };
 		33FAEDD21B79B352004C5579 /* PlayRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -139,7 +143,6 @@
 				217E53731BAAB01500F29265 /* CFNetwork.framework in Frameworks */,
 				217E53711BAAB00C00F29265 /* SystemConfiguration.framework in Frameworks */,
 				217E536F1BAAB00300F29265 /* MobileCoreServices.framework in Frameworks */,
-				33CFD63D1D47329100DF89DB /* libPlayRTC.universal.r12763.2.2.6.a in Frameworks */,
 				217E53611BAAAFAE00F29265 /* CoreTelephony.framework in Frameworks */,
 				217E536D1BAAAFED00F29265 /* CoreMedia.framework in Frameworks */,
 				217E536B1BAAAFE100F29265 /* CoreAudio.framework in Frameworks */,
@@ -147,6 +150,7 @@
 				217E53671BAAAFCF00F29265 /* CoreVideo.framework in Frameworks */,
 				217E53651BAAAFC700F29265 /* AVFoundation.framework in Frameworks */,
 				217E53631BAAAFB700F29265 /* CoreFoundation.framework in Frameworks */,
+				33E2D8581D9383930092F3C6 /* libPlayRTC.universal.r13790.2.2.7.a in Frameworks */,
 				217E535F1BAAAFA500F29265 /* AudioToolbox.framework in Frameworks */,
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
@@ -191,6 +195,8 @@
 		217E531F1BAAAE7A00F29265 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				33E2D8531D9383420092F3C6 /* btn_radio_off.png */,
+				33E2D8541D9383420092F3C6 /* btn_radio_on.png */,
 				217E53201BAAAE7A00F29265 /* playrtc_icon_128.png */,
 			);
 			path = Resource;
@@ -281,7 +287,7 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
-				33CFD63C1D47329100DF89DB /* libPlayRTC.universal.r12763.2.2.6.a */,
+				33E2D8571D9383930092F3C6 /* libPlayRTC.universal.r13790.2.2.7.a */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;
@@ -394,6 +400,8 @@
 			files = (
 				217E533D1BAAAE7A00F29265 /* Main.storyboard in Resources */,
 				217E53401BAAAE7A00F29265 /* Images.xcassets in Resources */,
+				33E2D8551D9383420092F3C6 /* btn_radio_off.png in Resources */,
+				33E2D8561D9383420092F3C6 /* btn_radio_on.png in Resources */,
 				217E53431BAAAE7A00F29265 /* playrtc_icon_128.png in Resources */,
 				217E533C1BAAAE7A00F29265 /* LaunchScreen.xib in Resources */,
 			);
