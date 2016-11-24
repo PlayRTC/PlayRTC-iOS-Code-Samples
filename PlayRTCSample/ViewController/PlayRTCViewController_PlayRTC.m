@@ -194,10 +194,12 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.video setPreferCodec:rtcVideoCodec];
         
         
-        // sdk support only 640x480
         /**
-         * ios sdk는 640x480 해상도만 지원하며, 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
-         * 현재 다른 해상도는 미지원
+         * 영상 해상도 지정. 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
+         * 지원 해상도
+         * - 352x288
+         * - 640x480 default
+         * - 1280x720
          */
         [config.video setMaxFrameSize:640 height:480];
         [config.video setMinFrameSize:640 height:480];
@@ -233,8 +235,9 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setPreferCodec:rtcAudioCodec];
         
         /**
-         * PlayRTC Audio-Stream BandWidth를 지정한다.
-         * default 32
+         * PlayRTC Audio-Stream BandWidth를 지정한다. default 32
+         * PlayRTCISAC 32
+         * PlayRTCOPUS 32 ~ 64
          * @param bitrateKbps int
          */
         [config.bandwidth setAudioBitrateKbps:32];
@@ -280,10 +283,12 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.video setPreferCodec:rtcVideoCodec];
 
         
-        // sdk support only 640x480
         /**
-         * ios sdk는 640x480 해상도만 지원하며, 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
-         * 현재 다른 해상도는 미지원
+         * 영상 해상도 지정. 네트워크 사정에 따라 작은 해상도로 자동으로 적용됨.
+         * 지원 해상도
+         * - 352x288
+         * - 640x480 default
+         * - 1280x720
          */
         [config.video setMaxFrameSize:640 height:480];
         [config.video setMinFrameSize:640 height:480];
@@ -319,8 +324,9 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setPreferCodec:rtcAudioCodec];
 
         /**
-         * PlayRTC Audio-Stream BandWidth를 지정한다.
-         * default 32
+         * PlayRTC Audio-Stream BandWidth를 지정한다. default 32
+         * PlayRTCISAC 32
+         * PlayRTCOPUS 32 ~ 64
          * @param bitrateKbps int
          */
         [config.bandwidth setAudioBitrateKbps:32];
@@ -357,8 +363,9 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
         [config.audio setPreferCodec:rtcAudioCodec];
         
         /**
-         * PlayRTC Audio-Stream BandWidth를 지정한다.
-         * default 32
+         * PlayRTC Audio-Stream BandWidth를 지정한다. default 32
+         * PlayRTCISAC 32
+         * PlayRTCOPUS 32 ~ 64
          * @param bitrateKbps int
          */
         [config.bandwidth setAudioBitrateKbps:32];

@@ -76,6 +76,9 @@
     // 채널 서비스 연결 여부 
     BOOL isChannelConnected;
     
+    // v2.2.8 카메라 영상 회전 각도 표시 
+    UILabel* degreelb;
+    
 }
 @property (assign) int playrtcType;
 @property (assign) BOOL ringEnable;

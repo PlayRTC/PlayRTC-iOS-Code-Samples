@@ -50,11 +50,15 @@
 - (void)leftTitleBarBtnClick:(id)sender;
 - (void)rightTitleBarBtnClick:(id)sender;
 - (void)rightBtnClick:(id)sender;
+- (void)mirrorBtnClick:(id)sender;
 - (void)leftBtnClick:(id)sender;
 - (void)rightTopBtnClick:(id)sender;
 - (void)appendLogView:(NSString*)insertingString;
 - (void)progressLogView:(NSString*)insertingString;
 - (void)showTopLeftControlButtons;
+
+//v2.2.8 카메라 영상 회전 각도 지정 관련
+- (void)degreeBtnClick:(id)sender;
 
 /* SnapshotLayerObserver */
 - (void)onClickSnapshotButton:(BOOL)localView;

@@ -181,6 +181,19 @@
     }
 }
 
+//v2.2.8 카메라 영상 회전 각도 지정 관련
+// 0, 90, 180, 270
+// 미러모드(전방 카메라) 사용 시 시계 반대방향 
+- (void)degreeBtnClick:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    int degree = (int)btn.tag;
+    
+    degreelb.text = [NSString stringWithFormat:@"%d도", degree];
+    [playRTC setCameraRotation:degree];
+    
+}
+
 /*
  * 화면 좌측 컨트롤 버튼 영역
  * - 스피커 출력 선택
@@ -195,7 +208,7 @@
 - (void)createMainLeftButtonLayout
 {
     CGFloat width = 95.0f; // BTN_WIDTH
-    CGFloat height = BTN_HEIGHT * 1.2f;
+    CGFloat height = BTN_HEIGHT * 1.1f;
     CGFloat posX = 5.0f;
     CGFloat posY = 0.0f;
     /**
@@ -206,7 +219,7 @@
      *      4: Data Only
      */
     if(self.playrtcType < 4) {
-        posY = posY + height+ 5.0f;
+        posY = posY + 20 + 5.0f;
         ExButton* speakBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
         [speakBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         speakBtn.tag = 1;
@@ -216,6 +229,17 @@
         [mainAreaView addSubview:speakBtn];
     }
     if(self.playrtcType < 3) {
+        
+        posY = posY + height + 15.0f;
+        ExButton* mirrorBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
+        [mirrorBtn addTarget:self action:@selector(mirrorBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        mirrorBtn.tag = 0; // 사용 안함, 1 : 사용
+        mirrorBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        [mirrorBtn setTitle:@"미러모드-Off" forState:UIControlStateNormal];
+        [mirrorBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [mainAreaView addSubview:mirrorBtn];
+
+        
         posY = posY + height + 15.0f;
         ExButton* cameraBtn = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY, width, height)];
         [cameraBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -285,6 +309,52 @@
     [parent addSubview:self.localVideoView];
     
     
+    
+    ////////////////////////////////////////////////////////////////////////
+    // v2.2.8 카메라 영상 회전 각도 지정 관련 
+    degreelb = [[UILabel alloc] initWithFrame:CGRectMake(2, 60, 40, 20)];
+    degreelb.backgroundColor = [UIColor clearColor];
+    degreelb.textAlignment = NSTextAlignmentCenter;
+    degreelb.font =[UIFont systemFontOfSize:12.0f];
+    degreelb.textColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:1.0f];
+    degreelb.text = @"0도";
+    [parent addSubview:degreelb];
+    
+    ExButton* camera0Btn = [[ExButton alloc] initWithFrame:CGRectMake(2, 84, 40, 25)];
+    [camera0Btn addTarget:self action:@selector(degreeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    camera0Btn.tag = 0;
+    camera0Btn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [camera0Btn setTitle:@"0" forState:UIControlStateNormal];
+    [camera0Btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [parent addSubview:camera0Btn];
+    
+    
+    ExButton* camera90Btn = [[ExButton alloc] initWithFrame:CGRectMake(2, 126, 40, 25)];
+    [camera90Btn addTarget:self action:@selector(degreeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    camera90Btn.tag = 90;
+    camera90Btn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [camera90Btn setTitle:@"90" forState:UIControlStateNormal];
+    [camera90Btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [parent addSubview:camera90Btn];
+    
+    
+    ExButton* camera180Btn = [[ExButton alloc] initWithFrame:CGRectMake(2, 168, 40, 25)];
+    [camera180Btn addTarget:self action:@selector(degreeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    camera180Btn.tag = 180;
+    camera180Btn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [camera180Btn setTitle:@"180" forState:UIControlStateNormal];
+    [camera180Btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [parent addSubview:camera180Btn];
+    
+    
+    ExButton* camera270Btn = [[ExButton alloc] initWithFrame:CGRectMake(2, 210, 40, 25)];
+    [camera270Btn addTarget:self action:@selector(degreeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    camera270Btn.tag = 270;
+    camera270Btn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [camera270Btn setTitle:@"270" forState:UIControlStateNormal];
+    [camera270Btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [parent addSubview:camera270Btn];
+
 }
 
 /*
@@ -563,6 +633,27 @@
     else if(tag == 7) //Channel Close
     {
         [self performSelector:@selector(deleteChannel) withObject:nil afterDelay:0.1];
+    }
+}
+
+// 로컬 영상 미러모드 출력 전환
+- (void)mirrorBtnClick:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    int tag = (int)btn.tag;
+    if(tag == 0)
+    {
+        // 미러모드 사용전환
+        btn.tag = 1;
+        [btn setTitle:@"미러모드-On" forState:UIControlStateNormal];
+        [localVideoView setMirror:TRUE];
+        
+    }
+    else {
+        // 미러모드 사용안함
+        btn.tag = 0;
+        [btn setTitle:@"미러모드-Off" forState:UIControlStateNormal];
+        [localVideoView setMirror:FALSE];
     }
 }
 
