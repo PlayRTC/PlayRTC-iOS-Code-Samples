@@ -561,7 +561,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  * 후방 카메라 플래쉬 On/Off 전환
  * 후방 카메라 사용중에만 동작한다.
  */
-- (void)switchFlash
+- (void)switchCameraFlash
 {
     if(self.playRTC == nil) {
         
@@ -580,14 +580,18 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  */
 - (BOOL)switchLoudSpeaker
 {
+    if(self.playRTC == nil) {
+        
+        return FALSE;
+    }
     //음성 Speaker 출력 시 Loud-Speaker를 사용하도록 지정했는지 여부를 반환하는 인터페이스
     BOOL isOn = ![playRTC getLoudspeakerStatus];
     
     //음성 Speaker 출력 시 Loud-Speaker를 지정하는 인터페이스
-    [playRTC setLoudspeakerEnable:isOn];
+    [self.playRTC setLoudspeakerEnable:isOn];
     
     
-    return [playRTC getLoudspeakerStatus];
+    return [self.playRTC getLoudspeakerStatus];
 }
 
 /**
@@ -622,6 +626,148 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 -(void)onSnapshotImage:(UIImage*)image
 {
     [snapshotView setSnapshotImage:image];
+}
+
+/**
+ * v2.2.8 카메라 영상에 대한 추가 회전 각도 지정
+ * 0, 90, 180, 270
+ */
+- (void)setCameraRotation:(int)degree
+{
+    if(self.playRTC == nil) {
+        
+        return;
+    }
+    [playRTC setCameraRotation:degree];
+}
+
+/**
+ * 현재 사용중인 카메라의 Zoom Leval 설정 범위를 반환한다.
+ * min, max 값이 1.0 이면 zoom 지원 않함.
+ * 1,0 ~, 최대 4.0f
+ * add v.2.2.9
+ * @return ValueRange
+ */
+-(ValueRange*)getCameraZoomRange
+{
+    if(self.playRTC == nil) {
+        
+        return [ValueRange create:[NSNumber numberWithFloat:1.0f] max:[NSNumber numberWithFloat:1.0f]];
+    }
+    return [self.playRTC getCameraZoomRange];;
+}
+/**
+ * 현재 사용중인 카메라의 Zoom Leval 값을 반환한다.
+ * add v.2.2.9
+ * @return float
+ */
+-(float)getCurrentCameraZoom
+{
+    if(self.playRTC == nil) {
+        
+        return 1.0f;
+    }
+    return  [self.playRTC getCurrentCameraZoom];
+}
+
+/**
+ * 현재 사용중인 카메라의 Zoom Leval을 지정한다.
+ * Zoom Leval은 max보다 크게 지정할 수 없다.
+ * add v.2.2.9
+ * @param zoomLevel float,  Zoom 설정 값. min <= zoom >= max
+ * @return BOOL, 실행여부
+ */
+-(BOOL)setCameraZoom:(float)zoomLevel
+{
+    if(self.playRTC == nil) {
+        
+        return FALSE;
+    }
+    
+    return [self.playRTC setCameraZoom:zoomLevel];
+}
+
+/**
+ * 현재 사용중인 카메라의 WhiteBalance를 반환한다.
+ * add v.2.2.9
+ * @return PlayRTCWhiteBalance
+ *  PlayRTCDefine.h
+ *  - PlayRTCWhiteBalanceAuto
+ *  - PlayRTCWhiteBalanceIncandescent : 백열등빛 temperature:3200K, 텅스텐 계열의 조명(백열전구로 되어 있으나 텅스텐 조명에 해당)
+ *  - PlayRTCWhiteBalanceFluoreScent :  형광등빛 temperature:4000K, 백색 형광등 계열
+ *  - PlayRTCWhiteBalanceDayLight : 햇빛/일광 temperature temperature:5200K
+ *  - PlayRTCWhiteBalanceCloudyDayLight : 흐린빛/구름 or 플래쉬 temperature:6000K
+ *  - PlayRTCWhiteBalanceTwiLi : 저녁빛 temperature:4000K, 저녁빛 아침이나 일목 1~2시간전
+ *  - PlayRTCWhiteBalanceShade : 그늘/그림자 temperature:7000K, 맑은날 그늘진 곳에서 촬영 시
+ */
+-(PlayRTCWhiteBalance)getCameraWhiteBalance
+{
+    if(self.playRTC == nil) {
+        
+        return PlayRTCWhiteBalanceAuto;
+    }
+    return [self.playRTC getCameraWhiteBalance];
+}
+
+/**
+ * 현재 사용중인 카메라의 WhiteBalance를 지정한다.
+ * add v.2.2.9
+ * @param whiteBalance PlayRTCWhiteBalance
+ * @return BOOL, 실행 여부
+ */
+-(BOOL)setCameraWhiteBalance:(PlayRTCWhiteBalance)whiteBalance
+{
+    if(self.playRTC == nil) {
+        
+        return FALSE;
+    }
+    return [self.playRTC setCameraWhiteBalance:whiteBalance];
+}
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값 설정 범위를 반환한다.
+ * min, max 값이 0.0 이면 지원 않함.
+ * min:-4.0 ~ max:+4.0f
+ * add v.2.2.9
+ * @return ValueRange
+ */
+-(ValueRange*)getCameraExposureCompensationRange
+{
+    if(self.playRTC == nil) {
+        
+        return [ValueRange create:[NSNumber numberWithFloat:0.0f] max:[NSNumber numberWithFloat:0.0f]];
+    }
+    return [self.playRTC getCameraExposureCompensationRange];
+}
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값을 반환한다.
+ * add v.2.2.9
+ * @return float
+ */
+-(float)getCameraExposureCompensation
+{
+    if(self.playRTC == nil) {
+        
+        return 0.0f;
+    }
+    return [self.playRTC getCameraExposureCompensation];
+}
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값을 지정한다.
+ * 노출 보정값은 설정 범위안에서 지정한다.
+ * add v.2.2.9
+ * @param exposureCompensation float,  min <= zoomLevel >= max(getCameraExposureCompensationRange)
+ * @return BOOL, 실행여부
+ */
+-(BOOL)setCameraExposureCompensation:(float)exposureCompensation
+{
+    if(self.playRTC == nil) {
+        
+        return FALSE;
+    }
+    return [self.playRTC setCameraExposureCompensation:exposureCompensation];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -957,7 +1103,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
     RatingValue* remoteVideoFl = [report getRemoteVideoFractionLost];
     RatingValue* remoteAudioFl = [report getRemoteAudioFractionLost];
     
-    NSString* localReport = [NSString stringWithFormat:@"\nLocal Report\n    ICE:[%@]\n    %dx%dx%d\n    %@,%@\n    %@ps\n    RTT:%d\n    RTT-Ratting:[%d/%.6f]\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]",
+    NSString* localReport = [NSString stringWithFormat:@"\nLocal Report\n ICE:%@\n 해상도:%dx%dx%d\n 코덱:%@,%@\n BW:%@ps\n RTT:%d\n RTT-R:[%d/%.2f]\n VFL:[%d/%.4f]\n AFL:[%d/%.4f]",
                              [report getLocalCandidate],
                              [report getLocalFrameWidth],
                              [report getLocalFrameHeight],
@@ -973,7 +1119,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
                              [localAudioFl getLevel],
                              [localAudioFl getValue]];
     
-    NSString* remoteReport = [NSString stringWithFormat:@"\nRemote Report\n    ICE:%@\n    %dx%dx%d\n    %@,%@\n    %@ps\n    VFractionLost:[%d/%.6f]\n    AFractionLost:[%d/%.6f]\n",
+    NSString* remoteReport = [NSString stringWithFormat:@"\nRemote Report\n ICE:%@\n 해상도:%dx%dx%d\n 코덱:%@,%@\n BW:%@ps\n VFL:[%d/%.4f]\n AFL:[%d/%.4f]",
                               [report getRemoteCandidate],
                               [report getRemoteFrameWidth],
                               [report getRemoteFrameHeight],
@@ -985,12 +1131,16 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
                               [remoteVideoFl getValue],
                               [remoteAudioFl getLevel],
                               [remoteAudioFl getValue]];
+
     
     NSLog(@"[PlayRTCViewController] \n%@%@%@%@",
           @"Stat Report ================================",
           localReport,
           remoteReport,
           @"Stat Report ================================");
+    
+    lbStatus.text = [NSString stringWithFormat:@"%@\n%@", localReport, remoteReport];
+    [lbStatus sizeToFit];
 
 }
 

@@ -44,7 +44,7 @@
 		217E53731BAAB01500F29265 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53721BAAB01500F29265 /* CFNetwork.framework */; };
 		217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53741BAAB01D00F29265 /* CoreGraphics.framework */; };
 		217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217E53761BAAB02400F29265 /* QuartzCore.framework */; };
-		3329380D1DE3C308009E4F36 /* libPlayRTC.universal.r15011.2.2.8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3329380C1DE3C308009E4F36 /* libPlayRTC.universal.r15011.2.2.8.a */; };
+		33010EA61E13516C00849DF1 /* libPlayRTC.universal.r15011.2.2.9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33010EA51E13516C00849DF1 /* libPlayRTC.universal.r15011.2.2.9.a */; };
 		3348E88A1CFBECF100A7FED8 /* SnapshotLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */; };
 		33E2D8551D9383420092F3C6 /* btn_radio_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E2D8531D9383420092F3C6 /* btn_radio_off.png */; };
 		33E2D8561D9383420092F3C6 /* btn_radio_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E2D8541D9383420092F3C6 /* btn_radio_on.png */; };
@@ -102,7 +102,7 @@
 		217E53721BAAB01500F29265 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		217E53741BAAB01D00F29265 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		217E53761BAAB02400F29265 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		3329380C1DE3C308009E4F36 /* libPlayRTC.universal.r15011.2.2.8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPlayRTC.universal.r15011.2.2.8.a; path = "../PlayRTC-IOS-SDK/libPlayRTC.universal.r15011.2.2.8.a"; sourceTree = "<group>"; };
+		33010EA51E13516C00849DF1 /* libPlayRTC.universal.r15011.2.2.9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPlayRTC.universal.r15011.2.2.9.a; path = "../PlayRTC-IOS-SDK/libPlayRTC.universal.r15011.2.2.9.a"; sourceTree = "<group>"; };
 		3348E8881CFBECF100A7FED8 /* SnapshotLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnapshotLayerView.h; path = PlayRTCSample/View/SnapshotLayerView.h; sourceTree = SOURCE_ROOT; };
 		3348E8891CFBECF100A7FED8 /* SnapshotLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnapshotLayerView.m; path = PlayRTCSample/View/SnapshotLayerView.m; sourceTree = SOURCE_ROOT; };
 		337B0A751C1FFACD009CD308 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayRTC.h; path = "../PlayRTC-IOS-SDK/public/PlayRTC.h"; sourceTree = "<group>"; };
@@ -143,7 +143,6 @@
 				217E53731BAAB01500F29265 /* CFNetwork.framework in Frameworks */,
 				217E53711BAAB00C00F29265 /* SystemConfiguration.framework in Frameworks */,
 				217E536F1BAAB00300F29265 /* MobileCoreServices.framework in Frameworks */,
-				3329380D1DE3C308009E4F36 /* libPlayRTC.universal.r15011.2.2.8.a in Frameworks */,
 				217E53611BAAAFAE00F29265 /* CoreTelephony.framework in Frameworks */,
 				217E536D1BAAAFED00F29265 /* CoreMedia.framework in Frameworks */,
 				217E536B1BAAAFE100F29265 /* CoreAudio.framework in Frameworks */,
@@ -151,6 +150,7 @@
 				217E53671BAAAFCF00F29265 /* CoreVideo.framework in Frameworks */,
 				217E53651BAAAFC700F29265 /* AVFoundation.framework in Frameworks */,
 				217E53631BAAAFB700F29265 /* CoreFoundation.framework in Frameworks */,
+				33010EA61E13516C00849DF1 /* libPlayRTC.universal.r15011.2.2.9.a in Frameworks */,
 				217E535F1BAAAFA500F29265 /* AudioToolbox.framework in Frameworks */,
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
@@ -287,7 +287,7 @@
 		332C33EA1B79C25200D67DA8 /* PlayRTC */ = {
 			isa = PBXGroup;
 			children = (
-				3329380C1DE3C308009E4F36 /* libPlayRTC.universal.r15011.2.2.8.a */,
+				33010EA51E13516C00849DF1 /* libPlayRTC.universal.r15011.2.2.9.a */,
 				332C33EB1B79C25E00D67DA8 /* public */,
 			);
 			name = PlayRTC;
@@ -366,6 +366,7 @@
 				TargetAttributes = {
 					33FAEDD11B79B352004C5579 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = JEEXRMT46Y;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -551,7 +552,7 @@
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JEEXRMT46Y;
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;
@@ -603,7 +604,7 @@
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JEEXRMT46Y;
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_CW_ASM_SYNTAX = NO;

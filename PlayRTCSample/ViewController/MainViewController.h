@@ -11,8 +11,6 @@
 
 @interface MainViewController : UIViewController
 {
-    
-    
     __weak IBOutlet UIButton* btnVP8;
     __weak IBOutlet UIButton* btnVP9;
     __weak IBOutlet UIButton* btnH264;

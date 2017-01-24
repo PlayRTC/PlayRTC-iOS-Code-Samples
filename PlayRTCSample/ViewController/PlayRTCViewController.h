@@ -25,6 +25,7 @@
     NSString* channelId;
     NSString* token;
     NSString* userUid;
+    
     PlayRTCVideoView* localVideoView;
     PlayRTCVideoView* remoteVideoView;
     CGSize _localVideoSize;
@@ -50,8 +51,55 @@
     UIView* videoAreaView;
     UIView* bottomAreaView;
     
+    // 미러모드 라벨
+    UILabel* lbMirrorMode;
+    // 미러모드 설정 버튼 영역
+    UIView* btnMirrorView;
+    
+    // 음성 출력 라벨
+    UILabel* lbSpeakerMode;
+    
+    // 카메라 회전 각도 표시 라벨
+    UILabel* lbDegree;
+    // 카메라 회전 각도 버튼 영역
+    UIView* btnDegreeView;
+    
+    // 카메라 줌 라벨
+    UILabel* lbZoomValue;
+    // 카메라 줌 설정 영역
+    UIView* btnZoomView;
+    // 카메라 줌 최대 값 라벨
+    UILabel* lbMaxZoom;
+    // 카메라 줌 설정 Slider
+    UISlider* zoomSlider;
+    // 카메라 줌 최소 값 라벨
+    UILabel* lbMinZoom;
+    
+    // 카메라 WhiteBalance 라벨
+    UILabel* lbWhiteBalance;
+    // 카메라 WhiteBalance 지정 버튼 영역
+    UIView* btnWhiteBalanceView;
+    
+    // 카메라 노출보정 최대/최소 범위, 0.0이면 지원안함.
+    ValueRange* exposureRange;
+    // 카메라 노출보정 지정 버튼 영역
+    UIView* btnExposureView;
+    // 카메라 노출보정 값 라벨
+    UILabel* lbExposure;
+    // 카메라 노출보정 최대 값 라벨
+    UILabel* lbMaxExposure;
+    // 카메라 노출보정 Slider
+    UISlider* exposureSlider;
+    // 카메라 노출보정 최소 값 라벨
+    UILabel* lbMinExposure;
+
+    
+    UILabel* lbStatus;
+
+    
     // 채널 생성 및 채널 입장 팝업
     ChannelView* channelPopup;
+    
     // snapshot view
     SnapshotLayerView* snapshotView;
     

@@ -161,7 +161,8 @@
  * 후방 카메라 플래쉬 On/Off 전환
  * 후방 카메라 사용중에만 동작한다.
  */
-- (void)switchFlash;
+- (void)switchCameraFlash;
+
 /**
  * 음성 Speaker 출력 시 Loud-Speaker <-> Ear-Speaker 전환 
  */
@@ -177,6 +178,85 @@
  * 이미지 크기는 View Size와 동일
  */
 - (void)remoteViewSnapshot;
+
+/**
+ * v2.2.8 카메라 영상에 대한 추가 회전 각도 지정
+ * 0, 90, 180, 270
+ */
+- (void)setCameraRotation:(int)degree;
+
+/**
+ * 현재 사용중인 카메라의 Zoom Leval 설정 범위를 반환한다.
+ * min, max 값이 1.0 이면 zoom 지원 않함.
+ * 1,0 ~, 최대 4.0f
+ * add v.2.2.9
+ * @return ValueRange
+ */
+-(ValueRange*)getCameraZoomRange;
+/**
+ * 현재 사용중인 카메라의 Zoom Leval 값을 반환한다.
+ * add v.2.2.9
+ * @return float
+ */
+-(float)getCurrentCameraZoom;
+
+/**
+ * 현재 사용중인 카메라의 Zoom Leval을 지정한다.
+ * Zoom Leval은 max보다 크게 지정할 수 없다.
+ * add v.2.2.9
+ * @param zoomLevel float,  Zoom 설정 값. min <= zoomLevel >= max
+ * @return BOOL, 실행여부
+ */
+-(BOOL)setCameraZoom:(float)zoomLevel;
+
+/**
+ * 현재 사용중인 카메라의 WhiteBalance를 반환한다.
+ * add v.2.2.9
+ * @return PlayRTCWhiteBalance
+ *  PlayRTCDefine.h
+ *  - PlayRTCWhiteBalanceAuto
+ *  - PlayRTCWhiteBalanceIncandescent : 백열등빛 temperature:3200K, 텅스텐 계열의 조명(백열전구로 되어 있으나 텅스텐 조명에 해당)
+ *  - PlayRTCWhiteBalanceFluoreScent :  형광등빛 temperature:4000K, 백색 형광등 계열
+ *  - PlayRTCWhiteBalanceDayLight : 햇빛/일광 temperature temperature:5200K
+ *  - PlayRTCWhiteBalanceCloudyDayLight : 흐린빛/구름 or 플래쉬 temperature:6000K
+ *  - PlayRTCWhiteBalanceTwiLi : 저녁빛 temperature:4000K, 저녁빛 아침이나 일목 1~2시간전
+ *  - PlayRTCWhiteBalanceShade : 그늘/그림자 temperature:7000K, 맑은날 그늘진 곳에서 촬영 시
+ */
+-(PlayRTCWhiteBalance)getCameraWhiteBalance;
+
+/**
+ * 현재 사용중인 카메라의 WhiteBalance를 지정한다.
+ * add v.2.2.9
+ * @param whiteBalance PlayRTCWhiteBalance
+ * @return BOOL, 실행 여부
+ */
+-(BOOL)setCameraWhiteBalance:(PlayRTCWhiteBalance)whiteBalance;
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값 설정 범위를 반환한다.
+ * min, max 값이 0.0 이면 지원 않함.
+ * min:-4.0 ~ max:+4.0f
+ * add v.2.2.9
+ * @return ValueRange
+ */
+-(ValueRange*)getCameraExposureCompensationRange;
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값을 반환한다.
+ * add v.2.2.9
+ * @return float
+ */
+-(float)getCameraExposureCompensation;
+
+/**
+ * 현재 사용중인 카메라의 노출 보정값을 지정한다.
+ * 노출 보정값은 설정 범위안에서 지정한다.
+ * add v.2.2.9
+ * @param exposureCompensation float,  min <= zoomLevel >= max(getCameraExposureCompensationRange)
+ * @return BOOL, 실행여부
+ */
+-(BOOL)setCameraExposureCompensation:(float)exposureCompensation;
+
 ////////////////////////////////////////////////////////
 
 @end

@@ -53,45 +53,54 @@
     [self addSubview:imageView];
     self.displayView = imageView;
     
-    ExButton* btnLocal = [[ExButton alloc] initWithFrame:CGRectMake(5, 5 , 60.0, 30.0f)];
-    btnLocal.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    CGFloat posX = 8.0f;
+    CGFloat posY = 50.0f;
+    CGFloat btnWidth = 80.0f;
+    CGFloat btnHeight = 38.0f;
+    CGFloat lbWidth = 100.0f;
+    CGFloat lbHeight = 20.0f;
+    CGFloat btnTSize = 13.0f;
+    CGFloat lbTSize = 13.0f;
+    
+    UILabel* lbSize = [[UILabel alloc] initWithFrame:CGRectMake(posX, posY , lbWidth, lbHeight)];
+    lbSize.text = @"[0X0]";
+    lbSize.font = [UIFont systemFontOfSize:lbTSize];
+    lbSize.textColor = [UIColor colorWithRed:255/255.0f green:0/255.0f blue:255/255.0f alpha:1.0f];
+    [self.lbImageSize sizeToFit];
+    [self addSubview:lbSize];
+    self.lbImageSize = lbSize;
+
+    posY += lbHeight;
+    ExButton* btnLocal = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY , btnWidth, btnHeight)];
+    btnLocal.titleLabel.font = [UIFont systemFontOfSize:btnTSize];
     [btnLocal setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btnLocal setTitle:@"Local" forState:UIControlStateNormal];
     [self addSubview:btnLocal];
     self.btnLocalSnashot = btnLocal;
     
-    ExButton* btnRemote = [[ExButton alloc] initWithFrame:CGRectMake(70, 5 , 60.0, 30.0f)];
-    btnRemote.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    posY += (btnHeight + 8.0f);
+    ExButton* btnRemote = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY , btnWidth, btnHeight)];
+    btnRemote.titleLabel.font = [UIFont systemFontOfSize:btnTSize];
     [btnRemote setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btnRemote setTitle:@"Remote" forState:UIControlStateNormal];
     [self addSubview:btnRemote];
     self.btnRemoteSnashot = btnRemote;
     
-    ExButton* btnClear = [[ExButton alloc] initWithFrame:CGRectMake(135, 5 , 60.0, 30.0f)];
-    btnClear.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    posY += (btnHeight + 8.0f);
+    ExButton* btnClear = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY , btnWidth, btnHeight)];
+    btnClear.titleLabel.font = [UIFont systemFontOfSize:btnTSize];
     [btnClear setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btnClear setTitle:@"Clear" forState:UIControlStateNormal];
     [self addSubview:btnClear];
     self.btnClearSnashot = btnClear;
     
-    
-    ExButton* btnClose = [[ExButton alloc] initWithFrame:CGRectMake(200, 5 , 60.0, 30.0f)];
-    btnClose.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    posY += (btnHeight + 8.0f);
+    ExButton* btnClose = [[ExButton alloc] initWithFrame:CGRectMake(posX, posY , btnWidth, btnHeight)];
+    btnClose.titleLabel.font = [UIFont systemFontOfSize:btnTSize];
     [btnClose setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btnClose setTitle:@"Close" forState:UIControlStateNormal];
     [self addSubview:btnClose];
     self.btnCloseSnashot = btnClose;
-    
-    
-    
-    
-    UILabel* lbSize = [[UILabel alloc] initWithFrame:CGRectMake(270, 10 , 120.0, 30.0f)];
-    lbSize.text = @"[0X0]";
-    lbSize.font = [UIFont systemFontOfSize:15.0f];
-    lbSize.textColor = [UIColor redColor];
-    [self.lbImageSize sizeToFit];
-    [self addSubview:lbSize];
-    self.lbImageSize = lbSize;
     
     
     centerPoint = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
