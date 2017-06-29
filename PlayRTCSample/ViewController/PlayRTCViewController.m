@@ -10,7 +10,6 @@
 #import "PlayRTCViewController_UILayout.h"
 #import "PlayRTCViewController_PlayRTC.h"
 
-#import "PlayRTCSettings.h"
 #import <AVFoundation/AVFoundation.h>
 
 #define LOG_TAG @"PlayRTCViewController"

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02C27E491E8A2BEE00F2A1C6 /* libPlayRTC.universal.r16409.2.2.10.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02C27E351E8A2BEE00F2A1C6 /* libPlayRTC.universal.r16409.2.2.10.a */; };
+		0202EFFA1F055353001F04AA /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0202EFF91F055353001F04AA /* Metal.framework */; };
 		217E533B1BAAAE7A00F29265 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 217E53121BAAAE7A00F29265 /* AppDelegate.m */; };
 		217E533C1BAAAE7A00F29265 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 217E53131BAAAE7A00F29265 /* LaunchScreen.xib */; };
 		217E533D1BAAAE7A00F29265 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 217E53151BAAAE7A00F29265 /* Main.storyboard */; };
@@ -51,25 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		02C27E351E8A2BEE00F2A1C6 /* libPlayRTC.universal.r16409.2.2.10.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPlayRTC.universal.r16409.2.2.10.a; sourceTree = "<group>"; };
-		02C27E371E8A2BEE00F2A1C6 /* PlayRTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTC.h; sourceTree = "<group>"; };
-		02C27E381E8A2BEE00F2A1C6 /* PlayRTCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCConfig.h; sourceTree = "<group>"; };
-		02C27E391E8A2BEE00F2A1C6 /* PlayRTCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCData.h; sourceTree = "<group>"; };
-		02C27E3A1E8A2BEE00F2A1C6 /* PlayRTCDataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCDataHeader.h; sourceTree = "<group>"; };
-		02C27E3B1E8A2BEE00F2A1C6 /* PlayRTCDataObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCDataObserver.h; sourceTree = "<group>"; };
-		02C27E3C1E8A2BEE00F2A1C6 /* PlayRTCDataSendObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCDataSendObserver.h; sourceTree = "<group>"; };
-		02C27E3D1E8A2BEE00F2A1C6 /* PlayRTCDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCDefine.h; sourceTree = "<group>"; };
-		02C27E3E1E8A2BEE00F2A1C6 /* PlayRTCFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCFactory.h; sourceTree = "<group>"; };
-		02C27E3F1E8A2BEE00F2A1C6 /* PlayRTCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCMedia.h; sourceTree = "<group>"; };
-		02C27E401E8A2BEE00F2A1C6 /* PlayRTCObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCObserver.h; sourceTree = "<group>"; };
-		02C27E411E8A2BEE00F2A1C6 /* PlayRTCReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCReport.h; sourceTree = "<group>"; };
-		02C27E421E8A2BEE00F2A1C6 /* PlayRTCServiceHelperListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCServiceHelperListener.h; sourceTree = "<group>"; };
-		02C27E431E8A2BEE00F2A1C6 /* PlayRTCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCSettings.h; sourceTree = "<group>"; };
-		02C27E441E8A2BEE00F2A1C6 /* PlayRTCStatReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCStatReport.h; sourceTree = "<group>"; };
-		02C27E451E8A2BEE00F2A1C6 /* PlayRTCStatsReportObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCStatsReportObserver.h; sourceTree = "<group>"; };
-		02C27E461E8A2BEE00F2A1C6 /* PlayRTCVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRTCVideoView.h; sourceTree = "<group>"; };
-		02C27E471E8A2BEE00F2A1C6 /* SDKEnvInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKEnvInfo.h; sourceTree = "<group>"; };
-		02C27E481E8A2BEE00F2A1C6 /* ValueRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueRange.h; sourceTree = "<group>"; };
+		0202EFF91F055353001F04AA /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		217E53111BAAAE7A00F29265 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		217E53121BAAAE7A00F29265 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		217E53141BAAAE7A00F29265 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -138,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0202EFFA1F055353001F04AA /* Metal.framework in Frameworks */,
 				217E535D1BAAAF9D00F29265 /* VideoToolbox.framework in Frameworks */,
 				217E53771BAAB02400F29265 /* QuartzCore.framework in Frameworks */,
 				217E53751BAAB01D00F29265 /* CoreGraphics.framework in Frameworks */,
@@ -155,7 +138,6 @@
 				217E535B1BAAAF9100F29265 /* Security.framework in Frameworks */,
 				217E53591BAAAF7D00F29265 /* OpenGLES.framework in Frameworks */,
 				217E53571BAAAF6F00F29265 /* Foundation.framework in Frameworks */,
-				02C27E491E8A2BEE00F2A1C6 /* libPlayRTC.universal.r16409.2.2.10.a in Frameworks */,
 				217E53501BAAAEED00F29265 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,40 +145,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02C27E341E8A2BEE00F2A1C6 /* PlayRTC */ = {
-			isa = PBXGroup;
-			children = (
-				02C27E351E8A2BEE00F2A1C6 /* libPlayRTC.universal.r16409.2.2.10.a */,
-				02C27E361E8A2BEE00F2A1C6 /* public */,
-			);
-			path = PlayRTC;
-			sourceTree = "<group>";
-		};
-		02C27E361E8A2BEE00F2A1C6 /* public */ = {
-			isa = PBXGroup;
-			children = (
-				02C27E371E8A2BEE00F2A1C6 /* PlayRTC.h */,
-				02C27E381E8A2BEE00F2A1C6 /* PlayRTCConfig.h */,
-				02C27E391E8A2BEE00F2A1C6 /* PlayRTCData.h */,
-				02C27E3A1E8A2BEE00F2A1C6 /* PlayRTCDataHeader.h */,
-				02C27E3B1E8A2BEE00F2A1C6 /* PlayRTCDataObserver.h */,
-				02C27E3C1E8A2BEE00F2A1C6 /* PlayRTCDataSendObserver.h */,
-				02C27E3D1E8A2BEE00F2A1C6 /* PlayRTCDefine.h */,
-				02C27E3E1E8A2BEE00F2A1C6 /* PlayRTCFactory.h */,
-				02C27E3F1E8A2BEE00F2A1C6 /* PlayRTCMedia.h */,
-				02C27E401E8A2BEE00F2A1C6 /* PlayRTCObserver.h */,
-				02C27E411E8A2BEE00F2A1C6 /* PlayRTCReport.h */,
-				02C27E421E8A2BEE00F2A1C6 /* PlayRTCServiceHelperListener.h */,
-				02C27E431E8A2BEE00F2A1C6 /* PlayRTCSettings.h */,
-				02C27E441E8A2BEE00F2A1C6 /* PlayRTCStatReport.h */,
-				02C27E451E8A2BEE00F2A1C6 /* PlayRTCStatsReportObserver.h */,
-				02C27E461E8A2BEE00F2A1C6 /* PlayRTCVideoView.h */,
-				02C27E471E8A2BEE00F2A1C6 /* SDKEnvInfo.h */,
-				02C27E481E8A2BEE00F2A1C6 /* ValueRange.h */,
-			);
-			path = public;
-			sourceTree = "<group>";
-		};
 		217E53101BAAAE7A00F29265 /* PlayRTCSample */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +240,7 @@
 		217E53551BAAAF5000F29265 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0202EFF91F055353001F04AA /* Metal.framework */,
 				337B0A8E1C1FFBE3009CD308 /* libc++.dylib */,
 				337B0A8C1C1FFBD8009CD308 /* libicucore.dylib */,
 				337B0A8A1C1FFBCC009CD308 /* libstdc++.dylib */,
@@ -323,7 +272,6 @@
 			isa = PBXGroup;
 			children = (
 				217E53551BAAAF5000F29265 /* Frameworks */,
-				02C27E341E8A2BEE00F2A1C6 /* PlayRTC */,
 				217E53101BAAAE7A00F29265 /* PlayRTCSample */,
 				33FAEDD31B79B352004C5579 /* Products */,
 			);

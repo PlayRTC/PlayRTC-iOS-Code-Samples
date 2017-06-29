@@ -69,7 +69,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 // 채널 서비스에서 퇴장을 알리는 이벤트를 받을 때. deleteChannel 또는 자신이 disconnectChannel를 호출한 경우
 -(void)onDisconnectChannel:(PlayRTC*)obj reason:(NSString*)reason;
 // 상대방이 채널에서 퇴장할 때. 상대방이 disconnectChannel를 호출한 경우
--(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid;
+-(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid reason:(NSString*)reason;
 // PlayRTC에서 오류가 발생 시
 -(void)onError:(PlayRTC*)obj status:(PlayRTCStatus)status code:(PlayRTCCode)code desc:(NSString*)desc;
 // PlayRTC의 주요 상태 변경 이벤트
@@ -77,11 +77,11 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 
 // PlayRTCDataObserver 인터페이스, PlayRTCData의 주요 상태를 전달 받는다.
 // 상대방이 전송한 데이터를 처음 수신할 경우 데이터의 헤더정보를 읽어 알려준다.
--(void)onDataReady:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header;
+-(void)onDataReady:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header;
 // 수신 데이터 진척 상황을 전달
--(void)onProgress:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header recvSize:(uint64_t)recvSize data:(NSData*)data;
+-(void)onProgress:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header recvSize:(uint64_t)recvSize data:(NSData*)data;
 // 수신 완료 시
--(void)onFinishLoading:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header;
+-(void)onFinishLoading:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header;
 //  PlayRTCData 오류 발생 시
 -(void)onError:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid dataId:(uint64_t)dataId code:(PlayRTCDataCode)code desc:(NSString*)desc;
 // PlayRTCData의 주요 상태를 전달 받는다.
@@ -973,7 +973,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달한 사용자 아이디
  */
--(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid
+-(void)onOtherDisconnectChannel:(PlayRTC*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid reason:(NSString*)reason
 {
     //P2P 상태 리포트 구동 중지
     [obj stopStatsReport];
@@ -1164,7 +1164,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 /*
  * 상대방이 전송한 데이터를 처음 수신할 경우 데이터의 헤더정보를 읽어 알려준다.
  * obj : PlayRTCData 인스턴스
- * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
+ * senderId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달한 사용자 아이디
  * header : PlayRTCDataHeader, 데이터 정보
  *  - index : int, 데이터 패킷 분할 전송 index
@@ -1175,12 +1175,12 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  *  - fileName : NSString, 파일 전송일 경우 파일 명
  *  - mimeType : NSString, 파일 전송일 경우 파일의 Mime Type
  */
--(void)onDataReady:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header
+-(void)onDataReady:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header
 {
     // 수신 경과 시간을 측정하기 위해 사용.
     startElapsed = [[NSDate date] timeIntervalSince1970] *1000;
     NSString* dataType = [header isBinary]?@"binary":@"text";
-    NSLog(@"[PlayRTCViewController] DataChannel onDataReady peerId[%@] peerUid[%@] dataType[%@] recvSize[%lld]", peerId, peerUid, dataType, header.getSize);
+    NSLog(@"[PlayRTCViewController] DataChannel onDataReady senderId[%@] peerUid[%@] dataType[%@] recvSize[%lld]", senderId, peerUid, dataType, header.getSize);
     [self appendLogView:[NSString stringWithFormat:@"DataChannel onReceive start..."]];
     
     // 파일 전송일 경우 : binary and file-name
@@ -1212,7 +1212,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 /*
  * 수신 데이터 진척 상황을 전달
  * obj : PlayRTCData 인스턴스
- * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
+ * senderId : NSString, PlayRTC 플랫폼 채널 서비스의 User 아이디.
  * peerUid : NSString, 채널 생성/입장 시 전달한 사용자 아이디
  * header : PlayRTCDataHeader, 데이터 정보
  *  - index : int, 데이터 패킷 분할 전송 index
@@ -1225,7 +1225,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  * recvSize : uint64_t, 수신 데이터 누적 크기
  * data : NSData, 수신 데이터
  */
--(void)onProgress:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header recvSize:(uint64_t)recvSize data:(NSData*)data
+-(void)onProgress:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header recvSize:(uint64_t)recvSize data:(NSData*)data
 {
     // 진척율 계산을 위해
     uint64_t total = [header getSize];
@@ -1255,7 +1255,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
 /*
  * 데이터 수신 종료
  * obj : PlayRTCData 인스턴스
- * peerId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
+ * senderId : NSString, 상대방의 PlayRTC 서비스 사용자 아이디
  * peerUid : NSString, 채널 생성/입장 시 전달한 사용자 아이디
  * header : PlayRTCDataHeader, 데이터 정보
  *  - index : int, 데이터 패킷 분할 전송 index
@@ -1266,7 +1266,7 @@ PlayRTCDataChannelSendObserver* dataChannelDelegate;
  *  - fileName : NSString, 파일 전송일 경우 파일 명
  *  - mimeType : NSString, 파일 전송일 경우 파일의 Mime Type
  */
--(void)onFinishLoading:(PlayRTCData*)obj peerId:(NSString*)peerId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header
+-(void)onFinishLoading:(PlayRTCData*)obj senderId:(NSString*)senderId peerUid:(NSString*)peerUid header:(PlayRTCDataHeader*)header
 {
     int64_t endElapsed = [[NSDate date] timeIntervalSince1970] *1000 - startElapsed;
     startElapsed = 0;
